@@ -5,13 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SteelmeetWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Viewbox Stretch="Uniform">
-        <Grid>
-            <Button Content="Button" Padding="0,0,0,0" Margin="20,-14,20,0" Height="6" Width="20" FontSize="3" FontFamily="Cascadia Mono SemiBold"/>
-            <Button Content="Button" Padding="0,0,0,0" Margin="20,0,20,0" Height="6" Width="20" FontSize="3"/>
-            <Button Content="Button" Padding="0,0,0,0" Margin="20,14,20,0" Height="6" Width="20" FontSize="3"/>
+        Title="MainWindow" Height="1080" Width="1920">
+    <Window.Resources>
+        
+        
+    </Window.Resources>
+    <Grid>
+            <!-- TabControl stretches to fill the entire Grid -->
+            <TabControl Style="{DynamicResource TabControlStyleCustom}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
+                <!-- TabItem 1 -->
+                <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Invägning" BorderBrush="{x:Null}">
+                    <!-- Content inside this TabItem -->
+                    <Grid Background="#FFE5E5E5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </TabItem>
 
+                <!-- TabItem 2 -->
+            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Inställningar" BorderBrush="{x:Null}">
+                    <Grid Background="#FFE5E5E5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </TabItem>
+
+                <!-- TabItem 3 -->
+            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Tävling" BorderBrush="{x:Null}">
+                    <Grid Background="#FFE5E5E5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </TabItem>
+
+                <!-- TabItem 4 -->
+            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Resultat" BorderBrush="{x:Null}">
+                    <Grid Background="#FFE5E5E5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </TabItem>
+            </TabControl>
         </Grid>
-    </Viewbox>
 </Window>
