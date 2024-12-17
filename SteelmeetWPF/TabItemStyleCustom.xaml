@@ -11,18 +11,18 @@
 		</Setter>
 	</Style>
 	<LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
-		<GradientStop Color="#F0F0F0" Offset="0.0"/>
-		<GradientStop Color="#E5E5E5" Offset="1.0"/>
+		<GradientStop Color="#343434" Offset="0.0"/>
+		<GradientStop Color="#343434" Offset="1.0"/>
 	</LinearGradientBrush>
 	<SolidColorBrush x:Key="TabItem.Static.Border" Color="#ACACAC"/>
 	<LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
-		<GradientStop Color="#ECF4FC" Offset="0.0"/>
-		<GradientStop Color="#DCECFC" Offset="1.0"/>
+		<GradientStop Color="#8E8B82" Offset="0.0"/>
+		<GradientStop Color="#8E8B82" Offset="1.0"/>
 	</LinearGradientBrush>
 	<SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="#7EB4EA"/>
-	<SolidColorBrush x:Key="TabItem.Selected.Background1" Color="#FFFFFF"/>
+	<SolidColorBrush x:Key="TabItem.Selected.Background1" Color="#8E8B82"/>
 	<SolidColorBrush x:Key="TabItem.Selected.Border1" Color="#ACACAC"/>
-	<SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
+	<SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#8E8B82"/>
 	<SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9"/>
 	<Style x:Key="TabItemStyleCustom" TargetType="{x:Type TabItem}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
@@ -38,7 +38,7 @@
 				<ControlTemplate TargetType="{x:Type TabItem}">
 					<Grid x:Name="templateRoot" SnapsToDevicePixels="true">
 						<Border x:Name="mainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,0" Margin="0">
-							<Border x:Name="innerBorder" Background="{StaticResource TabItem.Selected.Background1}" BorderBrush="{StaticResource TabItem.Selected.Border1}" BorderThickness="0,0,0,0" Margin="-1" Opacity="0"/>
+							<Border x:Name="innerBorder" Background="{StaticResource TabItem.Selected.Background1}" BorderBrush="{StaticResource TabItem.Selected.Border1}" BorderThickness="0,0,0,0" Margin="0" Opacity="0"/>
 						</Border>
 						<ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 					</Grid>
