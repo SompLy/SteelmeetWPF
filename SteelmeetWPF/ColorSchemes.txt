@@ -1,5 +1,0 @@
-﻿Theme 1: black, grey, khaki, white
-#343434
-#8E8B82
-#E9DCBE
-#F3F3F3
