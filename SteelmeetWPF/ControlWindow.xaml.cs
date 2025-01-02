@@ -16,6 +16,8 @@ using Colors = System.Windows.Media.Colors;
 using System.Windows.Data;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using System.Xml.Linq;
+using DocumentFormat.OpenXml.Presentation;
+using System.IO;
 
 namespace SteelmeetWPF
 {
@@ -28,8 +30,8 @@ namespace SteelmeetWPF
 
         List<SpectatorWindow> spectatorWindowList = new List<SpectatorWindow>();
 
-        public ObservableCollection<WeighInDgFormat> WeighInDbCollection;
-        //public ObservableCollection<WeighInDgFormat> ControlFormat { get; set; } will need later
+        public ObservableCollection<WeighInDgFormat> weighInDgCollection;
+        public ObservableCollection<WeighInDgFormat> controlDgCollection;
 
         public RainbowColor rainbowColor = new RainbowColor();
         Fullscreen fullscreen = new Fullscreen();
@@ -37,17 +39,18 @@ namespace SteelmeetWPF
 
         bool a = true;
         bool b = true;
-        public bool IsExcelFile;
-        bool IsRecord = false;
+        bool isRecord = false;
+        bool isWeighInDgInEditMode = false;
+        bool isControlDgInEditMode = false;
 
-        public string BrowsedFilePath;
-        public string BrowsedFile;
+        public string browsedFilePath;
+        public string browsedFile;
         public string recordType;            // Klubb, Distrikt, Svenskt rekord, Europa rekord, World record!!!
 
         string currentLiftColor = "Black";   // Color of current lift on the datagridview
 
-        public int SelectedRowIndex;
-        public int SelectedColumnIndex;
+        public int selectedRowIndex;
+        public int selectedColumnIndex;
         int secondsLapp;
         int minutesLapp;
         int secondsLyft;
@@ -70,10 +73,10 @@ namespace SteelmeetWPF
         public List<TextBlock> LiftingOrderListLabels = new List<TextBlock>();    // Order med lyftare och vikt de ska ta i rätt ordning.
         public List<Lifter> LiftingOrderList = new List<Lifter>();                                                  // För att sortera
 
-        public List<TextBlock> GroupLiftingOrderListLabels = new List<TextBlock>();   // Order med lyftare och vikt de ska ta i rätt ordning.
-        List<Lifter> GroupLiftingOrderList = new List<Lifter>();                                                        // För att sortera viktera
+        public List<TextBlock> groupLiftingOrderListLabels = new List<TextBlock>();   // Order med lyftare och vikt de ska ta i rätt ordning.
+        List<Lifter> groupLiftingOrderList = new List<Lifter>();                                                        // För att sortera viktera
 
-        List<Lifter> ExtraLifters = new List<Lifter>();
+        List<Lifter> extraLifters = new List<Lifter>();
         enum eGroupLiftingOrderState
         {
             group1Squat = 0,
@@ -138,23 +141,19 @@ namespace SteelmeetWPF
                 return x.total.CompareTo( y.total );
             }
         }
-
+        
         public ControlWindow()
         {
             InitializeComponent();
 
-            WeighInDbCollection = new ObservableCollection<WeighInDgFormat>();
-            WeightInDg.ItemsSource = WeighInDbCollection;
+            weighInDgCollection = new ObservableCollection<WeighInDgFormat>();
+            weightInDg.ItemsSource = weighInDgCollection;
         }
 
         private void CreateDynamicColumns( DataGrid dataGrid )
         {
             var propertiesToShowWeightIn = new List<string> // Gör en til för control panel bra :)
     {
-        "GroupNumber    ",
-        "Name           ",
-        "WeightClass    ",
-        "Category       ",
         "groupNumber    ",
         "name           ",
         "lotNumber      ",
@@ -177,7 +176,7 @@ namespace SteelmeetWPF
             dataGrid.Columns.Clear();
 
             // Create a column for each property in the list
-            foreach( var property in propertiesToShow )
+            foreach( var property in propertiesToShowWeightIn )
             {
                 var column = new DataGridTextColumn
                 {
@@ -189,9 +188,37 @@ namespace SteelmeetWPF
             }
         }
 
-        public void ExcelImportHandler()                                                                                               // Hanterar text impoteringen av excel
+        public void ExcelImportHandler()
         {
-            using SLDocument sl = new SLDocument(BrowsedFile);
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Title = "Steelmeet Importera fil :)",
+                Filter = "Excel och txt files|*.txt; *.xlsx; *.xls|" + "All files (*.*)|*.*"
+            };
+            bool? result = ofd.ShowDialog();
+            if( result == true )
+            {
+                if( ".xls" == Path.GetExtension( ofd.FileName ) || ".xlsx" == Path.GetExtension( ofd.FileName ) )   // Om man väljer en excel fil
+                {
+                    browsedFile = ofd.FileName;
+                    try
+                    {
+                        FileInfo finfo = new FileInfo(browsedFile);
+                        browsedFilePath = finfo.DirectoryName + "\\" + finfo.Name;
+                        filePathTb.Text = "Filsökväg: " + browsedFilePath;
+
+                        weighInDgCollection.Clear();
+                    }
+                    catch( IOException )
+                    {
+                    }
+                }
+            }
+            else
+                return;
+
+            using SLDocument sl = new SLDocument(browsedFile);
             SLWorksheetStatistics stats = sl.GetWorksheetStatistics();
 
             int rowCount = stats.NumberOfRows;
@@ -232,7 +259,7 @@ namespace SteelmeetWPF
                          b1             = sl.GetCellValueAsString(i, 16)
                     };
 
-                    WeighInDbCollection.Add( collection );
+                    weighInDgCollection.Add( collection );
                 }
             }
             try
@@ -245,178 +272,199 @@ namespace SteelmeetWPF
                 MessageBox.Show( ex.Message );
             }
 
-            for( int i = 0; i < WeightInDg.Columns.Count; i++ )
+            for( int i = 0; i < weightInDg.Columns.Count; i++ )
             {
-                WeightInDg.Columns[ i ].CanUserSort = false;
+                weightInDg.Columns[ i ].CanUserSort = false;
             }
         }
 
-        private void ImportBtn_Click( object sender, EventArgs e )
+        private void ExcelImportUpdate()
+        {
+            weighInDgCollection.Clear();
+
+            ExcelImportHandler();
+        }
+
+        public void ExcelExportHandler() 
         {
             try
             {
-                SaveFileDialog ofd = new SaveFileDialog();
-                ofd.InitialDirectory = Environment.GetFolderPath( Environment.SpecialFolder.Desktop );
-                ofd.Title = "Steelmeet Impoertera fil :)";
-                ofd.Filter = "Excel file |*.xlsx";
-                ofd.FileName = "Steelmeet_lyftare_Start_XX.XX";
+                // Configure SaveFileDialog
+                SaveFileDialog ofd = new SaveFileDialog
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    Title = "Steelmeet Exportera fil :)",
+                    Filter = "Excel file |*.xlsx",
+                    FileName = "Steelmeet_lyftare_Start_XX.XX"
+                };
                 bool? result = ofd.ShowDialog();
 
                 if( result == true )
                 {
+                    // Create a new SL document
                     SLDocument sl = new SLDocument();
-                    for( int i = 0; i < WeighInDbCollection.Count - 1; i++ )
+
+                    // Add headers
+                    for( int colIndex = 0; colIndex < weightInDg.Columns.Count; colIndex++ )
                     {
-                        for( int o = 0; o < WeightInDg.; o++ )
+                        var columnHeader = weightInDg.Columns[colIndex].Header?.ToString();
+                        sl.SetCellValue( 1, colIndex + 1, columnHeader );
+                    }
+
+                    // Add data
+                    for( int rowIndex = 0; rowIndex < weighInDgCollection.Count; rowIndex++ )
+                    {
+                        var rowItem = weighInDgCollection[rowIndex];
+
+                        for( int colIndex = 0; colIndex < weightInDg.Columns.Count; colIndex++ )
                         {
-                            sl.SetCellValue( i + 1, o + 1, WeightInDg.Rows[ i ].Cells[ o ].Value.ToString() );
+                            var columnBinding = ((Binding)((DataGridTextColumn)weightInDg.Columns[colIndex]).Binding);
+                            var propertyName = columnBinding.Path.Path;
+
+                            // Use some shit called reflection to get the value from the row object
+                            var cellValue = rowItem.GetType().GetProperty(propertyName)?.GetValue(rowItem)?.ToString();
+
+                            sl.SetCellValue( rowIndex + 2, colIndex + 1, cellValue );
                         }
                     }
                     sl.SaveAs( ofd.FileName );
 
-                    MessageBox.Show( "Excel fil sparad! :)" );
+                    MessageBox.Show( "Excel fil exporterad utan besvär! :)" );
                 }
             }
             catch( Exception ex )
             {
                 MessageBox.Show( ex.Message );
             }
-
         }
-        public void ExcelExport()
-        {
 
-        }
-        private void btn_Comp_Click( object sender, EventArgs e ) // Skicka till tävlings knappen lol
+        public void SendToCompetitionTab() 
         {
-            List<string> list = new List<string>();
             LifterID.Clear();
-            dt2.Rows.Clear();
+            controlDgCollection.Clear();
 
-            for( int o = 0; o < WeightInDg.RowCount - 1; o++ )
+            for( int o = 0; o < weighInDgCollection.Count - 1; o++ )
             {
-                for( int i = 0; i < WeightInDg.ColumnCount; i++ ) // Antal columner som inte är lyft
-                {
-                    list.Add( WeightInDg[ i, o ].Value.ToString() );
-                }
+                string currentWeightclass = weighInDgCollection[ o ].weightClass.ToLower();
+                string currentCategory = weighInDgCollection[ o ].category.ToLower();
 
-                if( list[ 4 ].ToLower().Contains( "herr" ) )                      // Kollar om viktklassen är giltig för dam och herr
+                if( currentCategory.Contains( "herr" ) )                      // Kollar om viktklassen är giltig för dam och herr
                 {
 
-                    if( list[ 3 ].ToLower().Contains( "120+" ) || list[ 3 ].ToLower().Contains( "+120" ) )
+                    if( currentWeightclass.Contains( "120+" ) || currentWeightclass.Contains( "+120" ) )
                     {
-                        list[ 3 ] = "+120";
+                        currentWeightclass = "+120";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "120" ) )
+                    else if( currentWeightclass.Contains( "120" ) )
                     {
-                        list[ 3 ] = "-120";
+                        currentWeightclass = "-120";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "105" ) )
+                    else if( currentWeightclass.Contains( "105" ) )
                     {
-                        list[ 3 ] = "-105";
+                        currentWeightclass = "-105";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "93" ) )
+                    else if( currentWeightclass.Contains( "93" ) )
                     {
-                        list[ 3 ] = "-93";
+                        currentWeightclass = "-93";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "83" ) )
+                    else if( currentWeightclass.Contains( "83" ) )
                     {
-                        list[ 3 ] = "-83";
+                        currentWeightclass = "-83";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "74" ) )
+                    else if( currentWeightclass.Contains( "74" ) )
                     {
-                        list[ 3 ] = "-74";
+                        currentWeightclass = "-74";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "66" ) )
+                    else if( currentWeightclass.Contains( "66" ) )
                     {
-                        list[ 3 ] = "-66";
+                        currentWeightclass = "-66";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "59" ) )
+                    else if( currentWeightclass.Contains( "59" ) )
                     {
-                        list[ 3 ] = "-59";
+                        currentWeightclass = "-59";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "53" ) )
+                    else if( currentWeightclass.Contains( "53" ) )
                     {
-                        list[ 3 ] = "-53";
+                        currentWeightclass = "-53";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "koeffhk" ) )          // Herr Klassiskt
+                    else if( currentWeightclass.Contains( "koeffhk" ) )          // Herr Klassiskt
                     {
-                        list[ 3 ] = "koeffHK";
+                        currentWeightclass = "koeffHK";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "koeffhu" ) )          // Herr Utrustat
+                    else if( currentWeightclass.Contains( "koeffhu" ) )          // Herr Utrustat
                     {
-                        list[ 3 ] = "koeffHU";
+                        currentWeightclass = "koeffHU";
                     }
                     else
                     {
                         MessageBox.Show( "Ogiltig viktklass", "⚠SteelMeet varning!⚠" ); // Varning 
-                        list[ 3 ] = "Ange klass!!";
+                        currentWeightclass = "Ange klass!!";
                     }
                 }
-                else if( list[ 4 ].ToLower().Contains( "dam" ) ) // Dam viktklass
+                else if( currentCategory.Contains( "dam" ) ) // Dam viktklass
                 {
-                    if( list[ 3 ].ToLower().Contains( "84+" ) || list[ 3 ].ToLower().Contains( "+84" ) )
+                    if( currentWeightclass.Contains( "84+" ) || currentWeightclass.Contains( "+84" ) )
                     {
-                        list[ 3 ] = "+84";
+                        currentWeightclass = "+84";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "84" ) )
+                    else if( currentWeightclass.Contains( "84" ) )
                     {
-                        list[ 3 ] = "-84";
+                        currentWeightclass = "-84";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "76" ) )
+                    else if( currentWeightclass.Contains( "76" ) )
                     {
-                        list[ 3 ] = "-76";
+                        currentWeightclass = "-76";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "69" ) )
+                    else if( currentWeightclass.Contains( "69" ) )
                     {
-                        list[ 3 ] = "-69";
+                        currentWeightclass = "-69";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "63" ) )
+                    else if( currentWeightclass.Contains( "63" ) )
                     {
-                        list[ 3 ] = "-63";
+                        currentWeightclass = "-63";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "57" ) )
+                    else if( currentWeightclass.Contains( "57" ) )
                     {
-                        list[ 3 ] = "-57";
+                        currentWeightclass = "-57";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "52" ) )
+                    else if( currentWeightclass.Contains( "52" ) )
                     {
-                        list[ 3 ] = "-52";
+                        currentWeightclass = "-52";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "47" ) )
+                    else if( currentWeightclass.Contains( "47" ) )
                     {
-                        list[ 3 ] = "-47";
+                        currentWeightclass = "-47";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "43" ) )
+                    else if( currentWeightclass.Contains( "43" ) )
                     {
-                        list[ 3 ] = "-43";
+                        currentWeightclass = "-43";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "koeffdk" ) )      // Dam Klassiskt
+                    else if( currentWeightclass.Contains( "koeffdk" ) )      // Dam Klassiskt
                     {
-                        list[ 3 ] = "koeffDK";
+                        currentWeightclass = "koeffDK";
                     }
-                    else if( list[ 3 ].ToLower().Contains( "koeffdu" ) )      // Dam Utrustat
+                    else if( currentWeightclass.Contains( "koeffdu" ) )      // Dam Utrustat
                     {
-                        list[ 3 ] = "koeffDU";
+                        currentWeightclass = "koeffDU";
                     }
                     else
                     {
                         MessageBox.Show( "Ogiltig viktklass", "⚠SteelMeet varning!⚠" ); // Varning 
-                        list[ 3 ] = "Ange klass!!";
+                        currentWeightclass = "Ange klass!!";
                     }
                 }
                 else
                 {
                     MessageBox.Show( "Ogiltig viktklass", "⚠SteelMeet varning!⚠" ); // Varning 
-                    list[ 3 ] = "Ange klass!!";
+                    currentWeightclass = "Ange klass!!";
                 }
 
-                WeightInDg.Rows[ o ].Cells[ 3 ].Value = list[ 3 ];
+                weighInDgCollection[ o ].weightClass = currentWeightclass;
 
                 // Lägger till lyftare adderar lyftare ny lyftare
-                LifterID.Add( o, new Lifter( list[ 0 ], list[ 1 ], list[ 2 ], list[ 3 ], list[ 4 ], list[ 5 ], list[ 6 ], list[ 7 ], list[ 8 ], list[ 9 ], list[ 10 ], list[ 11 ], list[ 12 ], list[ 13 ], list[ 14 ], list[ 15 ] ) );
+                LifterID.Add( o, new Lifter( weighInDgCollection[ o ] ) );
                 LifterID[ LifterID.Count - 1 ].index = LifterID.Count - 1;
-                SetCategoryEnum( list[ 4 ] );
+                SetCategoryEnum( currentCategory );
 
                 // Is bench only
                 if( LifterID[ o ].CategoryEnum == Lifter.eCategory.MenClassicBench ||
@@ -426,7 +474,7 @@ namespace SteelmeetWPF
                 {
                     LifterID[ o ].isBenchOnly = true;
                     LifterID[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
-                    LifterID[ o ].CurrentLift = firstLiftColumn + 3;
+                    LifterID[ o ].currentLift = firstLiftColumn + 3;
                 }
 
                 // Is equipped lifter
@@ -437,22 +485,20 @@ namespace SteelmeetWPF
                     LifterID[ o ].isEquipped = true;
                 else
                     LifterID[ o ].isEquipped = false;
-
-                list.Clear();
-            }
-
-            // Stränger av sorting (gör header rutorna så feta också)
-            for( int i = 0; i < dataGridCP.ColumnCount; i++ )
-            {
-                dataGridCP.Columns[ i ].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
         }
 
         void WeighInInfoUpdate()
         {
-            string gindex = dataGridViewWeighIn.Rows[dataGridViewWeighIn.RowCount - 2].Cells[0].Value.ToString();                          // Tar den sista lyftarens grupp
-            dataGridViewWeighIn.Rows[ 0 ].Selected = false;
-            lbl_WeightInData.Text = "Antal Lyftare : " + ( dataGridViewWeighIn.RowCount - 1 ).ToString() + "\nAntal Grupper : " + gindex; // Uppdaterar data för invägning
+            int gIndex = 0;
+            for( int i = 0; i < weighInDgCollection.Count; i++ )
+            {
+                int parsedGroupNumber = int.Parse( weighInDgCollection[ i ].groupNumber );
+                if( parsedGroupNumber > gIndex )
+                    gIndex = parsedGroupNumber;
+            }
+            //dataGridViewWeighIn.Rows[ 0 ].Selected = false;
+            weighInDataTb.Text = "Antal Lyftare : " + ( weighInDgCollection.Count - 1 ).ToString() + "\nAntal Grupper : " + gIndex; // Uppdaterar data för invägning
         }
 
         void SetCategoryEnum( string Category )
@@ -535,6 +581,35 @@ namespace SteelmeetWPF
                     }
                 }
             }
+        }
+        private void WeighInDg_BeginningEdit( object sender, DataGridBeginningEditEventArgs e )
+        {
+            isWeighInDgInEditMode = true;
+        }
+
+        private void WeighInDg_CellEditEnding( object sender, DataGridCellEditEndingEventArgs e )
+        {
+            isWeighInDgInEditMode = false;
+        }
+
+        private void ImportBtn_Click( object sender, RoutedEventArgs e )
+        {
+            ExcelImportHandler();
+        }
+
+        private void ExportBtn_Click( object sender, RoutedEventArgs e )
+        {
+            ExcelExportHandler();
+        }
+
+        private void UpdateImportBtn_Click( object sender, RoutedEventArgs e )
+        {
+            ExcelImportUpdate();
+        }
+
+        private void SendToCompetitionBtn_Click( object sender, RoutedEventArgs e )
+        {
+            SendToCompetitionTab();
         }
     }
 }
