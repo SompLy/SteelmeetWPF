@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SteelmeetWPF"
         mc:Ignorable="d"
         WindowStyle="None"
+        KeyDown="HandleInput_KeyDown"
         Title="ControlWindow" Height="1080" Width="1920">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="4" CaptionHeight="0"/>

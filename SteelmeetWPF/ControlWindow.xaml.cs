@@ -582,6 +582,60 @@ namespace SteelmeetWPF
                 }
             }
         }
+
+        void UpdateTheme( string themeName )
+        {
+            ThemeManager.SetTheme( themeName );
+
+            Application.Current.Resources[ "background"   ] = ThemeManager.background;
+            Application.Current.Resources[ "background2"  ] = ThemeManager.background2;
+            Application.Current.Resources[ "middleGround" ] = ThemeManager.middleGround;
+            Application.Current.Resources[ "accent"       ] = ThemeManager.accent;
+            Application.Current.Resources[ "fontColor"    ] = ThemeManager.fontColor;
+        }
+
+        // Events
+        private void HandleInput_KeyDown( object sender, KeyEventArgs e )
+        {
+            //if( MainTc.SelectedIndex == 2 &&
+            //   e.Key == Key.Enter ) //om man är på sista raden
+            //{
+            //    controlDg.Rows[ SelectedRowIndex ].Cells[ SelectedColumnIndex - 1 ].Selected = true;
+            //}
+            //if( MainTc.SelectedIndex == 2 &&
+            //    e.Key == Key.G && LifterID[ SelectedRowIndex + groupRowFixer ].currentLift <= firstLiftColumn + 8 &&
+            //    controlDg.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].currentLift ].Value != DBNull.Value &&
+            //    !controlDg.IsCurrentCellInEditMode )            //Godkänt lyft
+            //{
+            //    goodLiftMarked();
+            //}
+            //if( MainTc.SelectedIndex == 2 &&
+            //    e.Key == Key.U && LifterID[ SelectedRowIndex + groupRowFixer ].currentLift <= firstLiftColumn + 8 &&
+            //    controlDg.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].currentLift ].Value != DBNull.Value &&
+            //    !controlDg.IsCurrentCellInEditMode )       //Underkänt lyft
+            //{
+            //    badLiftMarked();
+            //}
+            //if( MainTc.SelectedIndex == 2 && e.Key == Key.R && LifterID[ SelectedRowIndex + groupRowFixer ].currentLift >= firstLiftColumn + 1 &&
+            //    !controlDg.IsCurrentCellInEditMode )       //Ångra lyft
+            //{
+            //    undoLift( false );
+            //}
+            if( e.Key == Key.F && !isWeighInDgInEditMode && !isControlDgInEditMode )
+            {
+                fullscreen.ToggleFullscreen( isFullscreen, this );
+                isFullscreen = !isFullscreen;
+            }
+            if( e.Key == Key.Escape && /*!controlDg.IsCurrentCellInEditMode &&*/ !isWeighInDgInEditMode )
+            {
+                var result = MessageBox.Show("Är du säker att du vill terminera STEELMEET?", "STEELMEET Terminering", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if( result == MessageBoxResult.Yes )
+                {
+                    Application.Current.Shutdown();
+                }
+            }
+        }
+
         private void WeighInDg_BeginningEdit( object sender, DataGridBeginningEditEventArgs e )
         {
             isWeighInDgInEditMode = true;
