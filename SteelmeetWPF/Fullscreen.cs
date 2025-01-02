@@ -11,10 +11,16 @@ namespace SteelmeetWPF
     {
         public void ToggleFullscreen( bool _isFullscreen, Window _window)
         {
-            if ( _isFullscreen )
+            if ( _isFullscreen ) 
+            {
+                _window.ResizeMode = ResizeMode.CanResize;
                 _window.WindowState = WindowState.Normal;
-            else
+            }
+            else 
+            {
+                _window.ResizeMode = ResizeMode.NoResize;
                 _window.WindowState = WindowState.Maximized;
+            }
         }
     }
 }
