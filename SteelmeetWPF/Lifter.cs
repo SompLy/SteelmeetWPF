@@ -48,6 +48,30 @@ namespace SteelmeetWPF
             sbdList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
         }
 
+        public Lifter(WeighInDgFormat weighInCollection)
+        {
+            this.groupNumber = Int16.Parse( weighInCollection.groupNumber );
+            this.name = weighInCollection.name;
+            this.lotNumber = float.Parse( weighInCollection.lotNumber );
+            this.weightClass = weighInCollection.weightClass;
+            this.category = weighInCollection.category;
+            this.licenceNumber = weighInCollection.licenceNumber;
+            this.accossiation = weighInCollection.accossiation;
+            this.bodyWeight = float.Parse( weighInCollection.bodyWeight );
+            this.squatHeight = Int16.Parse( weighInCollection.squatHeight );
+            this.tilted = weighInCollection.tilted;
+            this.s1 = float.Parse( weighInCollection.s1 );
+            this.benchHeight = Int16.Parse( weighInCollection.benchHeight );
+            this.benchRack = Int16.Parse( weighInCollection.benchRack );
+            this.liftoff = weighInCollection.liftoff;
+            this.b1 = float.Parse( weighInCollection.b1 );
+            this.d1 = float.Parse( weighInCollection.d1 );
+            currentLift = 10;//Väljer vilken column som första böjen börjar på
+                             //Du måsta ändra en sak i tabcontrol långt ner
+            LiftRecord = new List<bool>();
+            sbdList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
+        }
+
         public int place { get; set; }
         public int groupNumber { get; set; }
         public string name { get; set; }
