@@ -10,6 +10,14 @@
                 <ResourceDictionary Source="TabItemStyleCustom.xaml"/>
                 <ResourceDictionary Source="ButtonStandardCustom.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <local:ThemeManagerWrapper x:Key="ThemeManager" />
+            <SolidColorBrush x:Key="background"     Color="{Binding background.Color, Source={StaticResource ThemeManager}}" />
+            <SolidColorBrush x:Key="background2"    Color="{Binding background2.Color, Source={StaticResource ThemeManager}}" />
+            <SolidColorBrush x:Key="middleground"   Color="{Binding middleground.Color, Source={StaticResource ThemeManager}}" />
+            <SolidColorBrush x:Key="accent"         Color="{Binding accent.Color, Source={StaticResource ThemeManager}}" />
+            <SolidColorBrush x:Key="fontColorLight" Color="{Binding fontColorLight.Color, Source={StaticResource ThemeManager}}" />
+            <SolidColorBrush x:Key="fontColorDark"  Color="{Binding fontColorDark.Color, Source={StaticResource ThemeManager}}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

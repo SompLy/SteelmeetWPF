@@ -15,16 +15,16 @@
         <!-- TabControl stretches to fill the entire Grid -->
         <TabControl Name="MainTc" Style="{DynamicResource TabControlStyleCustom}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
             <!-- Weigh-In TabItem -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Invägning" BorderBrush="{x:Null}" Foreground="#F3F3F3" FontSize="15" FontFamily="Cascadia Mono SemiBold">
+            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Invägning" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
                 <!--<Viewbox Stretch="Uniform">-->
-                <Grid Background="#343434">
+                <Grid Background="{DynamicResource background}">
                     <!-- Base -->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="13*"/>
                         <RowDefinition Height="90*"/>
                     </Grid.RowDefinitions>
                     <!-- Info panel Base -->
-                    <Grid Grid.Row="0" Grid.Column="0" Margin="10" Background="#E9DCBE">
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="10" Background="{DynamicResource middleground}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="75*"/>
                             <RowDefinition Height="25*"/>
@@ -73,15 +73,15 @@
                                     <RowDefinition Height="2*"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Invägning - Data : " Foreground="Black" FontSize="20" FontFamily="Cascadia Mono SemiBold"/>
-                                <TextBlock Grid.Row="1" Grid.Column="0" Name="weighInDataTb" Text="Antal Lyftare : 00&#x0a;Antal Grupper : 00" Foreground="Black" FontSize="16" FontFamily="Cascadia Mono SemiBold"/>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Invägning - Data : " Foreground="{DynamicResource fontColorDark}" FontSize="20" FontFamily="Cascadia Mono SemiBold"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Name="weighInDataTb" Text="Antal Lyftare : 00&#x0a;Antal Grupper : 00" Foreground="{DynamicResource fontColorDark}" FontSize="16" FontFamily="Cascadia Mono SemiBold"/>
                             </Grid>
                             <!-- Tutorial Text-->
-                            <TextBlock Grid.Row="0" Grid.Column="6" Foreground="Black" FontSize="16" FontFamily="Cascadia Mono SemiBold" VerticalAlignment="Center"
+                            <TextBlock Grid.Row="0" Grid.Column="6" Foreground="{DynamicResource fontColorDark}" FontSize="16" FontFamily="Cascadia Mono SemiBold" VerticalAlignment="Center"
                                        Text="Samtlig information kan korrigeras genom att klicka på texten du vill ändra något&#x0a;Lägg till lyftare : Markera tomma raden längst ner i listan och ange informaiton&#x0a;Ta bort lyftare : Markera lyftaren och klicka &quot;Del&quot; / &quot;Delete&quot; på tagentbordet"/>
                         </Grid>
                         <!-- Import Filepath -->
-                        <TextBlock Grid.Row="1" Grid.Column="0" Name="filePathTb" Margin="6,0,0,0" Text="Filepath : " Foreground="Black" FontStretch="UltraExpanded" FontSize="20" FontFamily="Cascadia Mono SemiBold"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Name="filePathTb" Margin="6,0,0,0" Text="Filepath : " Foreground="{DynamicResource fontColorDark}" FontStretch="UltraExpanded" FontSize="20" FontFamily="Cascadia Mono SemiBold"/>
                     </Grid>
                     <!-- DataGrid -->
                     <DataGrid Grid.Row="1" 
@@ -91,7 +91,7 @@
                               CanUserAddRows="True"
                               CanUserSortColumns="False"
                               Margin="10,0,10,10"
-                              Background="#343434"
+                              Background="{DynamicResource background}"
                               d:ItemsSource="{d:SampleData ItemCount=10}"/>
                 </Grid>
                 <!--</Viewbox>-->
@@ -99,20 +99,20 @@
             </TabItem>
 
             <!-- TabItem 2 -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Inställningar" BorderBrush="{x:Null}" Foreground="#F3F3F3" FontSize="15" FontFamily="Cascadia Mono SemiBold">
-                <Grid Background="#343434">
+            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Inställningar" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
+                <Grid Background="{DynamicResource background}">
                     </Grid>
             </TabItem>
 
             <!-- TabItem 3 -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Tävling" BorderBrush="{x:Null}" Foreground="#F3F3F3" FontSize="15" FontFamily="Cascadia Mono SemiBold">
-                <Grid Background="#343434">
+            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Tävling" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
+                <Grid Background="{DynamicResource background}">
                     </Grid>
             </TabItem>
 
             <!-- TabItem 4 -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Resultat" BorderBrush="{x:Null}" Foreground="#F3F3F3" FontSize="15" FontFamily="Cascadia Mono SemiBold">
-                <Grid Background="#343434">
+            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Resultat" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
+                <Grid Background="{DynamicResource background}">
                     </Grid>
             </TabItem>
         </TabControl>

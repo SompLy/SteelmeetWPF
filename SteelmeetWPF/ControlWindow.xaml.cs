@@ -587,11 +587,12 @@ namespace SteelmeetWPF
         {
             ThemeManager.SetTheme( themeName );
 
-            Application.Current.Resources[ "background"   ] = ThemeManager.background;
-            Application.Current.Resources[ "background2"  ] = ThemeManager.background2;
-            Application.Current.Resources[ "middleGround" ] = ThemeManager.middleGround;
-            Application.Current.Resources[ "accent"       ] = ThemeManager.accent;
-            Application.Current.Resources[ "fontColor"    ] = ThemeManager.fontColor;
+            Application.Current.Resources[ "background"     ] = ThemeManager.background;
+            Application.Current.Resources[ "background2"    ] = ThemeManager.background2;
+            Application.Current.Resources[ "middleGround"   ] = ThemeManager.middleground;
+            Application.Current.Resources[ "accent"         ] = ThemeManager.accent;
+            Application.Current.Resources[ "fontColorLight" ] = ThemeManager.fontColorLight;
+            Application.Current.Resources[ "fontColorDark"  ] = ThemeManager.fontColorDark;
         }
 
         // Events
