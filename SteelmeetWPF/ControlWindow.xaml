@@ -7,11 +7,12 @@
         mc:Ignorable="d"
         WindowStyle="None"
         KeyDown="HandleInput_KeyDown"
+        SizeChanged="MainWindow_SizeChanged"
         Title="ControlWindow" Height="1080" Width="1920">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="4" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
-    <Grid>
+    <Grid Name="MainGrid">
         <!-- TabControl stretches to fill the entire Grid -->
         <TabControl Name="MainTc" Style="{DynamicResource TabControlStyleCustom}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
             <!-- Weigh-In TabItem -->
@@ -56,7 +57,6 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-
                                 <Button Grid.Row="0" Grid.Column="0" Name="ImportBtn"            Click="ImportBtn_Click"            Style="{DynamicResource ButtonStyleStandard}"            
                                         Background="Transparent"   BorderBrush="Black" Content="Import"             FontSize="20" FontFamily="Cascadia Mono SemiBold" Margin="2"/>
                                 <Button Grid.Row="0" Grid.Column="1" Name="ExportBtn"            Click="ExportBtn_Click"            Style="{DynamicResource ButtonStyleStandard}"            

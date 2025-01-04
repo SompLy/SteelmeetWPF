@@ -18,6 +18,7 @@ using DocumentFormat.OpenXml.Drawing.Diagrams;
 using System.Xml.Linq;
 using DocumentFormat.OpenXml.Presentation;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace SteelmeetWPF
 {
@@ -36,6 +37,9 @@ namespace SteelmeetWPF
         public RainbowColor rainbowColor = new RainbowColor();
         Fullscreen fullscreen = new Fullscreen();
         bool isFullscreen = false;
+
+        private readonly double _originalWindowWidth = 1920; 
+        private readonly double _originalWindowHeight = 1080;
 
         bool a = true;
         bool b = true;
@@ -148,44 +152,6 @@ namespace SteelmeetWPF
 
             weighInDgCollection = new ObservableCollection<WeighInDgFormat>();
             weightInDg.ItemsSource = weighInDgCollection;
-        }
-
-        private void CreateDynamicColumns( DataGrid dataGrid )
-        {
-            var propertiesToShowWeightIn = new List<string> // Gör en til för control panel bra :)
-    {
-        "groupNumber    ",
-        "name           ",
-        "lotNumber      ",
-        "weightClass    ",
-        "category       ",
-        "licenceNumber  ",
-        "accossiation   ",
-        "bodyWeight     ",
-        "squatHeight    ",
-        "tilted         ",
-        "s1             ",
-        "benchHeight    ",
-        "benchRack      ",
-        "liftoff        ",
-        "d1             ",
-        "b1             "
-    };
-
-            // Clear existing columns
-            dataGrid.Columns.Clear();
-
-            // Create a column for each property in the list
-            foreach( var property in propertiesToShowWeightIn )
-            {
-                var column = new DataGridTextColumn
-                {
-                    Header = property,
-                    Binding = new Binding(property)  // Binding to the property in LifterData
-                };
-
-                dataGrid.Columns.Add( column );
-            }
         }
 
         public void ExcelImportHandler()
@@ -583,7 +549,7 @@ namespace SteelmeetWPF
             }
         }
 
-        void UpdateTheme( string themeName )
+        void SetActiveTheme( string themeName )
         {
             ThemeManager.SetTheme( themeName );
 
@@ -635,6 +601,17 @@ namespace SteelmeetWPF
                     Application.Current.Shutdown();
                 }
             }
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double scaleX = this.ActualWidth / _originalWindowWidth;
+            double scaleY = this.ActualHeight / _originalWindowHeight;
+            
+            ScaleTransform scaleTransform = new ScaleTransform(scaleX, scaleY);
+            MainGrid.LayoutTransform = scaleTransform;
+            
+            MainGrid.RenderTransformOrigin = new System.Windows.Point( 0.5, 0.5 );
         }
 
         private void WeighInDg_BeginningEdit( object sender, DataGridBeginningEditEventArgs e )
