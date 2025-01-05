@@ -255,7 +255,6 @@ namespace SteelmeetWPF
         {
             try
             {
-                // Configure SaveFileDialog
                 SaveFileDialog ofd = new SaveFileDialog
                 {
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -267,17 +266,37 @@ namespace SteelmeetWPF
 
                 if( result == true )
                 {
-                    // Create a new SL document
                     SLDocument sl = new SLDocument();
 
-                    // Add headers
+                    // Swedish headers
+                    string[] sweHeaders = new string[] 
+                    {
+                    "Grupp"   ,
+                    "Namn"     ,
+                    "Lot"       ,
+                    "Klass"    ,
+                    "Kategori"  ,
+                    "Licensnr.",
+                    "Förening"  ,
+                    "Kropps\nvikt",
+                    "Höjd\nBöj" ,
+                    "Infällt"   ,
+                    "Böj"       ,
+                    "Höjd\nBänk" ,
+                    "Rack\nBänk" ,
+                    "Avlyft"   ,
+                    "Bänk"      ,
+                    "Mark"      ,
+                    };
+
                     for( int colIndex = 0; colIndex < weightInDg.Columns.Count; colIndex++ )
                     {
-                        var columnHeader = weightInDg.Columns[colIndex].Header?.ToString();
+                        //var columnHeader = weightInDg.Columns[colIndex].Header?.ToString();
+                        var columnHeader = sweHeaders[colIndex];
                         sl.SetCellValue( 1, colIndex + 1, columnHeader );
+
                     }
 
-                    // Add data
                     for( int rowIndex = 0; rowIndex < weighInDgCollection.Count; rowIndex++ )
                     {
                         var rowItem = weighInDgCollection[rowIndex];
