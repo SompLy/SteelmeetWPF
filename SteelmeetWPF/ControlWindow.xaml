@@ -14,7 +14,7 @@
     </WindowChrome.WindowChrome>
     <Grid Name="MainGrid">
         <!-- TabControl stretches to fill the entire Grid -->
-        <TabControl Name="MainTc" Style="{DynamicResource TabControlStyleCustom}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
+        <TabControl Name="MainTc" Style="{DynamicResource TabControlStyleCustom}">
             <!-- Weigh-In TabItem -->
             <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Invägning" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
                 <!--<Viewbox Stretch="Uniform">-->
@@ -107,7 +107,29 @@
             <!-- TabItem 3 -->
             <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Tävling" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
                 <Grid Background="{DynamicResource background}">
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="10" Background="{DynamicResource middleground}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="13*"/>
+                            <RowDefinition Height="45*"/>
+                        </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="0" Margin="10" Background="{DynamicResource middleground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="442*"/>
+                                    <ColumnDefinition Width="442*"/>
+                                    <ColumnDefinition Width="194*"/>
+                                    <ColumnDefinition Width="272*"/>
+
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        <Grid Grid.Row="1" Grid.Column="0" Margin="10" Background="{DynamicResource middleground}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1078*"/>
+                                <ColumnDefinition Width="272*"/>
+
+                            </Grid.ColumnDefinitions>
+                        </Grid>
                     </Grid>
+                </Grid>
             </TabItem>
 
             <!-- TabItem 4 -->

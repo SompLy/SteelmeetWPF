@@ -19,6 +19,9 @@ using System.Xml.Linq;
 using DocumentFormat.OpenXml.Presentation;
 using System.IO;
 using System.Security.Cryptography;
+using DocumentFormat.OpenXml.Bibliography;
+using System.ComponentModel;
+using System.Windows.Controls.Primitives;
 
 namespace SteelmeetWPF
 {
