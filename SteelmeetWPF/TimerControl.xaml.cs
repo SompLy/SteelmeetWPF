@@ -24,5 +24,15 @@ namespace SteelmeetWPF
         {
             InitializeComponent();
         }
+
+        private void TimestampBtn_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MinutesBtn_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
