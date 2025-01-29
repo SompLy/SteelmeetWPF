@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="TabControlStyleCustom.xaml"/>
                 <ResourceDictionary Source="TabItemStyleCustom.xaml"/>
                 <ResourceDictionary Source="ButtonStandardCustom.xaml"/>
+                <ResourceDictionary Source="WeighInDataGridColumnHeaderStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <local:ThemeManagerWrapper x:Key="ThemeManager" />
