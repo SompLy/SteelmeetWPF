@@ -6,9 +6,11 @@
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:SteelmeetWPF"
              mc:Ignorable="d" 
-             Height="800" Width="385">
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             d:DesignWidth="373" d:DesignHeight="517">
     <UserControl.Resources>
-        <System:Double x:Key="FontSize">34</System:Double>
+        <System:Double x:Key="FontSize">30</System:Double>
     </UserControl.Resources>
     <Grid>
         <Border  BorderBrush="{DynamicResource middleground}" Background="{DynamicResource middleground}" BorderThickness="4" CornerRadius="8,8,8,8">
@@ -17,51 +19,46 @@
             </Border.Effect>
             <Grid Background="{DynamicResource middleground}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="1.4*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0"
                            Name="L0Tb"
-                           Text="Sara Sandberg" 
+                           Text="Lyftar Ordning" 
                            Foreground="{DynamicResource fontColorDark}" 
                            FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold"
+                           FontWeight="Bold"
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,5,0,0"
+                           HorizontalAlignment="Center"/>
                 <TextBlock Grid.Row="1"
                            Name="L1Tb"
-                           Text="Nalle Puhsson" 
+                           Text="Nalle Puhsgson" 
                            Foreground="{DynamicResource fontColorDark}" 
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="2"
                            Name="L2Tb"
-                           Text="Nalle Puhsson" 
+                           Text="Nalle PuhssonÖ" 
                            Foreground="{DynamicResource fontColorDark}" 
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="3"
                            Name="L3Tb"
                            Text="Nalle Puhsson" 
@@ -69,7 +66,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="4"
                            Name="L4Tb"
                            Text="Nalle Puhsson" 
@@ -77,7 +74,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="5"
                            Name="L5Tb"
                            Text="Nalle Puhsson" 
@@ -85,7 +82,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="6"
                            Name="L6Tb"
                            Text="Nalle Puhsson" 
@@ -93,7 +90,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="7"
                            Name="L7Tb"
                            Text="Nalle Puhsson" 
@@ -101,7 +98,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="8"
                            Name="L8Tb"
                            Text="Nalle Puhsson" 
@@ -109,7 +106,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="9"
                            Name="L9Tb"
                            Text="Nalle Puhsson" 
@@ -117,7 +114,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="10"
                            Name="L10Tb"
                            Text="Nalle Puhsson" 
@@ -125,7 +122,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="11"
                            Name="L11Tb"
                            Text="Nalle Puhsson" 
@@ -133,7 +130,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="12"
                            Name="L12Tb"
                            Text="Nalle Puhsson" 
@@ -141,7 +138,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
                 <TextBlock Grid.Row="13"
                            Name="L13Tb"
                            Text="Nalle Puhsson" 
@@ -149,55 +146,7 @@
                            FontFamily="Cascadia Mono SemiBold" 
                            FontWeight="DemiBold" 
                            FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
-                <TextBlock Grid.Row="14"
-                           Name="L14Tb"
-                           Text="Nalle Puhsson" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
-                <TextBlock Grid.Row="15"
-                           Name="L15Tb"
-                           Text="Nalle Puhsson" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
-                <TextBlock Grid.Row="16"
-                           Name="L16Tb"
-                           Text="Nalle Puhsson" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
-                <TextBlock Grid.Row="17"
-                           Name="L17Tb"
-                           Text="Nalle Puhsson" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
-                <TextBlock Grid.Row="18"
-                           Name="L18Tb"
-                           Text="Nalle Puhsson" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
-                <TextBlock Grid.Row="19"
-                           Name="L19Tb"
-                           Text="Nalle Puhsson" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="{StaticResource FontSize}"
-                           Margin="0,-5,0,10"/>
+                           Margin="0,0,0,0"/>
             </Grid>
         </Border>
     </Grid>
