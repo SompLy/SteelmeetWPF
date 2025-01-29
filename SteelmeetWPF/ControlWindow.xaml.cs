@@ -163,7 +163,7 @@ namespace SteelmeetWPF
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                 Title = "Steelmeet Importera fil :)",
-                Filter = "Excel och txt files|*.txt; *.xlsx; *.xls|" + "All files (*.*)|*.*"
+                Filter = "Excel files|*.xlsx; *.xls|" + "All files (*.*)|*.*"
             };
             bool? result = ofd.ShowDialog();
             if( result == true )
