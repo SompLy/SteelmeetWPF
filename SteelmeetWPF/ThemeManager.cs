@@ -12,11 +12,11 @@ namespace SteelmeetWPF
     {
 
         private static readonly Dictionary<string, Dictionary<string, SolidColorBrush>> Themes = new();
-        private static string currentTheme = "Light";
+        private static string currentTheme = "Borlänge";
 
         static ThemeManager()
         {
-            Themes[ "Light" ] = new Dictionary<string, SolidColorBrush>
+            Themes[ "Borlänge" ] = new Dictionary<string, SolidColorBrush>
             {
                 { "background",     new SolidColorBrush( Color.FromRgb( 52, 52, 52 ) )    },
                 { "background2",    new SolidColorBrush( Colors.DarkGray )                },
