@@ -67,8 +67,8 @@ namespace SteelmeetWPF
         public int group1Count;                    // Antal lyftare i grupp
         public int group2Count;                    // Antal lyftare i grupp
         public int group3Count;                    // Antal lyftare i grupp
-        public int groupRowFixer;           // Ändars beronde på grupp så att LifterID[SelectedRowIndex + groupRowFixer] blir rätt
-        int firstLiftColumn = 10;           // 130, 217 måste ändras också ????
+        public int groupRowFixer;                  // Ändars beronde på grupp så att LifterID[SelectedRowIndex + groupRowFixer] blir rätt
+        int firstLiftColumn = 10;                  // 130, 217 måste ändras också ????
 
         public List<int> usedPlatesList = new List<int>();  // Hur många plates calculatorn har använt.
         List<int> totalPlatesList = new List<int>();        // Antalet paltes som användaren anvivit
@@ -77,11 +77,11 @@ namespace SteelmeetWPF
         List<int> totalPlatesList2 = new List<int>();       // Antalet paltes som användaren anvivit
         List<float> weightsList2 = new List<float>();       // Vikter
 
-        public List<TextBlock> LiftingOrderListLabels = new List<TextBlock>();    // Order med lyftare och vikt de ska ta i rätt ordning.
-        public List<Lifter> LiftingOrderList = new List<Lifter>();                                                  // För att sortera
+        public List<TextBlock> LiftingOrderListLabels = new List<TextBlock>();          // Order med lyftare och vikt de ska ta i rätt ordning.
+        public List<Lifter> LiftingOrderList = new List<Lifter>();                      // För att sortera
 
-        public List<TextBlock> groupLiftingOrderListLabels = new List<TextBlock>();   // Order med lyftare och vikt de ska ta i rätt ordning.
-        List<Lifter> groupLiftingOrderList = new List<Lifter>();                                                        // För att sortera viktera
+        public List<TextBlock> groupLiftingOrderListLabels = new List<TextBlock>();     // Order med lyftare och vikt de ska ta i rätt ordning.
+        List<Lifter> groupLiftingOrderList = new List<Lifter>();                        // För att sortera viktera
 
         List<Lifter> extraLifters = new List<Lifter>();
         enum eGroupLiftingOrderState
@@ -185,6 +185,9 @@ namespace SteelmeetWPF
                 }
             }
             else
+                return;
+
+            if ( browsedFile == null)
                 return;
 
             using SLDocument sl = new SLDocument(browsedFile);
@@ -464,7 +467,7 @@ namespace SteelmeetWPF
                     LifterID[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
                     LifterID[ o ].currentLift = firstLiftColumn + 3;
                 }
-
+                
                 // Is equipped lifter
                 if( LifterID[ o ].CategoryEnum == Lifter.eCategory.MenEquipped ||
                     LifterID[ o ].CategoryEnum == Lifter.eCategory.MenEquippedBench ||
@@ -615,7 +618,7 @@ namespace SteelmeetWPF
                 fullscreen.ToggleFullscreen( isFullscreen, this );
                 isFullscreen = !isFullscreen;
             }
-            if( e.Key == Key.Escape && /*!controlDg.IsCurrentCellInEditMode &&*/ !isWeighInDgInEditMode )
+            if( e.Key == Key.Escape && !isWeighInDgInEditMode && !isWeighInDgInEditMode )
             {
                 var result = MessageBox.Show("Är du säker att du vill terminera STEELMEET?", "STEELMEET Terminering", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if( result == MessageBoxResult.Yes )
