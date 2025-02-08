@@ -1,27 +1,16 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Windows;
-using Microsoft.Win32;
-using System.Data;
-using System.Globalization;
-using System.Windows.Input;
-using System.Windows.Controls;
-using System.Windows.Media;
-
+﻿using Microsoft.Win32;
 using SpreadsheetLight;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Colors = System.Windows.Media.Colors;
-using System.Windows.Data;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using System.Xml.Linq;
-using DocumentFormat.OpenXml.Presentation;
+using System.Globalization;
 using System.IO;
-using System.Security.Cryptography;
-using DocumentFormat.OpenXml.Bibliography;
-using System.ComponentModel;
-using System.Windows.Controls.Primitives;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
+using Colors = System.Windows.Media.Colors;
 
 namespace SteelmeetWPF
 {
@@ -144,7 +133,6 @@ namespace SteelmeetWPF
         {
             public int Compare( Lifter x, Lifter y )
             {
-                // baserad på total
                 return x.total.CompareTo( y.total );
             }
         }
@@ -168,7 +156,7 @@ namespace SteelmeetWPF
             bool? result = ofd.ShowDialog();
             if( result == true )
             {
-                if( ".xls" == Path.GetExtension( ofd.FileName ) || ".xlsx" == Path.GetExtension( ofd.FileName ) )   // Om man väljer en excel fil
+                if( ".xls" == Path.GetExtension( ofd.FileName ) || ".xlsx" == Path.GetExtension( ofd.FileName ) )
                 {
                     browsedFile = ofd.FileName;
                     try
@@ -300,20 +288,19 @@ namespace SteelmeetWPF
                         //var columnHeader = weightInDg.Columns[colIndex].Header?.ToString();
                         var columnHeader = sweHeaders[colIndex];
                         sl.SetCellValue( 1, colIndex + 1, columnHeader );
-
                     }
 
                     for( int rowIndex = 0; rowIndex < weighInDgCollection.Count; rowIndex++ )
                     {
-                        var rowItem = weighInDgCollection[rowIndex];
+                        var rowItem = weighInDgCollection[ rowIndex ];
 
                         for( int colIndex = 0; colIndex < weightInDg.Columns.Count; colIndex++ )
                         {
-                            var columnBinding = ((Binding)((DataGridTextColumn)weightInDg.Columns[colIndex]).Binding);
+                            var columnBinding = ((Binding)((DataGridTextColumn)weightInDg.Columns[ colIndex ] ).Binding );
                             var propertyName = columnBinding.Path.Path;
 
                             // Use some shit called reflection to get the value from the row object
-                            var cellValue = rowItem.GetType().GetProperty(propertyName)?.GetValue(rowItem)?.ToString();
+                            var cellValue = rowItem.GetType().GetProperty( propertyName )?.GetValue( rowItem )?.ToString();
 
                             sl.SetCellValue( rowIndex + 2, colIndex + 1, cellValue );
                         }
