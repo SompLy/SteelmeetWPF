@@ -24,7 +24,7 @@ namespace SteelmeetWPF
         List<SpectatorWindow> spectatorWindowList = new List<SpectatorWindow>();
 
         public ObservableCollection<WeighInDgFormat> weighInDgCollection;
-        public ObservableCollection<WeighInDgFormat> controlDgCollection;
+        public ObservableCollection<ControlDgFormat> controlDgCollection;
 
         public RainbowColor rainbowColor = new RainbowColor();
         Fullscreen fullscreen = new Fullscreen();
@@ -143,6 +143,8 @@ namespace SteelmeetWPF
 
             weighInDgCollection = new ObservableCollection<WeighInDgFormat>();
             weightInDg.ItemsSource = weighInDgCollection;
+            controlDgCollection = new ObservableCollection<ControlDgFormat>();
+            weightInDg.ItemsSource = controlDgCollection;
         }
 
         public void ExcelImportHandler()
