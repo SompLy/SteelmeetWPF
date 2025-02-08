@@ -5,8 +5,77 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SteelmeetWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="100" d:DesignWidth="373">
     <Grid>
-            
+        <Border  BorderBrush="{DynamicResource middleground}" Background="{DynamicResource middleground}" BorderThickness="4" CornerRadius="8,8,8,8">
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" Opacity="1" BlurRadius="6" ShadowDepth="8" />
+            </Border.Effect>
+            <Grid Background="{DynamicResource middleground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0"
+                    Name="BarReadyBtn"
+                    Style="{DynamicResource ButtonStyleStandard}"
+                    Click="BarReadyBtn_Click"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Content="Bar Ready"
+                    FontSize="16" FontFamily="Cascadia Mono SemiBold"
+                    Margin="-1"/>
+                <Button Grid.Row="0" Grid.Column="1"
+                    Name="SelectNextLifterBtn"
+                    Style="{DynamicResource ButtonStyleStandard}"
+                    Click="SelectNextLifterBtn_Click"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Content="Select Next"
+                    FontSize="16" FontFamily="Cascadia Mono SemiBold"
+                    Margin="-1"/>
+                <Button Grid.Row="0" Grid.Column="2"
+                    Name="RetryBtn"
+                    Style="{DynamicResource ButtonStyleStandard}"
+                    Click="RetryBtn_Click"
+                    Background="Gray"
+                    BorderBrush="Black"
+                    Content="Retry"
+                    FontSize="16" FontFamily="Cascadia Mono SemiBold"
+                    Margin="-1"/>
+                <Button Grid.Row="1" Grid.Column="0"
+                    Name="GoodLiftBtn"
+                    Style="{DynamicResource ButtonStyleStandard}"
+                    Click="GoodLiftBtn_Click"
+                    Background="Green"
+                    BorderBrush="Black"
+                    Content="Good Lift"
+                    FontSize="16" FontFamily="Cascadia Mono SemiBold"
+                    Margin="-1"/>
+                <Button Grid.Row="1" Grid.Column="1"
+                    Name="BadLiftBtn"
+                    Style="{DynamicResource ButtonStyleStandard}"
+                    Click="BadLiftBtn_Click"
+                    Background="Red"
+                    BorderBrush="Black"
+                    Content="Bad Lift"
+                    FontSize="16" FontFamily="Cascadia Mono SemiBold"
+                    Margin="-1"/>
+                <Button Grid.Row="1" Grid.Column="2"
+                    Name="UndoBtn"
+                    Style="{DynamicResource ButtonStyleStandard}"
+                    Click="UndoBtn_Click"
+                    Background="Gray"
+                    BorderBrush="Black"
+                    Content="Undo Lift"
+                    FontSize="16" FontFamily="Cascadia Mono SemiBold"
+                    Margin="-1"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

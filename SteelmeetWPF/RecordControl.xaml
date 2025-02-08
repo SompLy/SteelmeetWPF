@@ -1,12 +1,243 @@
-﻿<UserControl x:Class="SteelmeetWPF.RecordControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SteelmeetWPF"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="SteelmeetWPF.RecordControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteelmeetWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="100"
+    d:DesignWidth="373"
+    mc:Ignorable="d">
     <Grid>
-            
+        <Border
+            Background="{DynamicResource middleground}"
+            BorderBrush="{DynamicResource middleground}"
+            BorderThickness="4"
+            CornerRadius="8,8,8,8">
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="6"
+                    Opacity="1"
+                    ShadowDepth="8"
+                    Color="Gray" />
+            </Border.Effect>
+            <Grid Background="{DynamicResource middleground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <!--  Top Row  -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <!--  Range  -->
+                    <Border
+                        Grid.Row="0"
+                        Margin="0,1,0,1"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox
+                                Name="ClubCb"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="ClubCb_Click"
+                                Content="Club"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                            <CheckBox
+                                Name="DistrictCb"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="DistrictCb_Click"
+                                Content="District"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                            <CheckBox
+                                Name="SwedishCb"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="SwedishCb_Click"
+                                Content="Swedish"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                        </Grid>
+                    </Border>
+                    <!--  Age group  -->
+                    <Border
+                        Grid.Row="1"
+                        Margin="0,1,0,1"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox
+                                Name="SubJuniorCb"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="SubJuniorCb_Click"
+                                Content="Sub-Junior"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                            <CheckBox
+                                Name="JuinorCb"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="JuinorCb_Click"
+                                Content="Junior"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                            <CheckBox
+                                Name="SeniorCb"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="SeniorCb_Click"
+                                Content="Senior"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                        </Grid>
+                    </Border>
+                </Grid>
+                <!--  Bottom Row  -->
+                <Grid Grid.Row="1" Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <!--  Right Bottom Button  -->
+                    <Button
+                        Name="RecordBtn"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5,5,5,5"
+                        Background="{DynamicResource accent}"
+                        BorderBrush="Black"
+                        Click="RecordBtn_Click"
+                        Content="Activate Record"
+                        FontFamily="Cascadia Mono SemiBold"
+                        FontSize="16"
+                        Style="{DynamicResource ButtonStyleStandard}" />
+                    <!--  Left Bottom Grid  -->
+                    <Border
+                        Grid.Row="0"
+                        Margin="0,1,0,1"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox
+                                Name="BenchCb"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="BenchCb_Click"
+                                Content="Bänk"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                            <CheckBox
+                                Name="DeadliftCb"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="DeadliftCb_Click"
+                                Content="Mark"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                            <CheckBox
+                                Name="SquatCb"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="SquatCb_Click"
+                                Content="Knäböj"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                            <CheckBox
+                                Name="TotalCb"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Gray"
+                                BorderBrush="Black"
+                                Click="TotalCb_Click"
+                                Content="Total"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="15"
+                                Style="{DynamicResource CheckBoxCustomStyle}" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

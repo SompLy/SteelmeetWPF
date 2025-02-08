@@ -24,5 +24,35 @@ namespace SteelmeetWPF
         {
             InitializeComponent();
         }
+
+        private void BarReadyBtn_Click( object sender, RoutedEventArgs e )
+        {
+
+        }
+
+        private void SelectNextLifterBtn_Click( object sender, RoutedEventArgs e )
+        {
+
+        }
+
+        private void RetryBtn_Click( object sender, RoutedEventArgs e )
+        {
+
+        }
+
+        private void GoodLiftBtn_Click( object sender, RoutedEventArgs e )
+        {
+
+        }
+
+        private void BadLiftBtn_Click( object sender, RoutedEventArgs e )
+        {
+
+        }
+
+        private void UndoBtn_Click( object sender, RoutedEventArgs e )
+        {
+
+        }
     }
 }

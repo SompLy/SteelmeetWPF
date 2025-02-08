@@ -123,18 +123,18 @@
                                 <ColumnDefinition Width="272*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox Grid.Column="0">
-                                <local:LifterInfoControl Grid.Column="0" x:Name="LifterInfo1" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <local:LifterInfoControl Grid.Column="0" x:Name="lifterInfo1" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             </Viewbox>
                             <Viewbox Grid.Column="1">
-                                <local:LifterInfoControl Grid.Column="1" x:Name="LifterInfo2" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <local:LifterInfoControl Grid.Column="1" x:Name="lifterInfo2" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             </Viewbox>
                             <Grid Grid.Column="4">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="20*"/>
                                     <RowDefinition Height="15*"/>
                                 </Grid.RowDefinitions>
-                                <local:TimerControl Grid.Row="0" x:Name="TimerControl"/>
-                                <local:SuggestedWeightControl Grid.Row="1" x:Name="SuggestedWeightControl" Margin="0,10,0,10"/>
+                                <local:TimerControl Grid.Row="0" x:Name="timerControl"/>
+                                <local:SuggestedWeightControl Grid.Row="1" x:Name="suggestedWeightControl" Margin="0,10,0,0"/>
                             </Grid>
                         </Grid>
                         <!-- Bottom Row -->
@@ -157,15 +157,17 @@
                                       AlternatingRowBackground="{DynamicResource background2}"
                                       HeadersVisibility="Column"
                                       d:ItemsSource="{d:SampleData ItemCount=10}"/>
-                            <!-- Right side Cloumn -->
+                            <!-- Right side UserConstrols -->
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="10*"/>
-                                    <RowDefinition Height="20*"/>
+                                    <RowDefinition Height="92*"/>
+                                    <RowDefinition Height="137*"/>
+                                    <RowDefinition Height="571*"/>
                                 </Grid.RowDefinitions>
-                                <Viewbox Grid.Row="1">
-                                    <local:LiftingOrderControl Width="373" Height="517"/>
-
+                                <local:JudgeControl x:Name="judgeControl"/>
+                                <local:RecordControl x:Name="recordControl" Grid.Row="1" Margin="0,10,0,10"/>
+                                <Viewbox Grid.Row="2">
+                                    <local:LiftingOrderControl Width="336" />
                                 </Viewbox>
                             </Grid>
                         </Grid>

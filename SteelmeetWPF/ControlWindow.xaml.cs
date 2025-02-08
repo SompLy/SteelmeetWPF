@@ -41,7 +41,7 @@ namespace SteelmeetWPF
         Fullscreen fullscreen = new Fullscreen();
         bool isFullscreen = false;
 
-        private readonly double _originalWindowWidth = 1920; 
+        private readonly double _originalWindowWidth = 1920;
         private readonly double _originalWindowHeight = 1080;
 
         bool a = true;
@@ -148,7 +148,7 @@ namespace SteelmeetWPF
                 return x.total.CompareTo( y.total );
             }
         }
-        
+
         public ControlWindow()
         {
             InitializeComponent();
@@ -187,7 +187,7 @@ namespace SteelmeetWPF
             else
                 return;
 
-            if ( browsedFile == null)
+            if( browsedFile == null )
                 return;
 
             using SLDocument sl = new SLDocument(browsedFile);
@@ -213,22 +213,22 @@ namespace SteelmeetWPF
                 {
                     var collection = new WeighInDgFormat
                     {
-                         groupNumber    = sl.GetCellValueAsString(i, 1),
-                         name           = sl.GetCellValueAsString(i, 2),
-                         lotNumber      = sl.GetCellValueAsString(i, 3),
-                         weightClass    = sl.GetCellValueAsString(i, 4),
-                         category       = sl.GetCellValueAsString(i, 5),
-                         licenceNumber  = sl.GetCellValueAsString(i, 6),
-                         accossiation   = sl.GetCellValueAsString(i, 7),
-                         bodyWeight     = sl.GetCellValueAsString(i, 8),
-                         squatHeight    = sl.GetCellValueAsString(i, 9),
-                         tilted         = sl.GetCellValueAsString(i, 10),
-                         s1             = sl.GetCellValueAsString(i, 11),
-                         benchHeight    = sl.GetCellValueAsString(i, 12),
-                         benchRack      = sl.GetCellValueAsString(i, 13),
-                         liftoff        = sl.GetCellValueAsString(i, 14),
-                         d1             = sl.GetCellValueAsString(i, 15),
-                         b1             = sl.GetCellValueAsString(i, 16)
+                        groupNumber    = sl.GetCellValueAsString(i, 1),
+                        name           = sl.GetCellValueAsString(i, 2),
+                        lotNumber      = sl.GetCellValueAsString(i, 3),
+                        weightClass    = sl.GetCellValueAsString(i, 4),
+                        category       = sl.GetCellValueAsString(i, 5),
+                        licenceNumber  = sl.GetCellValueAsString(i, 6),
+                        accossiation   = sl.GetCellValueAsString(i, 7),
+                        bodyWeight     = sl.GetCellValueAsString(i, 8),
+                        squatHeight    = sl.GetCellValueAsString(i, 9),
+                        tilted         = sl.GetCellValueAsString(i, 10),
+                        s1             = sl.GetCellValueAsString(i, 11),
+                        benchHeight    = sl.GetCellValueAsString(i, 12),
+                        benchRack      = sl.GetCellValueAsString(i, 13),
+                        liftoff        = sl.GetCellValueAsString(i, 14),
+                        d1             = sl.GetCellValueAsString(i, 15),
+                        b1             = sl.GetCellValueAsString(i, 16)
                     };
 
                     weighInDgCollection.Add( collection );
@@ -257,7 +257,7 @@ namespace SteelmeetWPF
             ExcelImportHandler();
         }
 
-        public void ExcelExportHandler() 
+        public void ExcelExportHandler()
         {
             try
             {
@@ -275,7 +275,7 @@ namespace SteelmeetWPF
                     SLDocument sl = new SLDocument();
 
                     // Swedish headers
-                    string[] sweHeaders = new string[] 
+                    string[] sweHeaders = new string[]
                     {
                     "Grupp"   ,
                     "Namn"     ,
@@ -329,7 +329,7 @@ namespace SteelmeetWPF
             }
         }
 
-        public void SendToCompetitionTab() 
+        public void SendToCompetitionTab()
         {
             LifterID.Clear();
             controlDgCollection.Clear();
@@ -467,7 +467,7 @@ namespace SteelmeetWPF
                     LifterID[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
                     LifterID[ o ].currentLift = firstLiftColumn + 3;
                 }
-                
+
                 // Is equipped lifter
                 if( LifterID[ o ].CategoryEnum == Lifter.eCategory.MenEquipped ||
                     LifterID[ o ].CategoryEnum == Lifter.eCategory.MenEquippedBench ||
@@ -578,12 +578,12 @@ namespace SteelmeetWPF
         {
             ThemeManager.SetTheme( themeName );
 
-            Application.Current.Resources[ "background"     ] = ThemeManager.background;
-            Application.Current.Resources[ "background2"    ] = ThemeManager.background2;
-            Application.Current.Resources[ "middleGround"   ] = ThemeManager.middleground;
-            Application.Current.Resources[ "accent"         ] = ThemeManager.accent;
+            Application.Current.Resources[ "background" ] = ThemeManager.background;
+            Application.Current.Resources[ "background2" ] = ThemeManager.background2;
+            Application.Current.Resources[ "middleGround" ] = ThemeManager.middleground;
+            Application.Current.Resources[ "accent" ] = ThemeManager.accent;
             Application.Current.Resources[ "fontColorLight" ] = ThemeManager.fontColorLight;
-            Application.Current.Resources[ "fontColorDark"  ] = ThemeManager.fontColorDark;
+            Application.Current.Resources[ "fontColorDark" ] = ThemeManager.fontColorDark;
         }
 
         // Events
@@ -628,14 +628,14 @@ namespace SteelmeetWPF
             }
         }
 
-        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void MainWindow_SizeChanged( object sender, SizeChangedEventArgs e )
         {
             double scaleX = this.ActualWidth / _originalWindowWidth;
             double scaleY = this.ActualHeight / _originalWindowHeight;
-            
+
             ScaleTransform scaleTransform = new ScaleTransform(scaleX, scaleY);
             MainGrid.LayoutTransform = scaleTransform;
-            
+
             MainGrid.RenderTransformOrigin = new System.Windows.Point( 0.5, 0.5 );
         }
 
@@ -668,5 +668,9 @@ namespace SteelmeetWPF
         {
             SendToCompetitionTab();
         }
+
+        // WeighIn Tab
+
+
     }
 }
