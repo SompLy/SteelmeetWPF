@@ -1,0 +1,31 @@
+﻿STEELMEET´s TODO list
+
+Highest :
+✅ XAML Weigh-In tab
+XAML Competition tab
+XAML Spectator tab
+✅Code Weigh-In tab
+Code Competition tab
+Code Spectator tab
+
+High :
+In the space that sectator setting was previously put a lifter settings so you can change lifters weights and shit in another group
+Make themes selectable
+Make TimerControl look better with selecting time
+
+Medium :
+Highlightcolor on bttons and checkboxes
+Make all colors use the current theme
+
+Low :
+
+
+Backlog :
+
+
+Database Ideas :
+Import / Export Weight-In´s
+Import / Export Results
+Import / Export 
+See class records while competing ( Toggelable )
+Auto record
