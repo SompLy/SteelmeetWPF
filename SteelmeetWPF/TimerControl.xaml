@@ -1,103 +1,135 @@
-﻿<UserControl x:Class="SteelmeetWPF.TimerControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SteelmeetWPF"
-             mc:Ignorable="d" 
-             d:DesignWidth="373" d:DesignHeight="130">
+﻿<UserControl
+    x:Class="SteelmeetWPF.TimerControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteelmeetWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="130"
+    d:DesignWidth="373"
+    mc:Ignorable="d">
     <Grid>
-        <Border  BorderBrush="{DynamicResource middleground}" Background="{DynamicResource middleground}" BorderThickness="4" CornerRadius="8,8,8,8">
+        <Border
+            Background="{DynamicResource middleground}"
+            BorderBrush="{DynamicResource middleground}"
+            BorderThickness="4"
+            CornerRadius="8,8,8,8">
             <Border.Effect>
-                <DropShadowEffect Color="Gray" Opacity="1" BlurRadius="6" ShadowDepth="8" />
+                <DropShadowEffect
+                    BlurRadius="6"
+                    Opacity="1"
+                    ShadowDepth="8"
+                    Color="Gray" />
             </Border.Effect>
             <Grid Background="{DynamicResource middleground}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1.2*"/>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1.2*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <!-- Top Texts -->
-                <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="Lyft" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="30"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,0"/>
-                <TextBlock Grid.Row="0" Grid.Column="1"
-                           Text="Lapp" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="30"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,0"/>
-                <!-- Timers -->
-                <TextBlock Grid.Row="1" Grid.Column="0"
-                           Name="liftTimerTb"
-                           Text="00:00" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="55"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Margin="0,-6,0,0"/>
-                <TextBlock Grid.Row="1" Grid.Column="1"
-                           Name="smallPieceOfPaperTimerTb"
-                           Text="00:00" 
-                           Foreground="{DynamicResource fontColorDark}" 
-                           FontFamily="Cascadia Mono SemiBold" 
-                           FontWeight="DemiBold" 
-                           FontSize="55"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Margin="0,-6,0,0"/>
-                <!-- Bottom Row -->
+                <!--  Top Texts  -->
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Center"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="30"
+                    FontWeight="DemiBold"
+                    Foreground="{DynamicResource fontColorDark}"
+                    Text="Lyft" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Center"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="30"
+                    FontWeight="DemiBold"
+                    Foreground="{DynamicResource fontColorDark}"
+                    Text="Lapp" />
+                <!--  Timers  -->
+                <TextBlock
+                    Name="liftTimerTb"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,-6,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="55"
+                    FontWeight="DemiBold"
+                    Foreground="{DynamicResource fontColorDark}"
+                    Text="00:00" />
+                <TextBlock
+                    Name="smallPieceOfPaperTimerTb"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,-6,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="55"
+                    FontWeight="DemiBold"
+                    Foreground="{DynamicResource fontColorDark}"
+                    Text="00:00" />
+                <!--  Bottom Row  -->
                 <Grid Grid.Row="2" Grid.Column="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Row="0" Grid.Column="1"
-                            Name="MinutesBtn"
-                            Click="MinutesBtn_Click"
-                            Style="{DynamicResource ButtonStyleStandard}"
-                            Background="Transparent"
-                            BorderBrush="Black"
-                            Content="Minuter"
-                            FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                            Margin="2"/>
+                    <Button
+                        Name="MinutesBtn"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="2"
+                        Background="Transparent"
+                        BorderBrush="Black"
+                        Click="MinutesBtn_Click"
+                        Content="Minuter"
+                        FontFamily="Cascadia Mono SemiBold"
+                        FontSize="16"
+                        Style="{DynamicResource ButtonStyleStandard}" />
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <ComboBox Name="MinutesMinCb" Width="40"/>
-                        <TextBlock Text=":" VerticalAlignment="Center" FontSize="16" Margin="2,0"/>
-                        <ComboBox Name="MinutesSecCb" Width="40"/>
+                        <ComboBox Name="MinutesMinCb" Width="40" />
+                        <TextBlock
+                            Margin="2,0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text=":" />
+                        <ComboBox Name="MinutesSecCb" Width="40" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="2" Grid.Column="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Row="0" Grid.Column="1"
-                            Name="TimestampBtn"
-                            Click="TimestampBtn_Click"
-                            Style="{DynamicResource ButtonStyleStandard}"
-                            Background="Transparent"
-                            BorderBrush="Black"
-                            Content="Tidspunkt"
-                            FontSize="15" FontFamily="Cascadia Mono SemiBold"
-                            Margin="2"/>
+                    <Button
+                        Name="TimestampBtn"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="2"
+                        Background="Transparent"
+                        BorderBrush="Black"
+                        Click="TimestampBtn_Click"
+                        Content="Tidspunkt"
+                        FontFamily="Cascadia Mono SemiBold"
+                        FontSize="15"
+                        Style="{DynamicResource ButtonStyleStandard}" />
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <ComboBox Name="TimestampMinCb" Width="40"/>
-                        <TextBlock Text=":" VerticalAlignment="Center" FontSize="16" Margin="2,0"/>
-                        <ComboBox Name="TimestampSecCb" Width="40"/>
+                        <ComboBox Name="TimestampMinCb" Width="40" />
+                        <TextBlock
+                            Margin="2,0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text=":" />
+                        <ComboBox Name="TimestampSecCb" Width="40" />
                     </StackPanel>
                 </Grid>
             </Grid>

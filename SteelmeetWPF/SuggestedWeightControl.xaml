@@ -1,137 +1,183 @@
-﻿<UserControl x:Class="SteelmeetWPF.SuggestedWeightControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SteelmeetWPF"
-             mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="373">
+﻿<UserControl
+    x:Class="SteelmeetWPF.SuggestedWeightControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteelmeetWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="50"
+    d:DesignWidth="373"
+    mc:Ignorable="d">
     <Grid>
-        <Border  BorderBrush="{DynamicResource middleground}" Background="{DynamicResource middleground}" BorderThickness="4" CornerRadius="8,8,8,8">
+        <Border
+            Background="{DynamicResource middleground}"
+            BorderBrush="{DynamicResource middleground}"
+            BorderThickness="4"
+            CornerRadius="8,8,8,8">
             <Border.Effect>
-                <DropShadowEffect Color="Gray" Opacity="1" BlurRadius="6" ShadowDepth="8" />
+                <DropShadowEffect
+                    BlurRadius="6"
+                    Opacity="1"
+                    ShadowDepth="8"
+                    Color="Gray" />
             </Border.Effect>
             <Grid Background="{DynamicResource middleground}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0"
-                        Name="_2_5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_2_5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="2.5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="0" Grid.Column="1"
-                        Name="_5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="0" Grid.Column="2"
-                        Name="_7_5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_7_5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="7.5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="0" Grid.Column="3"
-                        Name="_10Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_10Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="10"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="0" Grid.Column="4"
-                        Name="_12_5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_12_5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="12.5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="0" Grid.Column="5"
-                        Name="_15Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_15Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="15"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="1" Grid.Column="0"
-                        Name="_17_5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_17_5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="17.5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="1" Grid.Column="1"
-                        Name="_20Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_20Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="20"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="1" Grid.Column="2"
-                        Name="_25Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="_25Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="25"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="1" Grid.Column="3"
-                        Name="__2_5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="__2_5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="-2.5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="1" Grid.Column="4"
-                        Name="__5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="__5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="-5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
-                <Button Grid.Row="1" Grid.Column="5"
-                        Name="__7_5Btn"
-                        Style="{DynamicResource ButtonStyleStandard}"
-                        Click="__7_5Btn_Click"
-                        Background="Transparent"
-                        BorderBrush="Black"
-                        Content="-7.5"
-                        FontSize="16" FontFamily="Cascadia Mono SemiBold"
-                        Margin="-1"/>
+                <Button
+                    Name="_2_5Btn"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_2_5Btn_Click"
+                    Content="2.5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_5Btn"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_5Btn_Click"
+                    Content="5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_7_5Btn"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_7_5Btn_Click"
+                    Content="7.5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_10Btn"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_10Btn_Click"
+                    Content="10"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_12_5Btn"
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_12_5Btn_Click"
+                    Content="12.5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_15Btn"
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_15Btn_Click"
+                    Content="15"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_17_5Btn"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_17_5Btn_Click"
+                    Content="17.5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_20Btn"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_20Btn_Click"
+                    Content="20"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="_25Btn"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="_25Btn_Click"
+                    Content="25"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="__2_5Btn"
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="__2_5Btn_Click"
+                    Content="-2.5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="__5Btn"
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="__5Btn_Click"
+                    Content="-5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
+                <Button
+                    Name="__7_5Btn"
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Margin="-1"
+                    Background="Transparent"
+                    BorderBrush="Black"
+                    Click="__7_5Btn_Click"
+                    Content="-7.5"
+                    FontFamily="Cascadia Mono SemiBold"
+                    FontSize="16"
+                    Style="{DynamicResource ButtonStyleStandard}" />
 
             </Grid>
         </Border>

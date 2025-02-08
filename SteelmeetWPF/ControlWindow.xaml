@@ -1,171 +1,301 @@
-﻿<Window x:Class="SteelmeetWPF.ControlWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SteelmeetWPF"
-        mc:Ignorable="d"
-        WindowStyle="None"
-        KeyDown="HandleInput_KeyDown"
-        SizeChanged="MainWindow_SizeChanged"
-        Title="ControlWindow" Height="1080" Width="1920">
+﻿<Window
+    x:Class="SteelmeetWPF.ControlWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteelmeetWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="ControlWindow"
+    Width="1920"
+    Height="1080"
+    KeyDown="HandleInput_KeyDown"
+    SizeChanged="MainWindow_SizeChanged"
+    WindowStyle="None"
+    mc:Ignorable="d">
     <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="0" CornerRadius="4" CaptionHeight="0"/>
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="4"
+            GlassFrameThickness="0" />
     </WindowChrome.WindowChrome>
     <Grid Name="MainGrid">
-        <!-- TabControl stretches to fill the entire Grid -->
+        <!--  TabControl stretches to fill the entire Grid  -->
         <TabControl Name="MainTc" Style="{DynamicResource TabControlStyleCustom}">
-            <!-- Weigh-In TabItem -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Invägning" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
+            <!--  Weigh-In TabItem  -->
+            <TabItem
+                BorderBrush="{x:Null}"
+                FontFamily="Cascadia Mono SemiBold"
+                FontSize="15"
+                Foreground="{DynamicResource fontColorLight}"
+                Header="Invägning"
+                Style="{DynamicResource TabItemStyleCustom}">
                 <Grid Background="{DynamicResource background}">
-                    <!-- Base -->
+                    <!--  Base  -->
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="13*"/>
-                        <RowDefinition Height="90*"/>
+                        <RowDefinition Height="13*" />
+                        <RowDefinition Height="90*" />
                     </Grid.RowDefinitions>
-                    <!-- Info panel Base -->
-                    <Grid Grid.Row="0" Grid.Column="0" Margin="10" Background="{DynamicResource middleground}">
+                    <!--  Info panel Base  -->
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="10"
+                        Background="{DynamicResource middleground}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="75*"/>
-                            <RowDefinition Height="25*"/>
+                            <RowDefinition Height="75*" />
+                            <RowDefinition Height="25*" />
                         </Grid.RowDefinitions>
-                        <!-- Info -->
-                        <Grid Grid.Row="0" Grid.Column="0" Margin="8" >
+                        <!--  Info  -->
+                        <Grid
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width=".20*"/>
-                                <ColumnDefinition Width=".01*"/>
-                                <ColumnDefinition Width=".25*"/>
-                                <ColumnDefinition Width=".01*"/>
-                                <ColumnDefinition Width=".10*"/>
-                                <ColumnDefinition Width=".01*"/>
-                                <ColumnDefinition Width=".40*"/>
+                                <ColumnDefinition Width=".20*" />
+                                <ColumnDefinition Width=".01*" />
+                                <ColumnDefinition Width=".25*" />
+                                <ColumnDefinition Width=".01*" />
+                                <ColumnDefinition Width=".10*" />
+                                <ColumnDefinition Width=".01*" />
+                                <ColumnDefinition Width=".40*" />
                             </Grid.ColumnDefinitions>
-                            <!-- Logo -->
-                            <Image Grid.Row="1" Grid.Column="0" Margin="-4">
+                            <!--  Logo  -->
+                            <Image
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="-4">
                                 <Image.Source>
-                                    <BitmapImage UriSource="/SMLogoBlack.png"/>
+                                    <BitmapImage UriSource="/SMLogoBlack.png" />
                                 </Image.Source>
                             </Image>
-                            <!-- Buttons -->
+                            <!--  Buttons  -->
                             <Grid Grid.Row="0" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <Button Grid.Row="0" Grid.Column="0" Name="ImportBtn"            Click="ImportBtn_Click"            Style="{DynamicResource ButtonStyleStandard}"            
-                                        Background="Transparent"   BorderBrush="Black" Content="Import"             FontSize="20" FontFamily="Cascadia Mono SemiBold" Margin="2"/>
-                                <Button Grid.Row="0" Grid.Column="1" Name="ExportBtn"            Click="ExportBtn_Click"            Style="{DynamicResource ButtonStyleStandard}"            
-                                        Background="Transparent"   BorderBrush="Black" Content="Export"             FontSize="20" FontFamily="Cascadia Mono SemiBold" Margin="2"/>
-                                <Button Grid.Row="1" Grid.Column="0" Name="UpdateImportBtn"      Click="UpdateImportBtn_Click"      Style="{DynamicResource ButtonStyleStandard}"      
-                                        Background="Transparent"   BorderBrush="Black" Content="Update Import"      FontSize="20" FontFamily="Cascadia Mono SemiBold" Margin="2"/>
-                                <Button Grid.Row="1" Grid.Column="1" Name="SendToCompetitionBtn" Click="SendToCompetitionBtn_Click" Style="{DynamicResource ButtonStyleStandard}" 
-                                        Background="#FF126D00" BorderBrush="Black" Content="Send to Compwindow"     FontSize="20" FontFamily="Cascadia Mono SemiBold" Margin="2"/>
+                                <Button
+                                    Name="ImportBtn"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="2"
+                                    Background="Transparent"
+                                    BorderBrush="Black"
+                                    Click="ImportBtn_Click"
+                                    Content="Import"
+                                    FontFamily="Cascadia Mono SemiBold"
+                                    FontSize="20"
+                                    Style="{DynamicResource ButtonStyleStandard}" />
+                                <Button
+                                    Name="ExportBtn"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Background="Transparent"
+                                    BorderBrush="Black"
+                                    Click="ExportBtn_Click"
+                                    Content="Export"
+                                    FontFamily="Cascadia Mono SemiBold"
+                                    FontSize="20"
+                                    Style="{DynamicResource ButtonStyleStandard}" />
+                                <Button
+                                    Name="UpdateImportBtn"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="2"
+                                    Background="Transparent"
+                                    BorderBrush="Black"
+                                    Click="UpdateImportBtn_Click"
+                                    Content="Update Import"
+                                    FontFamily="Cascadia Mono SemiBold"
+                                    FontSize="20"
+                                    Style="{DynamicResource ButtonStyleStandard}" />
+                                <Button
+                                    Name="SendToCompetitionBtn"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Background="#FF126D00"
+                                    BorderBrush="Black"
+                                    Click="SendToCompetitionBtn_Click"
+                                    Content="Send to Compwindow"
+                                    FontFamily="Cascadia Mono SemiBold"
+                                    FontSize="20"
+                                    Style="{DynamicResource ButtonStyleStandard}" />
                             </Grid>
-                            <!-- Import Info -->
+                            <!--  Import Info  -->
                             <Grid Grid.Row="0" Grid.Column="4">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="1.5*"/>
-                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1.5*" />
+                                    <RowDefinition Height="2*" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Invägning - Data : " Foreground="{DynamicResource fontColorDark}" FontSize="20" FontFamily="Cascadia Mono SemiBold"/>
-                                <TextBlock Grid.Row="1" Grid.Column="0" Name="weighInDataTb" Text="Antal Lyftare : 00&#x0a;Antal Grupper : 00" Foreground="{DynamicResource fontColorDark}" FontSize="16" FontFamily="Cascadia Mono SemiBold"/>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontFamily="Cascadia Mono SemiBold"
+                                    FontSize="20"
+                                    Foreground="{DynamicResource fontColorDark}"
+                                    Text="Invägning - Data : " />
+                                <TextBlock
+                                    Name="weighInDataTb"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    FontFamily="Cascadia Mono SemiBold"
+                                    FontSize="16"
+                                    Foreground="{DynamicResource fontColorDark}"
+                                    Text="Antal Lyftare : 00&#x0a;Antal Grupper : 00" />
                             </Grid>
-                            <!-- Tutorial Text-->
-                            <TextBlock Grid.Row="0" Grid.Column="6" Foreground="{DynamicResource fontColorDark}" FontSize="16" FontFamily="Cascadia Mono SemiBold" VerticalAlignment="Center"
-                                       Text="Samtlig information kan korrigeras genom att klicka på texten du vill ändra något&#x0a;Lägg till lyftare : Markera tomma raden längst ner i listan och ange informaiton&#x0a;Ta bort lyftare : Markera lyftaren och klicka &quot;Del&quot; / &quot;Delete&quot; på tagentbordet"/>
+                            <!--  Tutorial Text  -->
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="6"
+                                VerticalAlignment="Center"
+                                FontFamily="Cascadia Mono SemiBold"
+                                FontSize="16"
+                                Foreground="{DynamicResource fontColorDark}"
+                                Text="Samtlig information kan korrigeras genom att klicka på texten du vill ändra något&#x0a;Lägg till lyftare : Markera tomma raden längst ner i listan och ange informaiton&#x0a;Ta bort lyftare : Markera lyftaren och klicka &quot;Del&quot; / &quot;Delete&quot; på tagentbordet" />
                         </Grid>
-                        <!-- Import Filepath -->
-                        <TextBlock Grid.Row="1" Grid.Column="0" Name="filePathTb" Margin="6,0,0,0" Text="Filepath : " Foreground="{DynamicResource fontColorDark}" FontStretch="UltraExpanded" FontSize="20" FontFamily="Cascadia Mono SemiBold"/>
+                        <!--  Import Filepath  -->
+                        <TextBlock
+                            Name="filePathTb"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="6,0,0,0"
+                            FontFamily="Cascadia Mono SemiBold"
+                            FontSize="20"
+                            FontStretch="UltraExpanded"
+                            Foreground="{DynamicResource fontColorDark}"
+                            Text="Filepath : " />
                     </Grid>
-                    <!-- DataGrid -->
-                    <DataGrid ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}" Grid.Row="1" 
-                              BeginningEdit="WeighInDg_BeginningEdit"
-                              CellEditEnding="WeighInDg_CellEditEnding"
-                              Name="weightInDg"
-                              CanUserAddRows="True"
-                              CanUserSortColumns="False"
-                              Margin="10,0,10,10"
-                              Background="{DynamicResource background}"
-                              BorderThickness="0"
-                              RowBackground="{DynamicResource middleground}"
-                              AlternatingRowBackground="{DynamicResource background2}"
-                              HeadersVisibility="Column"
-                              d:ItemsSource="{d:SampleData ItemCount=10}"/>
+                    <!--  DataGrid  -->
+                    <DataGrid
+                        Name="weightInDg"
+                        Grid.Row="1"
+                        Margin="10,0,10,10"
+                        d:ItemsSource="{d:SampleData ItemCount=10}"
+                        AlternatingRowBackground="{DynamicResource background2}"
+                        Background="{DynamicResource background}"
+                        BeginningEdit="WeighInDg_BeginningEdit"
+                        BorderThickness="0"
+                        CanUserAddRows="True"
+                        CanUserSortColumns="False"
+                        CellEditEnding="WeighInDg_CellEditEnding"
+                        ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}"
+                        HeadersVisibility="Column"
+                        RowBackground="{DynamicResource middleground}" />
                 </Grid>
 
             </TabItem>
 
-            <!-- TabItem 2 -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Inställningar" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
-                <Grid Background="{DynamicResource background}">
-                </Grid>
+            <!--  TabItem 2  -->
+            <TabItem
+                BorderBrush="{x:Null}"
+                FontFamily="Cascadia Mono SemiBold"
+                FontSize="15"
+                Foreground="{DynamicResource fontColorLight}"
+                Header="Inställningar"
+                Style="{DynamicResource TabItemStyleCustom}">
+                <Grid Background="{DynamicResource background}" />
             </TabItem>
 
-            <!-- TabItem 3 -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Tävling" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
+            <!--  TabItem 3  -->
+            <TabItem
+                BorderBrush="{x:Null}"
+                FontFamily="Cascadia Mono SemiBold"
+                FontSize="15"
+                Foreground="{DynamicResource fontColorLight}"
+                Header="Tävling"
+                Style="{DynamicResource TabItemStyleCustom}">
                 <Grid Background="Transparent">
-                    <Grid Grid.Row="0" Grid.Column="0" Background="{DynamicResource background}">
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Background="{DynamicResource background}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="13*"/>
-                            <RowDefinition Height="45*"/>
+                            <RowDefinition Height="13*" />
+                            <RowDefinition Height="45*" />
                         </Grid.RowDefinitions>
-                        <!-- TopRow  -->
-                        <Grid Grid.Row="0" Grid.Column="0" Margin="10,10,10,0">
+                        <!--  TopRow  -->
+                        <Grid
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="10,10,10,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="442*"/>
-                                <ColumnDefinition Width="442*"/>
-                                <ColumnDefinition Width="194*"/>
-                                <ColumnDefinition Width="272*"/>
+                                <ColumnDefinition Width="442*" />
+                                <ColumnDefinition Width="442*" />
+                                <ColumnDefinition Width="194*" />
+                                <ColumnDefinition Width="272*" />
                             </Grid.ColumnDefinitions>
                             <Viewbox Grid.Column="0">
-                                <local:LifterInfoControl Grid.Column="0" x:Name="lifterInfo1" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <local:LifterInfoControl
+                                    x:Name="lifterInfo1"
+                                    Grid.Column="0"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top" />
                             </Viewbox>
                             <Viewbox Grid.Column="1">
-                                <local:LifterInfoControl Grid.Column="1" x:Name="lifterInfo2" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <local:LifterInfoControl
+                                    x:Name="lifterInfo2"
+                                    Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top" />
                             </Viewbox>
                             <Grid Grid.Column="4">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="20*"/>
-                                    <RowDefinition Height="15*"/>
+                                    <RowDefinition Height="20*" />
+                                    <RowDefinition Height="15*" />
                                 </Grid.RowDefinitions>
-                                <local:TimerControl Grid.Row="0" x:Name="timerControl"/>
-                                <local:SuggestedWeightControl Grid.Row="1" x:Name="suggestedWeightControl" Margin="0,10,0,0"/>
+                                <local:TimerControl x:Name="timerControl" Grid.Row="0" />
+                                <local:SuggestedWeightControl
+                                    x:Name="suggestedWeightControl"
+                                    Grid.Row="1"
+                                    Margin="0,10,0,0" />
                             </Grid>
                         </Grid>
-                        <!-- Bottom Row -->
-                        <Grid Grid.Row="1" Grid.Column="0" Margin="10,10,10,0">
+                        <!--  Bottom Row  -->
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="10,10,10,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1078*"/>
-                                <ColumnDefinition Width="272*"/>
+                                <ColumnDefinition Width="1078*" />
+                                <ColumnDefinition Width="272*" />
                             </Grid.ColumnDefinitions>
-                            <!-- DataGrid -->
-                            <DataGrid ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}" Grid.Row="1" 
-                                      BeginningEdit="WeighInDg_BeginningEdit"
-                                      CellEditEnding="WeighInDg_CellEditEnding"
-                                      Name="controlDg"
-                                      CanUserAddRows="True"
-                                      CanUserSortColumns="False"
-                                      Margin="10,0,10,10"
-                                      Background="{DynamicResource background}"
-                                      BorderThickness="0"
-                                      RowBackground="{DynamicResource middleground}"
-                                      AlternatingRowBackground="{DynamicResource background2}"
-                                      HeadersVisibility="Column"
-                                      d:ItemsSource="{d:SampleData ItemCount=10}"/>
-                            <!-- Right side UserConstrols -->
+                            <!--  DataGrid  -->
+                            <DataGrid
+                                Name="controlDg"
+                                Grid.Row="1"
+                                Margin="10,0,10,10"
+                                d:ItemsSource="{d:SampleData ItemCount=10}"
+                                AlternatingRowBackground="{DynamicResource background2}"
+                                Background="{DynamicResource background}"
+                                BeginningEdit="WeighInDg_BeginningEdit"
+                                BorderThickness="0"
+                                CanUserAddRows="True"
+                                CanUserSortColumns="False"
+                                CellEditEnding="WeighInDg_CellEditEnding"
+                                ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}"
+                                HeadersVisibility="Column"
+                                RowBackground="{DynamicResource middleground}" />
+                            <!--  Right side UserConstrols  -->
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="92*"/>
-                                    <RowDefinition Height="137*"/>
-                                    <RowDefinition Height="571*"/>
+                                    <RowDefinition Height="92*" />
+                                    <RowDefinition Height="137*" />
+                                    <RowDefinition Height="571*" />
                                 </Grid.RowDefinitions>
-                                <local:JudgeControl x:Name="judgeControl"/>
-                                <local:RecordControl x:Name="recordControl" Grid.Row="1" Margin="0,10,0,10"/>
+                                <local:JudgeControl x:Name="judgeControl" />
+                                <local:RecordControl
+                                    x:Name="recordControl"
+                                    Grid.Row="1"
+                                    Margin="0,10,0,10" />
                                 <Viewbox Grid.Row="2">
                                     <local:LiftingOrderControl Width="336" />
                                 </Viewbox>
@@ -175,10 +305,15 @@
                 </Grid>
             </TabItem>
 
-            <!-- TabItem 4 -->
-            <TabItem Style="{DynamicResource TabItemStyleCustom}" Header="Resultat" BorderBrush="{x:Null}" Foreground="{DynamicResource fontColorLight}" FontSize="15" FontFamily="Cascadia Mono SemiBold">
-                <Grid Background="{DynamicResource background}">
-                </Grid>
+            <!--  TabItem 4  -->
+            <TabItem
+                BorderBrush="{x:Null}"
+                FontFamily="Cascadia Mono SemiBold"
+                FontSize="15"
+                Foreground="{DynamicResource fontColorLight}"
+                Header="Resultat"
+                Style="{DynamicResource TabItemStyleCustom}">
+                <Grid Background="{DynamicResource background}" />
             </TabItem>
         </TabControl>
     </Grid>
