@@ -4,9 +4,21 @@
     <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Steelmeet-logo-miniPNG.ico</ApplicationIcon>
+    <PackageIcon>Steelmeet logo miniPNG.png</PackageIcon>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="SMLogoWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Steelmeet-logo-miniPNG.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\Steelmeet logo miniPNG.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SpreadsheetLight" Version="3.5.0" />
