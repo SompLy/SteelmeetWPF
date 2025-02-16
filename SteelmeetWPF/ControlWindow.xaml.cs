@@ -3,8 +3,11 @@ using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,12 +22,14 @@ namespace SteelmeetWPF
     /// </summary>
     public partial class ControlWindow : Window
     {
-        public Dictionary<int, Lifter> LifterID = new();
+        public Dictionary<int, Lifter> Lifters = new();
 
         List<SpectatorWindow> spectatorWindowList = new List<SpectatorWindow>();
 
         public ObservableCollection<WeighInDgFormat> weighInDgCollection;
         public ObservableCollection<ControlDgFormat> controlDgCollection;
+
+        private readonly HashSet<string> hiddenColumns = new() {};
 
         public RainbowColor rainbowColor = new RainbowColor();
         Fullscreen fullscreen = new Fullscreen();
@@ -43,8 +48,6 @@ namespace SteelmeetWPF
         public string browsedFile;
         public string recordType;            // Klubb, Distrikt, Svenskt rekord, Europa rekord, World record!!!
 
-        string currentLiftColor = "Black";   // Color of current lift on the datagridview
-
         public int selectedRowIndex;
         public int selectedColumnIndex;
         int secondsLapp;
@@ -56,7 +59,7 @@ namespace SteelmeetWPF
         public int group1Count;                    // Antal lyftare i grupp
         public int group2Count;                    // Antal lyftare i grupp
         public int group3Count;                    // Antal lyftare i grupp
-        public int groupRowFixer;                  // Ändars beronde på grupp så att LifterID[SelectedRowIndex + groupRowFixer] blir rätt
+        public int groupRowFixer;                  // Ändars beronde på grupp så att Lifters[SelectedRowIndex + groupRowFixer] blir rätt
         int firstLiftColumn = 10;                  // 130, 217 måste ändras också ????
 
         public List<int> usedPlatesList = new List<int>();  // Hur många plates calculatorn har använt.
@@ -144,7 +147,7 @@ namespace SteelmeetWPF
             weighInDgCollection = new ObservableCollection<WeighInDgFormat>();
             weightInDg.ItemsSource = weighInDgCollection;
             controlDgCollection = new ObservableCollection<ControlDgFormat>();
-            weightInDg.ItemsSource = controlDgCollection;
+            controlDg.ItemsSource = controlDgCollection;
         }
 
         public void ExcelImportHandler()
@@ -226,11 +229,11 @@ namespace SteelmeetWPF
             }
             try
             {
-                // Om man laddar en ogitig fil
                 WeighInInfoUpdate();
             }
             catch( Exception ex )
             {
+                // If loading invalid file
                 MessageBox.Show( ex.Message );
             }
 
@@ -320,7 +323,7 @@ namespace SteelmeetWPF
 
         public void SendToCompetitionTab()
         {
-            LifterID.Clear();
+            Lifters.Clear();
             controlDgCollection.Clear();
 
             for( int o = 0; o < weighInDgCollection.Count - 1; o++ )
@@ -431,40 +434,48 @@ namespace SteelmeetWPF
                     {
                         MessageBox.Show( "Ogiltig viktklass", "⚠SteelMeet varning!⚠" ); // Varning 
                         currentWeightclass = "Ange klass!!";
+                        return;
                     }
                 }
                 else
                 {
                     MessageBox.Show( "Ogiltig viktklass", "⚠SteelMeet varning!⚠" ); // Varning 
                     currentWeightclass = "Ange klass!!";
+                    return;
                 }
 
                 weighInDgCollection[ o ].weightClass = currentWeightclass;
 
                 // Lägger till lyftare adderar lyftare ny lyftare
-                LifterID.Add( o, new Lifter( weighInDgCollection[ o ] ) );
-                LifterID[ LifterID.Count - 1 ].index = LifterID.Count - 1;
+                Lifters.Add( o, new Lifter( weighInDgCollection[ o ] ) );
+                Lifters[ Lifters.Count - 1 ].index = Lifters.Count - 1;
                 SetCategoryEnum( currentCategory );
 
                 // Is bench only
-                if( LifterID[ o ].CategoryEnum == Lifter.eCategory.MenClassicBench ||
-                    LifterID[ o ].CategoryEnum == Lifter.eCategory.MenEquippedBench ||
-                    LifterID[ o ].CategoryEnum == Lifter.eCategory.WomenClassicBench ||
-                    LifterID[ o ].CategoryEnum == Lifter.eCategory.WomenEquippedBench )
+                if( Lifters[ o ].CategoryEnum == Lifter.eCategory.MenClassicBench ||
+                    Lifters[ o ].CategoryEnum == Lifter.eCategory.MenEquippedBench ||
+                    Lifters[ o ].CategoryEnum == Lifter.eCategory.WomenClassicBench ||
+                    Lifters[ o ].CategoryEnum == Lifter.eCategory.WomenEquippedBench )
                 {
-                    LifterID[ o ].isBenchOnly = true;
-                    LifterID[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
-                    LifterID[ o ].currentLift = firstLiftColumn + 3;
+                    Lifters[ o ].isBenchOnly = true;
+                    Lifters[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
+                    Lifters[ o ].currentLift = firstLiftColumn + 3;
                 }
 
                 // Is equipped lifter
-                if( LifterID[ o ].CategoryEnum == Lifter.eCategory.MenEquipped ||
-                    LifterID[ o ].CategoryEnum == Lifter.eCategory.MenEquippedBench ||
-                    LifterID[ o ].CategoryEnum == Lifter.eCategory.WomenEquipped ||
-                    LifterID[ o ].CategoryEnum == Lifter.eCategory.WomenEquippedBench )
-                    LifterID[ o ].isEquipped = true;
+                if( Lifters[ o ].CategoryEnum == Lifter.eCategory.MenEquipped ||
+                    Lifters[ o ].CategoryEnum == Lifter.eCategory.MenEquippedBench ||
+                    Lifters[ o ].CategoryEnum == Lifter.eCategory.WomenEquipped ||
+                    Lifters[ o ].CategoryEnum == Lifter.eCategory.WomenEquippedBench )
+                    Lifters[ o ].isEquipped = true;
                 else
-                    LifterID[ o ].isEquipped = false;
+                    Lifters[ o ].isEquipped = false;
+                
+                if( Lifters[ o ].groupNumber == 1 )
+                {
+                    var collection = new ControlDgFormat( Lifters[ o ] );
+                    controlDgCollection.Add(collection);
+                }
             }
         }
 
@@ -517,22 +528,22 @@ namespace SteelmeetWPF
                 {
                     if( Equipped == true )
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.MenEquippedBench;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.MenEquippedBench;
                     }
                     else
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.MenClassicBench;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.MenClassicBench;
                     }
                 }
                 else
                 {
                     if( Equipped == true )
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.MenEquipped;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.MenEquipped;
                     }
                     else
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.MenClassic;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.MenClassic;
                     }
                 }
             }
@@ -542,22 +553,22 @@ namespace SteelmeetWPF
                 {
                     if( Equipped == true )
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenEquippedBench;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenEquippedBench;
                     }
                     else
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenClassicBench;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenClassicBench;
                     }
                 }
                 else
                 {
                     if( Equipped == true )
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenEquipped;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenEquipped;
                     }
                     else
                     {
-                        LifterID[ LifterID.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenClassic;
+                        Lifters[ Lifters.Count - 1 ].CategoryEnum = Lifter.eCategory.WomenClassic;
                     }
                 }
             }
@@ -584,20 +595,20 @@ namespace SteelmeetWPF
             //    controlDg.Rows[ SelectedRowIndex ].Cells[ SelectedColumnIndex - 1 ].Selected = true;
             //}
             //if( MainTc.SelectedIndex == 2 &&
-            //    e.Key == Key.G && LifterID[ SelectedRowIndex + groupRowFixer ].currentLift <= firstLiftColumn + 8 &&
-            //    controlDg.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].currentLift ].Value != DBNull.Value &&
+            //    e.Key == Key.G && Lifters[ SelectedRowIndex + groupRowFixer ].currentLift <= firstLiftColumn + 8 &&
+            //    controlDg.Rows[ SelectedRowIndex ].Cells[ Lifters[ SelectedRowIndex + groupRowFixer ].currentLift ].Value != DBNull.Value &&
             //    !controlDg.IsCurrentCellInEditMode )            //Godkänt lyft
             //{
             //    goodLiftMarked();
             //}
             //if( MainTc.SelectedIndex == 2 &&
-            //    e.Key == Key.U && LifterID[ SelectedRowIndex + groupRowFixer ].currentLift <= firstLiftColumn + 8 &&
-            //    controlDg.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].currentLift ].Value != DBNull.Value &&
+            //    e.Key == Key.U && Lifters[ SelectedRowIndex + groupRowFixer ].currentLift <= firstLiftColumn + 8 &&
+            //    controlDg.Rows[ SelectedRowIndex ].Cells[ Lifters[ SelectedRowIndex + groupRowFixer ].currentLift ].Value != DBNull.Value &&
             //    !controlDg.IsCurrentCellInEditMode )       //Underkänt lyft
             //{
             //    badLiftMarked();
             //}
-            //if( MainTc.SelectedIndex == 2 && e.Key == Key.R && LifterID[ SelectedRowIndex + groupRowFixer ].currentLift >= firstLiftColumn + 1 &&
+            //if( MainTc.SelectedIndex == 2 && e.Key == Key.R && Lifters[ SelectedRowIndex + groupRowFixer ].currentLift >= firstLiftColumn + 1 &&
             //    !controlDg.IsCurrentCellInEditMode )       //Ångra lyft
             //{
             //    undoLift( false );

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace SteelmeetWPF
         {
             this.groupNumber = Int16.Parse( groupNumber );
             this.name = name;
-            this.lotNumber = float.Parse( lotNumber );
+            this.lotNumber = Int16.Parse( lotNumber );
             this.weightClass = weightClass;
             this.category = category;
             this.licenceNumber = licenceNumber;
@@ -42,8 +43,8 @@ namespace SteelmeetWPF
             this.liftoff = liftoff;
             this.b1 = float.Parse( b1 );
             this.d1 = float.Parse( d1 );
-            currentLift = 10;//Väljer vilken column som första böjen börjar på
-                             //Du måsta ändra en sak i tabcontrol långt ner
+
+            currentLift = 0;
             LiftRecord = new List<bool>();
             sbdList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
         }
@@ -52,22 +53,22 @@ namespace SteelmeetWPF
         {
             this.groupNumber = Int16.Parse( weighInCollection.groupNumber );
             this.name = weighInCollection.name;
-            this.lotNumber = float.Parse( weighInCollection.lotNumber );
+            this.lotNumber = Int16.Parse( weighInCollection.lotNumber );
             this.weightClass = weighInCollection.weightClass;
             this.category = weighInCollection.category;
             this.licenceNumber = weighInCollection.licenceNumber;
             this.accossiation = weighInCollection.accossiation;
-            this.bodyWeight = float.Parse( weighInCollection.bodyWeight );
+            this.bodyWeight = float.Parse( weighInCollection.bodyWeight, CultureInfo.InvariantCulture );
             this.squatHeight = Int16.Parse( weighInCollection.squatHeight );
             this.tilted = weighInCollection.tilted;
-            this.s1 = float.Parse( weighInCollection.s1 );
+            this.s1 = float.Parse( weighInCollection.s1, CultureInfo.InvariantCulture );
             this.benchHeight = Int16.Parse( weighInCollection.benchHeight );
             this.benchRack = Int16.Parse( weighInCollection.benchRack );
             this.liftoff = weighInCollection.liftoff;
-            this.b1 = float.Parse( weighInCollection.b1 );
-            this.d1 = float.Parse( weighInCollection.d1 );
-            currentLift = 10;//Väljer vilken column som första böjen börjar på
-                             //Du måsta ändra en sak i tabcontrol långt ner
+            this.b1 = float.Parse( weighInCollection.b1, CultureInfo.InvariantCulture );
+            this.d1 = float.Parse( weighInCollection.d1, CultureInfo.InvariantCulture );
+
+            currentLift = 0;
             LiftRecord = new List<bool>();
             sbdList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
         }
@@ -75,7 +76,7 @@ namespace SteelmeetWPF
         public int place { get; set; }
         public int groupNumber { get; set; }
         public string name { get; set; }
-        public float lotNumber { get; set; }
+        public int lotNumber { get; set; }
         public string weightClass { get; set; }
         public string category { get; set; }
         public enum eCategory
@@ -123,6 +124,9 @@ namespace SteelmeetWPF
         public List<bool> LiftRecord { get; set; } //en lista med true eller false beroende på om lyftaren fick godkänt eller inte
         public List<float> sbdList { get; set; }
         public int index { get; set; }
+        public float estimatedTotal { get; set; }
+        public float estimatedGLPoints { get; set; }
+        public float estimatedPlacement { get; set; }
 
     }
 
