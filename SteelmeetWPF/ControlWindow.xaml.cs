@@ -148,6 +148,8 @@ namespace SteelmeetWPF
             weightInDg.ItemsSource = weighInDgCollection;
             controlDgCollection = new ObservableCollection<ControlDgFormat>();
             controlDg.ItemsSource = controlDgCollection;
+
+            //ThemeManager.SetTheme("Borlänge");
         }
 
         public void ExcelImportHandler()
@@ -572,18 +574,6 @@ namespace SteelmeetWPF
                     }
                 }
             }
-        }
-
-        void SetActiveTheme( string themeName )
-        {
-            ThemeManager.SetTheme( themeName );
-
-            Application.Current.Resources[ "background" ] = ThemeManager.background;
-            Application.Current.Resources[ "background2" ] = ThemeManager.background2;
-            Application.Current.Resources[ "middleGround" ] = ThemeManager.middleground;
-            Application.Current.Resources[ "accent" ] = ThemeManager.accent;
-            Application.Current.Resources[ "fontColorLight" ] = ThemeManager.fontColorLight;
-            Application.Current.Resources[ "fontColorDark" ] = ThemeManager.fontColorDark;
         }
 
         // Events

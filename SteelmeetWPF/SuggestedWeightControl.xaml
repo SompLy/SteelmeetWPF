@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SteelmeetWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="50"
+    d:DesignHeight="86"
     d:DesignWidth="373"
     mc:Ignorable="d">
     <Grid>
@@ -43,8 +43,7 @@
                     BorderBrush="Black"
                     Click="_2_5Btn_Click"
                     Content="2.5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_5Btn"
@@ -55,8 +54,7 @@
                     BorderBrush="Black"
                     Click="_5Btn_Click"
                     Content="5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_7_5Btn"
@@ -67,8 +65,7 @@
                     BorderBrush="Black"
                     Click="_7_5Btn_Click"
                     Content="7.5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_10Btn"
@@ -79,8 +76,7 @@
                     BorderBrush="Black"
                     Click="_10Btn_Click"
                     Content="10"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_12_5Btn"
@@ -91,8 +87,8 @@
                     BorderBrush="Black"
                     Click="_12_5Btn_Click"
                     Content="12.5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_15Btn"
@@ -103,8 +99,7 @@
                     BorderBrush="Black"
                     Click="_15Btn_Click"
                     Content="15"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_17_5Btn"
@@ -115,8 +110,7 @@
                     BorderBrush="Black"
                     Click="_17_5Btn_Click"
                     Content="17.5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_20Btn"
@@ -127,8 +121,7 @@
                     BorderBrush="Black"
                     Click="_20Btn_Click"
                     Content="20"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="_25Btn"
@@ -139,8 +132,7 @@
                     BorderBrush="Black"
                     Click="_25Btn_Click"
                     Content="25"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="__2_5Btn"
@@ -151,8 +143,7 @@
                     BorderBrush="Black"
                     Click="__2_5Btn_Click"
                     Content="-2.5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="__5Btn"
@@ -163,8 +154,7 @@
                     BorderBrush="Black"
                     Click="__5Btn_Click"
                     Content="-5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
                     Name="__7_5Btn"
@@ -175,10 +165,8 @@
                     BorderBrush="Black"
                     Click="__7_5Btn_Click"
                     Content="-7.5"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontSize="16"
+                    FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
-
             </Grid>
         </Border>
     </Grid>

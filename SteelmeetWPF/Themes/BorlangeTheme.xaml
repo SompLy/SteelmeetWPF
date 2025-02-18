@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="background" Color="#343434" />
+    <SolidColorBrush x:Key="background2" Color="DarkGray" />
+    <SolidColorBrush x:Key="middleground" Color="GhostWhite" />
+    <SolidColorBrush x:Key="accent" Color="#0F4C75" />
+    <FontFamily x:Key="fontFamily">Montserrat</FontFamily>
+    <SolidColorBrush x:Key="fontColorLight" Color="White" />
+    <SolidColorBrush x:Key="fontColorDark" Color="Black" />
+</ResourceDictionary>

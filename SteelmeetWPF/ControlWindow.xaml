@@ -24,8 +24,8 @@
             <!--  Weigh-In TabItem  -->
             <TabItem
                 BorderBrush="{x:Null}"
+                FontWeight="Bold"
                 FontFamily="{DynamicResource fontFamily}"
-                FontWeight="Medium"
                 FontSize="15"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Invägning"
@@ -89,8 +89,6 @@
                                     Click="ImportBtn_Click"
                                     Content="Import"
                                     FontSize="20"
-                                    FontFamily="{DynamicResource fontFamily}"
-                                    FontWeight="Medium"
                                     Style="{DynamicResource ButtonStyleStandard}" />
                                 <Button
                                     Name="ExportBtn"
@@ -122,7 +120,7 @@
                                     Background="#FF126D00"
                                     BorderBrush="Black"
                                     Click="SendToCompetitionBtn_Click"
-                                    Content="Send to Compwindow"
+                                    Content="Send to Comp"
                                     FontSize="20"
                                     Style="{DynamicResource ButtonStyleStandard}" />
                             </Grid>
@@ -137,6 +135,7 @@
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     FontSize="20"
+                                    FontWeight="Bold"
                                     Foreground="{DynamicResource fontColorDark}"
                                     Text="Invägning - Data : " />
                                 <TextBlock
@@ -144,6 +143,7 @@
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     FontSize="16"
+                                    FontWeight="Bold"
                                     Foreground="{DynamicResource fontColorDark}"
                                     Text="Antal Lyftare : 00&#x0a;Antal Grupper : 00" />
                             </Grid>
@@ -153,7 +153,7 @@
                                 Grid.Column="6"
                                 VerticalAlignment="Center"
                                 FontSize="16"
-                                FontWeight="Medium"
+                                FontWeight="Bold"
                                 Foreground="{DynamicResource fontColorDark}"
                                 Text="Samtlig information kan korrigeras genom att klicka på texten du vill ändra något&#x0a;Lägg till lyftare : Markera tomma raden längst ner i listan och ange informaiton&#x0a;Ta bort lyftare : Markera lyftaren och klicka &quot;Del&quot; / &quot;Delete&quot; på tagentbordet" />
                         </Grid>
@@ -166,8 +166,7 @@
                             FontSize="16"
                             FontWeight="Bold"
                             Foreground="{DynamicResource fontColorDark}"
-                            Text="Powerlifting software soultions.      Filepath : "
-                            FontFamily="Agency FB" />
+                            Text="Powerlifting software soultions.      Filepath : " />
                     </Grid>
                     <!--  DataGrid  -->
                     <local:DataGirdCustom Style="{DynamicResource DataGirdCustomStyle}"
@@ -192,8 +191,9 @@
             <!--  TabItem 2  -->
             <TabItem
                 BorderBrush="{x:Null}"
-                FontFamily="{DynamicResource fontFamily}"
                 FontSize="15"
+                FontWeight="Bold"
+                FontFamily="{DynamicResource fontFamily}"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Inställningar"
                 Style="{DynamicResource TabItemStyleCustom}">
@@ -203,8 +203,9 @@
             <!--  TabItem 3  -->
             <TabItem
                 BorderBrush="{x:Null}"
-                FontFamily="{DynamicResource fontFamily}"
                 FontSize="15"
+                FontFamily="{DynamicResource fontFamily}"
+                FontWeight="Bold"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Tävling"
                 Style="{DynamicResource TabItemStyleCustom}">
@@ -297,7 +298,7 @@
                                 <Viewbox Grid.Row="2">
                                     <local:LiftingOrderControl 
                                         Margin="0,1,0,10"
-                                        Width="343" />
+                                        Width="359" />
                                 </Viewbox>
                             </Grid>
                         </Grid>
@@ -308,8 +309,9 @@
             <!--  TabItem 4  -->
             <TabItem
                 BorderBrush="{x:Null}"
-                FontFamily="{DynamicResource fontFamily}"
                 FontSize="15"
+                FontFamily="{DynamicResource fontFamily}"
+                FontWeight="Bold"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Resultat"
                 Style="{DynamicResource TabItemStyleCustom}">

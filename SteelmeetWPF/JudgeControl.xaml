@@ -40,7 +40,6 @@
                     BorderBrush="Black"
                     Click="BarReadyBtn_Click"
                     Content="Bar Ready"
-                    FontFamily="Cascadia Mono SemiBold"
                     FontSize="16"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -52,7 +51,6 @@
                     BorderBrush="Black"
                     Click="SelectNextLifterBtn_Click"
                     Content="Select Next"
-                    FontFamily="Cascadia Mono SemiBold"
                     FontSize="16"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -64,7 +62,6 @@
                     BorderBrush="Black"
                     Click="RetryBtn_Click"
                     Content="Retry"
-                    FontFamily="Cascadia Mono SemiBold"
                     FontSize="16"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -76,7 +73,6 @@
                     BorderBrush="Black"
                     Click="GoodLiftBtn_Click"
                     Content="Good Lift"
-                    FontFamily="Cascadia Mono SemiBold"
                     FontSize="16"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -88,7 +84,6 @@
                     BorderBrush="Black"
                     Click="BadLiftBtn_Click"
                     Content="Bad Lift"
-                    FontFamily="Cascadia Mono SemiBold"
                     FontSize="16"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -100,7 +95,6 @@
                     BorderBrush="Black"
                     Click="UndoBtn_Click"
                     Content="Undo Lift"
-                    FontFamily="Cascadia Mono SemiBold"
                     FontSize="16"
                     Style="{DynamicResource ButtonStyleStandard}" />
             </Grid>

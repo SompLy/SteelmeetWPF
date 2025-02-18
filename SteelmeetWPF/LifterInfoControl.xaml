@@ -35,10 +35,9 @@
                     Name="NameTb"
                     Grid.Row="0"
                     Grid.Column="0"
-                    FontFamily="Cascadia Mono SemiBold"
-                    FontWeight="DemiBold"
+                    FontWeight="Bold"
                     Foreground="{DynamicResource fontColorDark}"
-                    Text="Sara Sandberg" />
+                    Text="Bo Ö" />
             </Viewbox>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -54,8 +53,7 @@
                         Name="TiltedLiftoffTb"
                         Grid.Row="0"
                         Grid.Column="1"
-                        FontFamily="Cascadia SemiBold"
-                        FontWeight="DemiBold"
+                        FontWeight="bold"
                         Foreground="{DynamicResource fontColorDark}"
                         Text="Avlyft" />
                 </Viewbox>
@@ -75,9 +73,8 @@
                         Name="WeightTb"
                         Grid.Row="0"
                         Grid.Column="1"
-                        FontFamily="Cascadia SemiBold"
                         FontSize="70"
-                        FontWeight="DemiBold"
+                        FontWeight="Bold"
                         Foreground="{DynamicResource fontColorDark}"
                         Text="200 KG" />
                 </Viewbox>

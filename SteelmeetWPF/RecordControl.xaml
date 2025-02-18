@@ -58,7 +58,7 @@
                                 BorderBrush="Black"
                                 Click="ClubCb_Click"
                                 Content="Club"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                             <CheckBox
@@ -71,7 +71,7 @@
                                 BorderBrush="Black"
                                 Click="DistrictCb_Click"
                                 Content="District"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                             <CheckBox
@@ -84,7 +84,7 @@
                                 BorderBrush="Black"
                                 Click="SwedishCb_Click"
                                 Content="Swedish"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                         </Grid>
@@ -112,7 +112,7 @@
                                 BorderBrush="Black"
                                 Click="SubJuniorCb_Click"
                                 Content="Sub-Junior"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                             <CheckBox
@@ -125,7 +125,7 @@
                                 BorderBrush="Black"
                                 Click="JuinorCb_Click"
                                 Content="Junior"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                             <CheckBox
@@ -138,7 +138,7 @@
                                 BorderBrush="Black"
                                 Click="SeniorCb_Click"
                                 Content="Senior"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                         </Grid>
@@ -163,7 +163,7 @@
                         BorderBrush="Black"
                         Click="RecordBtn_Click"
                         Content="Activate Record"
-                        FontFamily="Cascadia Mono SemiBold"
+                        FontWeight="Bold"
                         FontSize="16"
                         Style="{DynamicResource ButtonStyleStandard}" />
                     <!--  Left Bottom Grid  -->
@@ -192,7 +192,7 @@
                                 BorderBrush="Black"
                                 Click="BenchCb_Click"
                                 Content="Bänk"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                             <CheckBox
@@ -205,7 +205,7 @@
                                 BorderBrush="Black"
                                 Click="DeadliftCb_Click"
                                 Content="Mark"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                             <CheckBox
@@ -218,7 +218,7 @@
                                 BorderBrush="Black"
                                 Click="SquatCb_Click"
                                 Content="Knäböj"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                             <CheckBox
@@ -231,7 +231,7 @@
                                 BorderBrush="Black"
                                 Click="TotalCb_Click"
                                 Content="Total"
-                                FontFamily="Cascadia Mono SemiBold"
+                                FontWeight="Bold"
                                 FontSize="15"
                                 Style="{DynamicResource CheckBoxCustomStyle}" />
                         </Grid>

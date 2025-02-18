@@ -15,12 +15,14 @@
 * Make themes selectable
 * Make TimerControl look better with selecting time
 * Exporting GL points decimal amount should be lowered to 2
+* Use custom names for datagrid headers instead of varibe names
 
 
 ## Medium
 * Highlightcolor on bttons and checkboxes
 * Make all colors use the current theme
 * Koeff classes rework
+* Some usercontrols need to have transparent grids since it looks like a line with the border
 
 
 ## Low
