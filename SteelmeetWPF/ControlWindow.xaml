@@ -24,9 +24,9 @@
             <!--  Weigh-In TabItem  -->
             <TabItem
                 BorderBrush="{x:Null}"
-                FontWeight="Bold"
                 FontFamily="{DynamicResource fontFamily}"
                 FontSize="15"
+                FontWeight="Bold"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Invägning"
                 Style="{DynamicResource TabItemStyleCustom}">
@@ -169,7 +169,7 @@
                             Text="Powerlifting software soultions.      Filepath : " />
                     </Grid>
                     <!--  DataGrid  -->
-                    <local:DataGirdCustom Style="{DynamicResource DataGirdCustomStyle}"
+                    <local:DataGirdCustom
                         x:Name="weightInDg"
                         Grid.Row="1"
                         Margin="10,0,10,10"
@@ -183,7 +183,8 @@
                         CellEditEnding="WeighInDg_CellEditEnding"
                         ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}"
                         HeadersVisibility="Column"
-                        RowBackground="{DynamicResource middleground}" />
+                        RowBackground="{DynamicResource middleground}"
+                        Style="{DynamicResource DataGirdCustomStyle}" />
                 </Grid>
 
             </TabItem>
@@ -191,9 +192,9 @@
             <!--  TabItem 2  -->
             <TabItem
                 BorderBrush="{x:Null}"
+                FontFamily="{DynamicResource fontFamily}"
                 FontSize="15"
                 FontWeight="Bold"
-                FontFamily="{DynamicResource fontFamily}"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Inställningar"
                 Style="{DynamicResource TabItemStyleCustom}">
@@ -203,8 +204,8 @@
             <!--  TabItem 3  -->
             <TabItem
                 BorderBrush="{x:Null}"
-                FontSize="15"
                 FontFamily="{DynamicResource fontFamily}"
+                FontSize="15"
                 FontWeight="Bold"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Tävling"
@@ -245,7 +246,13 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top" />
                             </Viewbox>
-                            <Grid Grid.Column="4">
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+
+                            </Grid>
+                            <Grid Grid.Column="3">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="20*" />
                                     <RowDefinition Height="15*" />
@@ -267,13 +274,13 @@
                                 <ColumnDefinition Width="272*" />
                             </Grid.ColumnDefinitions>
                             <!--  DataGrid  -->
-                            <local:DataGirdCustom Style="{DynamicResource DataGirdCustomStyle}"
+                            <local:DataGirdCustom
                                 x:Name="controlDg"
                                 Grid.Row="1"
                                 Margin="10,0,10,10"
                                 d:ItemsSource="{d:SampleData ItemCount=10}"
-                                AutoGenerateColumns="True"
                                 AlternatingRowBackground="{DynamicResource background2}"
+                                AutoGenerateColumns="True"
                                 Background="{DynamicResource background}"
                                 BeginningEdit="WeighInDg_BeginningEdit"
                                 BorderThickness="0"
@@ -282,7 +289,8 @@
                                 CellEditEnding="WeighInDg_CellEditEnding"
                                 ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}"
                                 HeadersVisibility="Column"
-                                RowBackground="{DynamicResource middleground}" />
+                                RowBackground="{DynamicResource middleground}"
+                                Style="{DynamicResource DataGirdCustomStyle}" />
                             <!--  Right side UserConstrols  -->
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
@@ -296,9 +304,7 @@
                                     Grid.Row="1"
                                     Margin="0,10,0,10" />
                                 <Viewbox Grid.Row="2">
-                                    <local:LiftingOrderControl 
-                                        Margin="0,1,0,10"
-                                        Width="359" />
+                                    <local:LiftingOrderControl Width="359" Margin="0,1,0,10" />
                                 </Viewbox>
                             </Grid>
                         </Grid>
@@ -309,8 +315,8 @@
             <!--  TabItem 4  -->
             <TabItem
                 BorderBrush="{x:Null}"
-                FontSize="15"
                 FontFamily="{DynamicResource fontFamily}"
+                FontSize="15"
                 FontWeight="Bold"
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Resultat"

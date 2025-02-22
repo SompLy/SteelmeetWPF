@@ -1,21 +1,21 @@
-﻿<Application x:Class="SteelmeetWPF.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SteelmeetWPF"
-             xmlns:system="clr-namespace:System;assembly=System.Runtime"
-             StartupUri="ControlWindow.xaml">
+﻿<Application
+    x:Class="SteelmeetWPF.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="ControlWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="TabControlStyleCustom.xaml"/>
-                <ResourceDictionary Source="TabItemStyleCustom.xaml"/>
-                <ResourceDictionary Source="ButtonStandardCustom.xaml"/>
-                <ResourceDictionary Source="WeighInDataGridColumnHeaderStyle.xaml"/>
-                <ResourceDictionary Source="CheckBoxCustomStyle.xaml"/>
-                <ResourceDictionary Source="DataGridCustom.xaml"/>
+                <ResourceDictionary Source="TabControlStyleCustom.xaml" />
+                <ResourceDictionary Source="TabItemStyleCustom.xaml" />
+                <ResourceDictionary Source="ButtonStandardCustom.xaml" />
+                <ResourceDictionary Source="WeighInDataGridColumnHeaderStyle.xaml" />
+                <ResourceDictionary Source="CheckBoxCustomStyle.xaml" />
+                <ResourceDictionary Source="DataGridCustom.xaml" />
+                <ResourceDictionary Source="ComboBoxCustomStyle.xaml" />
 
-                <!--  Default Theme -->
-                <ResourceDictionary Source="Themes/BorlangeTheme.xaml"/>
+                <!--  Default Theme  -->
+                <ResourceDictionary Source="Themes/BorlangeTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
