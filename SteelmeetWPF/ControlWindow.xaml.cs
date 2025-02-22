@@ -3,11 +3,8 @@ using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -38,8 +35,6 @@ namespace SteelmeetWPF
         private readonly double _originalWindowWidth = 1920;
         private readonly double _originalWindowHeight = 1080;
 
-        bool a = true;
-        bool b = true;
         bool isRecord = false;
         bool isWeighInDgInEditMode = false;
         bool isControlDgInEditMode = false;
@@ -472,11 +467,11 @@ namespace SteelmeetWPF
                     Lifters[ o ].isEquipped = true;
                 else
                     Lifters[ o ].isEquipped = false;
-                
+
                 if( Lifters[ o ].groupNumber == 1 )
                 {
                     var collection = new ControlDgFormat( Lifters[ o ] );
-                    controlDgCollection.Add(collection);
+                    controlDgCollection.Add( collection );
                 }
             }
         }
@@ -661,6 +656,12 @@ namespace SteelmeetWPF
 
         // WeighIn Tab
 
+        // Comp Tab
 
+        //if(Lifters[ o ].groupNumber == 1 )
+        //{
+        //  var collection = new ControlDgFormat( Lifters[ o ] );
+        //  controlDgCollection.Add(collection);
+        //}
     }
 }

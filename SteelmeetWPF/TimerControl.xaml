@@ -1,9 +1,8 @@
 ﻿<UserControl
     x:Class="SteelmeetWPF.TimerControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SteelmeetWPF"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="130"
     d:DesignWidth="373"
@@ -85,7 +84,7 @@
                         Name="MinutesBtn"
                         Grid.Row="0"
                         Grid.Column="1"
-                        Margin="2,0,2,0"
+                        Margin="0,0,4,0"
                         Background="Transparent"
                         BorderBrush="Black"
                         Click="MinutesBtn_Click"
@@ -93,13 +92,21 @@
                         FontSize="16"
                         Style="{DynamicResource ButtonStyleStandard}" />
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <ComboBox Name="MinutesMinCb" Width="40" />
+                        <ComboBox
+                            Name="MinutesMinCb"
+                            Width="40"
+                            Style="{DynamicResource ComboBoxCustomStyle}" />
                         <TextBlock
                             Margin="2,0"
                             VerticalAlignment="Center"
+                            FontFamily="Montserrat"
                             FontSize="16"
+                            Foreground="Black"
                             Text=":" />
-                        <ComboBox Name="MinutesSecCb" Width="40" />
+                        <ComboBox
+                            Name="MinutesSecCb"
+                            Width="40"
+                            Style="{DynamicResource ComboBoxCustomStyle}" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="2" Grid.Column="1">
@@ -119,13 +126,21 @@
                         FontSize="15"
                         Style="{DynamicResource ButtonStyleStandard}" />
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <ComboBox Name="TimestampMinCb" Width="40" />
+                        <ComboBox
+                            Name="TimestampMinCb"
+                            Width="40"
+                            Style="{DynamicResource ComboBoxCustomStyle}" />
                         <TextBlock
                             Margin="2,0"
                             VerticalAlignment="Center"
+                            FontFamily="Montserrat"
                             FontSize="16"
+                            Foreground="Black"
                             Text=":" />
-                        <ComboBox Name="TimestampSecCb" Width="40" />
+                        <ComboBox
+                            Name="TimestampSecCb"
+                            Width="40"
+                            Style="{DynamicResource ComboBoxCustomStyle}" />
                     </StackPanel>
                 </Grid>
             </Grid>
