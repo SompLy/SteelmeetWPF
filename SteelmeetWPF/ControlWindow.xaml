@@ -250,7 +250,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
-
+                                <local:OtherOptionsControl Margin="10,0,10,0"/>
                             </Grid>
                             <Grid Grid.Column="3">
                                 <Grid.RowDefinitions>

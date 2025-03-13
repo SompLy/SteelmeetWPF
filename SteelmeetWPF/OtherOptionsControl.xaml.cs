@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SteelmeetWPF
@@ -8,14 +10,46 @@ namespace SteelmeetWPF
     /// </summary>
     public partial class OtherOptionsControl : UserControl
     {
+        private ControlWindow controlWindow = null;
+
         public OtherOptionsControl()
         {
             InitializeComponent();
+
+            Loaded += OtherOptionsControlLoaded;
         }
 
-        private void OpenSpectatorBtn_Click( object sender, RoutedEventArgs e )
+        private void OtherOptionsControlLoaded(object sender, RoutedEventArgs e)
         {
+            controlWindow = Window.GetWindow(this) as ControlWindow;
+            ActiveGroupCob.Items.Clear();
 
+            if (controlWindow == null)
+                return;
+
+            for (int i = 0; i < controlWindow.groupIndexCount; i++)
+                ActiveGroupCob.Items.Add(i + 1); // To not start at index 0
+
+            ActiveGroupCob.SelectedIndex = 0;
+        }
+
+        private void OpenSpectatorWindowBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void ActiveGroupCob_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            controlWindow.controlDgCollection.Clear();
+
+            for( int i = 0 ; i < controlWindow.Lifters.Count ; i++ )
+            {
+                if( controlWindow.Lifters[ i ].groupNumber - 1 == ActiveGroupCob.SelectedIndex) // To not start at index 0
+                {
+                    var collection = new ControlDgFormat(controlWindow.Lifters[i]);
+                    controlWindow.controlDgCollection.Add( collection );
+                }
+            }
         }
     }
 }

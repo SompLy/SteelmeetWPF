@@ -478,15 +478,15 @@ namespace SteelmeetWPF
 
         void WeighInInfoUpdate()
         {
-            int gIndex = 0;
+            groupIndexCount = 0;
             for( int i = 0; i < weighInDgCollection.Count; i++ )
             {
                 int parsedGroupNumber = int.Parse( weighInDgCollection[ i ].groupNumber );
-                if( parsedGroupNumber > gIndex )
-                    gIndex = parsedGroupNumber;
+                if( parsedGroupNumber > groupIndexCount )
+                    groupIndexCount = parsedGroupNumber;
             }
-            //dataGridViewWeighIn.Rows[ 0 ].Selected = false;
-            weighInDataTb.Text = "Antal Lyftare : " + ( weighInDgCollection.Count - 1 ).ToString() + "\nAntal Grupper : " + gIndex; // Uppdaterar data för invägning
+
+            weighInDataTb.Text = "Antal Lyftare : " + ( weighInDgCollection.Count - 1 ).ToString() + "\nAntal Grupper : " + groupIndexCount; // Uppdaterar data för invägning
         }
 
         void SetCategoryEnum( string Category )
@@ -658,10 +658,6 @@ namespace SteelmeetWPF
 
         // Comp Tab
 
-        //if(Lifters[ o ].groupNumber == 1 )
-        //{
-        //  var collection = new ControlDgFormat( Lifters[ o ] );
-        //  controlDgCollection.Add(collection);
-        //}
+
     }
 }

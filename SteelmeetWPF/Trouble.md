@@ -33,7 +33,7 @@
 
 
 ## Database Ideas
-* Import / Export Weight-In´s 
+* Import / Export Weight-In´s
 * Import / Export Results
 * Import / Export 
 * See class records while competing ( Toggelable )
@@ -41,9 +41,9 @@
 
 
 ## Done
+* Group switching com window
 * Use custom names for datagrid headers instead of varibe names
 * Highlightcolor on buttons checkboxes
 * Highlightcolor on checkboxes
 * XAML Weigh-In tab
 * Code Weigh-In tab
-
