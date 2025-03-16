@@ -7,229 +7,249 @@
     xmlns:local="clr-namespace:SteelmeetWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="385"
-    Height="800"
+    Height="850"
     mc:Ignorable="d">
     <UserControl.Resources>
         <System:Double x:Key="FontSize">34</System:Double>
     </UserControl.Resources>
     <Grid>
         <Border
+            Background="{DynamicResource background}"
+            BorderBrush="{DynamicResource background}"
+            BorderThickness="4"
+            CornerRadius="8,8,8,8">
+        </Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="15*" />
+            </Grid.RowDefinitions>
+            <Grid Margin="0,0,0,8">
+                <Border
             Background="{DynamicResource middleground}"
             BorderBrush="{DynamicResource middleground}"
             BorderThickness="4"
             CornerRadius="8,8,8,8">
-            <Border.Effect>
-                <DropShadowEffect
-                    BlurRadius="6"
-                    Opacity="1"
-                    ShadowDepth="8"
-                    Color="Gray" />
-            </Border.Effect>
-            <Grid Background="{DynamicResource middleground}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                </Border>
                 <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,-4,0,0"
+                FontFamily="{DynamicResource fontFamily}"
+                FontSize="{StaticResource FontSize}"
+                FontWeight="Bold"
+                Foreground="{DynamicResource fontColorDark}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
                     Name="L0Tb"
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Sara Sandberg" />
-                <TextBlock
+                    <TextBlock
                     Name="L1Tb"
                     Grid.Row="1"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L2Tb"
                     Grid.Row="2"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle PuhssonÖ" />
-                <TextBlock
+                    <TextBlock
                     Name="L3Tb"
                     Grid.Row="3"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L4Tb"
                     Grid.Row="4"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L5Tb"
                     Grid.Row="5"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L6Tb"
                     Grid.Row="6"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L7Tb"
                     Grid.Row="7"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L8Tb"
                     Grid.Row="8"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L9Tb"
                     Grid.Row="9"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L10Tb"
                     Grid.Row="10"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L11Tb"
                     Grid.Row="11"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L12Tb"
                     Grid.Row="12"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L13Tb"
                     Grid.Row="13"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L14Tb"
                     Grid.Row="14"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L15Tb"
                     Grid.Row="15"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L16Tb"
                     Grid.Row="16"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L17Tb"
                     Grid.Row="17"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L18Tb"
                     Grid.Row="18"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
-                <TextBlock
+                    <TextBlock
                     Name="L19Tb"
                     Grid.Row="19"
                     Margin="0,-5,0,0"
-                    FontFamily="Cascadia Mono SemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
                     FontSize="{StaticResource FontSize}"
-                    FontWeight="DemiBold"
-                    Foreground="{DynamicResource fontColorDark}"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource fontColorLight}"
                     Text="Nalle Puhsson" />
+                </Grid>
             </Grid>
-        </Border>
+        </Grid>
     </Grid>
 </UserControl>
