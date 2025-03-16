@@ -19,9 +19,9 @@ namespace SteelmeetWPF
     /// </summary>
     public partial class ControlWindow : Window
     {
-        public Dictionary<int, Lifter> Lifters = new();
+        public List<Lifter> Lifters = new();
 
-        List<SpectatorWindow> spectatorWindowList = new List<SpectatorWindow>();
+        public List<SpectatorWindow> spectatorWindowList = new List<SpectatorWindow>();
 
         public ObservableCollection<WeighInDgFormat> weighInDgCollection;
         public ObservableCollection<ControlDgFormat> controlDgCollection;

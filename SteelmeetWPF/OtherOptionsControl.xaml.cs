@@ -1,6 +1,4 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace SteelmeetWPF
@@ -27,15 +25,21 @@ namespace SteelmeetWPF
             if (controlWindow == null)
                 return;
 
-            for (int i = 0; i < controlWindow.groupIndexCount; i++)
+            for (int i = 0; i < controlWindow.groupDataList.Count; i++)
                 ActiveGroupCob.Items.Add(i + 1); // To not start at index 0
-
+            
             ActiveGroupCob.SelectedIndex = 0;
         }
 
         private void OpenSpectatorWindowBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            controlWindow = Window.GetWindow( this ) as ControlWindow;
+            if (controlWindow != null)
+            {
+                var specList = controlWindow.spectatorWindowList;
+                specList.Add( new SpectatorWindow( controlWindow ) );
+                specList[ specList.Count - 1 ].Show();
+            }
         }
 
         private void ActiveGroupCob_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
