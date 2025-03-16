@@ -3,24 +3,32 @@
 ## In Progress...
 * XAML Competition tab
 * Code Competition tab
+* XAML Spectator tab
+* Code Spectator tab
+* Dynamically animated Y-pos of next groups attempts with animation
 
 
 ## Highest
-* XAML Spectator tab
-* Code Spectator tab
+* XAML Settings tab
+* Code Settings tab
 * Visual Weights in info panels
+* Auto font size for spectator datagrid
+* Make tabcontrol a new usecontrol instead of a just a style to hopefully fix visual bug
+* Drag move on spectator window
+* lifterinfo usercontrols hould be animated when a lifter is judged.
 
 
 ## High
-* In the space that sectator setting was previously put a lifter settings so you can change lifters weights and shit in another group
 * Make themes selectable
-* Make TimerControl look better with selecting time
+* Auto-save current settings to reg or file.
+* Some usercontrols have a visable line between the control and the border
 * Exporting GL points decimal amount should be lowered to 2
 
 
 ## Medium
+* Make TimerControl look better with selecting time
+* Record attempt Spectator Window w/ epic effect
 * Make all colors use the current theme
-* Some usercontrols need to have transparent grids since it looks like a line with the border
 
 
 ## Low
@@ -37,10 +45,13 @@
 * Import / Export Results
 * Import / Export 
 * See class records while competing ( Toggelable )
-* Auto record
+* Auto record / personal best
 
 
 ## Done
+* In the space that sectator setting was previously put a lifter settings so you can change lifters weights and shit in another group
+* Make LifterInfo usercontrol fit better in spectatorpanel
+* F11 for fullscreen
 * Group switching com window
 * Use custom names for datagrid headers instead of varibe names
 * Highlightcolor on buttons checkboxes
