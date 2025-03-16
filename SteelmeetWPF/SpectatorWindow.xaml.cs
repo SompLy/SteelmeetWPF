@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -19,9 +20,95 @@ namespace SteelmeetWPF
     /// </summary>
     public partial class SpectatorWindow : Window
     {
-        public SpectatorWindow()
+        private ControlWindow parentWindow;
+        private int windowIndex = 0;
+
+        private readonly double _originalWindowWidth = 1920;
+        private readonly double _originalWindowHeight = 1080;
+        Fullscreen fullscreen = new Fullscreen();
+        bool isFullscreen = false;
+
+        private const float NextGroupMarginOffsetPerLifter = -39.65f;
+
+        public SpectatorWindow( ControlWindow _controlWindow )
         {
             InitializeComponent();
+            
+            parentWindow = _controlWindow;
+            windowIndex = parentWindow.spectatorWindowList.Count();
+            Loaded += SpectatorWindowLoaded;
+        }
+
+        private void SpectatorWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            SetNextGroupMargin( NextGroupMarginOffsetPerLifter * 10 );
+        }
+        
+        void SetNextGroupMargin(float newMargin)
+        {
+            if( NextGroupOrderSpec != null )
+            {
+                if( NextGroupOrderSpec.RenderTransform == null || !( NextGroupOrderSpec.RenderTransform is TranslateTransform ) )
+                {
+                    NextGroupOrderSpec.RenderTransform = new TranslateTransform();
+                }
+                
+                TranslateTransform translateTransform = NextGroupOrderSpec.RenderTransform as TranslateTransform;
+
+                if( translateTransform != null )
+                {
+                    double from = NextGroupOrderSpec.Margin.Top;
+                    double to = newMargin;
+
+                    DoubleAnimation animation = new DoubleAnimation
+                    {
+                        From = from,
+                        To = to,
+                        Duration = new Duration(TimeSpan.FromMilliseconds(1000))
+                    };
+                    
+                    translateTransform.BeginAnimation( TranslateTransform.YProperty, animation );
+                }
+            }
+        }
+
+        private void SpectatorWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double scaleX = this.ActualWidth / _originalWindowWidth;
+            double scaleY = this.ActualHeight / _originalWindowHeight;
+
+            ScaleTransform scaleTransform = new ScaleTransform(scaleX, scaleY);
+            MainGrid.LayoutTransform = scaleTransform;
+
+            MainGrid.RenderTransformOrigin = new System.Windows.Point( 0.5, 0.5 );
+        }
+
+        private void SpectatorWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if( ( e.Key == Key.F || e.Key == Key.F11 ) )
+            {
+                fullscreen.ToggleFullscreen( isFullscreen, this );
+                isFullscreen = !isFullscreen;
+            }
+            if( e.Key == Key.Escape )
+            {
+                var result = MessageBox.Show("Är du säker att du vill avrätta detta fönster?", "STEELMEET Avrättning", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if( result == MessageBoxResult.Yes )
+                {
+                    parentWindow.spectatorWindowList.RemoveAt(windowIndex);
+                    this.Close();
+                }
+            }
+        }
+
+        private void SpecDg_OnBeginningEditInDg_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SpecDg_OnCellEditEndingDg_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
