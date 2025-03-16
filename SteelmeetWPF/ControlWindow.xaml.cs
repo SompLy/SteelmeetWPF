@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -49,13 +50,15 @@ namespace SteelmeetWPF
         int minutesLapp;
         int secondsLyft;
         int minutesLyft;
-        public int groupIndexCurrent;
-        public int groupIndexCount = 1;            // Antal grupper
-        public int group1Count;                    // Antal lyftare i grupp
-        public int group2Count;                    // Antal lyftare i grupp
-        public int group3Count;                    // Antal lyftare i grupp
-        public int groupRowFixer;                  // Ändars beronde på grupp så att Lifters[SelectedRowIndex + groupRowFixer] blir rätt
-        int firstLiftColumn = 10;                  // 130, 217 måste ändras också ????
+
+        public class GroupData
+        {
+            public int count;
+            public List<Lifter> lifters;
+        }
+
+        public List<GroupData> groupDataList = new List<GroupData>();
+        public int currentGroupIndex;
 
         public List<int> usedPlatesList = new List<int>();  // Hur många plates calculatorn har använt.
         List<int> totalPlatesList = new List<int>();        // Antalet paltes som användaren anvivit
@@ -144,7 +147,7 @@ namespace SteelmeetWPF
             controlDgCollection = new ObservableCollection<ControlDgFormat>();
             controlDg.ItemsSource = controlDgCollection;
 
-            //ThemeManager.SetTheme("Borlänge");
+            ThemeManager.SetTheme("Borlänge");
         }
 
         public void ExcelImportHandler()
@@ -444,7 +447,7 @@ namespace SteelmeetWPF
                 weighInDgCollection[ o ].weightClass = currentWeightclass;
 
                 // Lägger till lyftare adderar lyftare ny lyftare
-                Lifters.Add( o, new Lifter( weighInDgCollection[ o ] ) );
+                Lifters.Add( new Lifter( weighInDgCollection[ o ] ) );
                 Lifters[ Lifters.Count - 1 ].index = Lifters.Count - 1;
                 SetCategoryEnum( currentCategory );
 
@@ -456,7 +459,7 @@ namespace SteelmeetWPF
                 {
                     Lifters[ o ].isBenchOnly = true;
                     Lifters[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
-                    Lifters[ o ].currentLift = firstLiftColumn + 3;
+                    Lifters[ o ].currentLift += 3;
                 }
 
                 // Is equipped lifter
@@ -468,6 +471,9 @@ namespace SteelmeetWPF
                 else
                     Lifters[ o ].isEquipped = false;
 
+                groupDataList[ Lifters[ o ].groupNumber ].count++;
+                groupDataList[ Lifters[ o ].groupNumber ].lifters.Add( Lifters[ o ] );
+
                 if( Lifters[ o ].groupNumber == 1 )
                 {
                     var collection = new ControlDgFormat( Lifters[ o ] );
@@ -478,15 +484,22 @@ namespace SteelmeetWPF
 
         void WeighInInfoUpdate()
         {
-            groupIndexCount = 0;
+            int groupCount = 0;
+            groupDataList.Clear();
             for( int i = 0; i < weighInDgCollection.Count; i++ )
             {
                 int parsedGroupNumber = int.Parse( weighInDgCollection[ i ].groupNumber );
-                if( parsedGroupNumber > groupIndexCount )
-                    groupIndexCount = parsedGroupNumber;
+                if( parsedGroupNumber > groupCount )
+                    groupCount = parsedGroupNumber;
             }
 
-            weighInDataTb.Text = "Antal Lyftare : " + ( weighInDgCollection.Count - 1 ).ToString() + "\nAntal Grupper : " + groupIndexCount; // Uppdaterar data för invägning
+            for (int i = 0; i < groupCount; i++)
+            {
+                groupDataList.Add(new GroupData());
+                groupDataList[ i ].lifters = new List<Lifter>();
+            }
+
+            weighInDataTb.Text = "Antal Lyftare : " + ( weighInDgCollection.Count - 1 ).ToString() + "\nAntal Grupper : " + groupCount; // Uppdaterar data för invägning
         }
 
         void SetCategoryEnum( string Category )
@@ -598,7 +611,7 @@ namespace SteelmeetWPF
             //{
             //    undoLift( false );
             //}
-            if( e.Key == Key.F && !isWeighInDgInEditMode && !isControlDgInEditMode )
+            if( (e.Key == Key.F || e.Key == Key.F11 ) && !isWeighInDgInEditMode && !isControlDgInEditMode )
             {
                 fullscreen.ToggleFullscreen( isFullscreen, this );
                 isFullscreen = !isFullscreen;
@@ -657,7 +670,6 @@ namespace SteelmeetWPF
         // WeighIn Tab
 
         // Comp Tab
-
-
+        
     }
 }
