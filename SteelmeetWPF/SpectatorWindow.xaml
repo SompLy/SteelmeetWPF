@@ -1,13 +1,125 @@
 ﻿<Window
     x:Class="SteelmeetWPF.SpectatorWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SteelmeetWPF"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:SteelmeetWPF"
     Title="SpectatorWindow"
-    Width="800"
-    Height="450"
+    Width="1920"
+    Height="1080"
+    KeyDown="SpectatorWindow_OnKeyDown"
+    SizeChanged="SpectatorWindow_OnSizeChanged"
+    WindowStyle="None"
     mc:Ignorable="d">
-    <Grid />
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="4"
+            GlassFrameThickness="0" />
+    </WindowChrome.WindowChrome>
+    <Grid Name="MainGrid" Background="{DynamicResource background}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1078*" />
+            <ColumnDefinition Width="272*" />
+        </Grid.ColumnDefinitions>
+        <Grid
+     Grid.Row="0"
+     Grid.Column="0"
+     Background="{DynamicResource background}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="13*" />
+                <RowDefinition Height="45*" />
+            </Grid.RowDefinitions>
+            <!--  Left Column  -->
+            <Grid
+         Grid.Row="0"
+         Grid.Column="0"
+         Margin="0,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Column="0">
+                    <local:LifterInfoControl
+                 x:Name="lifterInfo1"
+                 Grid.Column="0"
+                 Margin="0,0,5,0"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Height="234.3"
+                 Width="732.2"/>
+                </Viewbox>
+                <Viewbox Grid.Column="1">
+                    <local:LifterInfoControl
+                 x:Name="lifterInfo2"
+                 Grid.Column="1"
+                 Margin="5,0,0,0"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top" 
+                 Height="234.3"
+                 Width="732.2"/>
+                </Viewbox>
+
+            </Grid>
+            <!--  Middle Row  -->
+            <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,10,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45*" />
+                    <RowDefinition Height="13*" />
+                </Grid.RowDefinitions>
+                <!--  DataGrid  -->
+                <local:DataGirdCustom
+                    x:Name="specDg"
+                    Grid.Row="0"
+                    d:ItemsSource="{d:SampleData ItemCount=14}"
+                    AlternatingRowBackground="{DynamicResource background2}"
+                    AutoGenerateColumns="True"
+                    Background="{DynamicResource background}"
+                    BeginningEdit="SpecDg_OnBeginningEditInDg_BeginningEdit"
+                    BorderThickness="0"
+                    CanUserAddRows="True"
+                    CanUserSortColumns="False"
+                    CellEditEnding="SpecDg_OnCellEditEndingDg_CellEditEnding"
+                    ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}"
+                    HeadersVisibility="Column"
+                    FontWeight="DemiBold"
+                    FontFamily="{DynamicResource fontFamily}"
+                    RowBackground="{DynamicResource middleground}"
+                    Style="{DynamicResource DataGirdCustomStyle}" />
+                <!--  Bottom Row  -->
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,10,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1.1*" />
+                    </Grid.ColumnDefinitions>
+                    <!--  Ads  -->
+                    <!--  Clock  -->
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="0,0,0,0">
+                        <local:ClockSpectator/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18.6*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <local:LiftingOrderSpectator Grid.Row="0" VerticalAlignment="Top" x:Name="LiftingOrderSpec" Title="Lyftar Ordning"/>
+            <local:NextGroupOrderSpectator Grid.Row="1" x:Name="NextGroupOrderSpec" Margin="0,0,0,-795" Title="Grupp 2 Bänkpress"/>
+        </Grid>
+    </Grid>
 </Window>
