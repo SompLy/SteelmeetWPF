@@ -36,6 +36,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     FontWeight="Bold"
+                    FontFamily="{DynamicResource fontFamily}"
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Bo Ö" />
             </Viewbox>
@@ -46,27 +47,25 @@
                 </Grid.ColumnDefinitions>
                 <Viewbox
                     Grid.Column="1"
-                    Margin="0,-2,10,-20"
-                    HorizontalAlignment="Center"
+                    Margin="0,-2,60,-20"
+                    HorizontalAlignment="Right"
                     Stretch="Uniform">
                     <TextBlock
                         Name="TiltedLiftoffTb"
                         Grid.Row="0"
                         Grid.Column="1"
                         FontWeight="bold"
+                        FontFamily="{DynamicResource fontFamily}"
                         Foreground="{DynamicResource fontColorDark}"
                         Text="Avlyft" />
                 </Viewbox>
             </Grid>
             <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="283*" />
-                    <ColumnDefinition Width="333*" />
-                </Grid.ColumnDefinitions>
+
                 <Viewbox
                     Grid.Column="1"
-                    Margin="0,0,10,-6"
-                    HorizontalAlignment="Center"
+                    Margin="0,0,8,-6"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Stretch="Uniform">
                     <TextBlock
@@ -75,8 +74,9 @@
                         Grid.Column="1"
                         FontSize="70"
                         FontWeight="Bold"
+                        FontFamily="{DynamicResource fontFamily}"
                         Foreground="{DynamicResource fontColorDark}"
-                        Text="200 KG" />
+                        Text="180.0 KG" />
                 </Viewbox>
             </Grid>
         </Grid>
