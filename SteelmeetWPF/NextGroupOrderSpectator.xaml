@@ -41,7 +41,7 @@
                 Foreground="{DynamicResource fontColorDark}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                Text="{Binding TitleGroup, RelativeSource={RelativeSource AncestorType=UserControl}}" />
             </Grid>
             <Grid Grid.Row="1">
                 <Grid>

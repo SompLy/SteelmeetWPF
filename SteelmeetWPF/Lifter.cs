@@ -117,7 +117,20 @@ namespace SteelmeetWPF
         public int pointsWilks { get; set; }
         public double pointsGL { get; set; }
 
-        public int currentLift { get; set; }
+        public enum eLiftType 
+        {
+            None,
+            S1,
+            S2,
+            S3,
+            B1,
+            B2,
+            B3,
+            D1,
+            D2,
+            D3,
+        }
+        public eLiftType currentLift { get; set; }
         public float bestS { get; set; }
         public float bestB { get; set; }
         public float bestD { get; set; }

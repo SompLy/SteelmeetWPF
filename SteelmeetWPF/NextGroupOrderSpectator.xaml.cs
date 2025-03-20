@@ -26,12 +26,12 @@ namespace SteelmeetWPF
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(
-                "Title",
+                "TitleGroup",
                 typeof(string),
                 typeof(LiftingOrderSpectator),
                 new PropertyMetadata("Lyftar Ordning"));
 
-        public string Title
+        public string TitleGroup
         {
             get { return ( string )GetValue( TitleProperty ); }
             set { SetValue( TitleProperty, value ); }
@@ -42,10 +42,10 @@ namespace SteelmeetWPF
             InitializeComponent();
         }
 
-        public void GroupLiftOrderUpdate() // Updates the next group's lifts
+        public void GroupLiftOrderUpdate(ControlWindow window)
         {
-            ControlWindow controlWindow = Window.GetWindow( this ) as ControlWindow;
-            // Sets labels if they are not initialized
+            ControlWindow controlWindow = window;
+
             if( groupLiftingOrderListLabels.Count < 1 )
                 groupLiftingOrderListLabels.AddRange( new TextBlock[] {
                     L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb,
@@ -54,178 +54,155 @@ namespace SteelmeetWPF
             for( int i = 0 ; i < groupLiftingOrderListLabels.Count ; i++ )
                 groupLiftingOrderListLabels[ i ].Text = "";
 
-            // List to determine the lowest current lift in the active group
-            List<int> lowestCurrentLiftInGroup = new List<int>();
-            lowestCurrentLiftInGroup.Clear();
+            List<Lifter.eLiftType> LiftTypesInNextGroup = new List<Lifter.eLiftType>();
+            LiftTypesInNextGroup.Clear();
 
-            // Initialize the start and end indices based on the current group
-            int startIndex = 0;
-            int endIndex = 0;
+            int totalGroupCount = controlWindow.groupDataList.Count;
+            int groupStartIndex = 0; // Index of lifter to start at
 
-            // Update the group count and determine the current group indices
-            GroupCountUpdater();
-
-            // Calculate startIndex and endIndex based on currentGroupIndex
-            int totalGroupCount = controlWindow.groupDataList.Count; // Get the total number of groups
-            int groupStartIndex = 0;
+            // Get the next group
+            int nextGroupIndex = 0;
+            nextGroupIndex = ( controlWindow.currentGroupIndex + 1 ) % totalGroupCount;
 
             for( int i = 0 ; i < totalGroupCount ; i++ )
             {
-                if( i == controlWindow.currentGroupIndex )
+                if( i == nextGroupIndex )
                 {
                     groupStartIndex = i;
                     break;
                 }
             }
 
-            startIndex = groupStartIndex * 10;  // Assuming 10 lifters per group (adjust based on your scenario)
-            endIndex = startIndex + 10;
-
-            // For each lifter in the active group, determine the lowest current lift
-            for( int i = startIndex ; i < endIndex ; i++ )
+            // For each lifter in the next group, determine the lowest current lift
+            for( int i = groupStartIndex ; i > -1 ; i++ )
             {
-                var lifter = controlWindow.Lifters[i];
-                if( ( lifter.isBenchOnly && lifter.currentLift< 16 ) || !lifter.isBenchOnly )
-                    lowestCurrentLiftInGroup.Add( lifter.currentLift);
-            }
-
-            int relevantCurrentLift = 0;
-            if( lowestCurrentLiftInGroup.Count > 0 )
-                relevantCurrentLift = lowestCurrentLiftInGroup.Min() - firstLiftColumn;
-
-            // Set the initial group lifting order state
-            eGroupLiftingOrderState groupLiftingOrderState = eGroupLiftingOrderState.group2Squat;
-
-            // Determine which lifting state should be displayed based on relevantCurrentLift
-            if( currentGroupIndex == 0 ) // Group 1
-            {
-                if( relevantCurrentLift < 3 ) groupLiftingOrderState = eGroupLiftingOrderState.group1Squat;
-                else if( relevantCurrentLift < 6 ) groupLiftingOrderState = eGroupLiftingOrderState.group1Bench;
-                else if( relevantCurrentLift < 9 ) groupLiftingOrderState = eGroupLiftingOrderState.group1Deadlift;
-            }
-            else if( currentGroupIndex == 1 ) // Group 2
-            {
-                if( relevantCurrentLift < 3 ) groupLiftingOrderState = eGroupLiftingOrderState.group2Squat;
-                else if( relevantCurrentLift < 6 ) groupLiftingOrderState = eGroupLiftingOrderState.group2Bench;
-                else if( relevantCurrentLift < 9 ) groupLiftingOrderState = eGroupLiftingOrderState.group2Deadlift;
-            }
-            else // Additional groups can be handled dynamically
-            {
-                if( relevantCurrentLift < 3 ) groupLiftingOrderState = eGroupLiftingOrderState.group3Squat;
-                else if( relevantCurrentLift < 6 ) groupLiftingOrderState = eGroupLiftingOrderState.group3Bench;
-                else if( relevantCurrentLift < 9 ) groupLiftingOrderState = eGroupLiftingOrderState.group3Deadlift;
-            }
-
-            // Variables for looping and displaying text
-            int loopLeft = 0;
-            int loopMiddle = 0;
-            int textCurrentLift = 0;
-            string lblText = "";
-            bool ViewNothing = false;
-
-            // Set the loop parameters and label text based on the lifting order state
-            switch( groupLiftingOrderState )
-            {
-                case eGroupLiftingOrderState.group1Squat:
-                    loopLeft = 0;
-                    loopMiddle = group1Count;
-                    textCurrentLift = 0;
-                    lblText = "Ingångar : Grupp 1 Böj";
+                if( controlWindow.Lifters[ i ] == null )
                     break;
-                case eGroupLiftingOrderState.group1Bench:
-                    loopLeft = 0;
-                    loopMiddle = group1Count;
-                    textCurrentLift = 3;
-                    lblText = "Ingångar : Grupp 1 Bänk";
+
+                Lifter lifter = controlWindow.Lifters[i];
+                if( lifter.groupNumber != nextGroupIndex )
                     break;
-                case eGroupLiftingOrderState.group1Deadlift:
-                    loopLeft = 0;
-                    loopMiddle = group1Count;
-                    textCurrentLift = 6;
-                    lblText = "Ingångar : Grupp 1 Mark";
-                    break;
-                case eGroupLiftingOrderState.group2Squat:
-                    loopLeft = group1Count;
-                    loopMiddle = group1Count + group2Count;
-                    textCurrentLift = 0;
-                    lblText = "Ingångar : Grupp 2 Böj";
-                    break;
-                case eGroupLiftingOrderState.group2Bench:
-                    loopLeft = group1Count;
-                    loopMiddle = group1Count + group2Count;
-                    textCurrentLift = 3;
-                    lblText = "Ingångar : Grupp 2 Bänk";
-                    break;
-                case eGroupLiftingOrderState.group2Deadlift:
-                    loopLeft = group1Count;
-                    loopMiddle = group1Count + group2Count;
-                    textCurrentLift = 6;
-                    lblText = "Ingångar : Grupp 2 Mark";
-                    break;
-                default:
-                    break;
+                Header ändras inte:(
+                LiftTypesInNextGroup.Add( lifter.currentLift );
             }
 
-            groupLiftingOrderList.Clear();
-            for( int i = loopLeft ; i < loopMiddle ; i++ )
-            {
-                groupLiftingOrderList.Add( LifterID[ i ] );
-            }
+            Lifter.eLiftType nextGroupLiftType = 0;
+            if( LiftTypesInNextGroup.Count > 0 )
+                nextGroupLiftType = LiftTypesInNextGroup.Min();
 
-            // Sort the list based on the custom comparer
-            var comparer = new LifterComparer();
-            groupLiftingOrderList = groupLiftingOrderList.OrderBy( item => item, comparer ).ToList();
+            foreach( SpectatorWindow specWindow in controlWindow.spectatorWindowList )
+                specWindow.nextGroupOrderSpec.TitleGroup = "Ingångar : Grupp " + nextGroupIndex + " " + nextGroupLiftType.ToString();
 
-            // Remove all lifters who have a higher current lift than the lowest one
-            var tempLowestCurrentLift = groupLiftingOrderList.Select(x => x.CurrentLift);
-            if( tempLowestCurrentLift.Count() > 0 )
-            {
-                int low = tempLowestCurrentLift.Min();
-                for( int i = 0 ; i < groupLiftingOrderList.Count ; )
-                {
-                    if( groupLiftingOrderList[ i ].CurrentLift > low )
-                        groupLiftingOrderList.RemoveAt( i );
-                    else
-                        i++;
-                }
-            }
+            //// Variables for looping and displaying text
+            //int loopLeft = 0;
+            //int loopMiddle = 0;
+            //int textCurrentLift = 0;
+            //string lblText = "";
+            //bool ViewNothing = false;
 
-            // Display the lifting order text
-            if( !ViewNothing )
-                lbl_OpeningLift.Text = lblText;
-            else
-                lbl_OpeningLift.Text = "";
+            //// Set the loop parameters and label text based on the lifting order state
+            //switch( groupLiftingOrderState )
+            //{
+            //    case eGroupLiftingOrderState.group1Squat:
+            //        loopLeft = 0;
+            //        loopMiddle = group1Count;
+            //        textCurrentLift = 0;
+            //        lblText = "Ingångar : Grupp 1 Böj";
+            //        break;
+            //    case eGroupLiftingOrderState.group1Bench:
+            //        loopLeft = 0;
+            //        loopMiddle = group1Count;
+            //        textCurrentLift = 3;
+            //        lblText = "Ingångar : Grupp 1 Bänk";
+            //        break;
+            //    case eGroupLiftingOrderState.group1Deadlift:
+            //        loopLeft = 0;
+            //        loopMiddle = group1Count;
+            //        textCurrentLift = 6;
+            //        lblText = "Ingångar : Grupp 1 Mark";
+            //        break;
+            //    case eGroupLiftingOrderState.group2Squat:
+            //        loopLeft = group1Count;
+            //        loopMiddle = group1Count + group2Count;
+            //        textCurrentLift = 0;
+            //        lblText = "Ingångar : Grupp 2 Böj";
+            //        break;
+            //    case eGroupLiftingOrderState.group2Bench:
+            //        loopLeft = group1Count;
+            //        loopMiddle = group1Count + group2Count;
+            //        textCurrentLift = 3;
+            //        lblText = "Ingångar : Grupp 2 Bänk";
+            //        break;
+            //    case eGroupLiftingOrderState.group2Deadlift:
+            //        loopLeft = group1Count;
+            //        loopMiddle = group1Count + group2Count;
+            //        textCurrentLift = 6;
+            //        lblText = "Ingångar : Grupp 2 Mark";
+            //        break;
+            //    default:
+            //        break;
+            //}
 
-            // Display the order for all lifters
-            if( !ViewNothing )
-            {
-                for( int i = 0 ; i < groupLiftingOrderList.Count ; i++ )
-                {
-                    string Spacing = " ";
-                    string SpacingIndex = " ";
-                    float value = groupLiftingOrderList[i].sbdList[textCurrentLift];
-                    string text = groupLiftingOrderList[i].sbdList[textCurrentLift].ToString();
+            //groupLiftingOrderList.Clear();
+            //for( int i = loopLeft ; i < loopMiddle ; i++ )
+            //{
+            //    groupLiftingOrderList.Add( LifterID[ i ] );
+            //}
 
-                    if( value <= 100.0f )
-                        Spacing += "  ";
+            //// Sort the list based on the custom comparer
+            //var comparer = new LifterComparer();
+            //groupLiftingOrderList = groupLiftingOrderList.OrderBy( item => item, comparer ).ToList();
 
-                    if( !text.Contains( ".5" ) )
-                        Spacing += "   ";
+            //// Remove all lifters who have a higher current lift than the lowest one
+            //var tempLowestCurrentLift = groupLiftingOrderList.Select(x => x.CurrentLift);
+            //if( tempLowestCurrentLift.Count() > 0 )
+            //{
+            //    int low = tempLowestCurrentLift.Min();
+            //    for( int i = 0 ; i < groupLiftingOrderList.Count ; )
+            //    {
+            //        if( groupLiftingOrderList[ i ].CurrentLift > low )
+            //            groupLiftingOrderList.RemoveAt( i );
+            //        else
+            //            i++;
+            //    }
+            //}
 
-                    if( i >= 9 )
-                        SpacingIndex = "| ";
-                    else
-                        SpacingIndex = "  | ";
+            //// Display the lifting order text
+            //if( !ViewNothing )
+            //    lbl_OpeningLift.Text = lblText;
+            //else
+            //    lbl_OpeningLift.Text = "";
 
-                    groupLiftingOrderListLabels[ i ].Text = ( i + 1 ) + SpacingIndex + groupLiftingOrderList[ i ].sbdList[ textCurrentLift ] + Spacing + groupLiftingOrderList[ i ].name;
-                }
-            }
-            else
-            {
-                // If nothing is displayed, clear the labels
-                for( int i = 0 ; i < groupLiftingOrderList.Count ; i++ )
-                    groupLiftingOrderListLabels[ i ].Text = "";
-            }
+            //// Display the order for all lifters
+            //if( !ViewNothing )
+            //{
+            //    for( int i = 0 ; i < groupLiftingOrderList.Count ; i++ )
+            //    {
+            //        string Spacing = " ";
+            //        string SpacingIndex = " ";
+            //        float value = groupLiftingOrderList[i].sbdList[textCurrentLift];
+            //        string text = groupLiftingOrderList[i].sbdList[textCurrentLift].ToString();
+
+            //        if( value <= 100.0f )
+            //            Spacing += "  ";
+
+            //        if( !text.Contains( ".5" ) )
+            //            Spacing += "   ";
+
+            //        if( i >= 9 )
+            //            SpacingIndex = "| ";
+            //        else
+            //            SpacingIndex = "  | ";
+
+            //        groupLiftingOrderListLabels[ i ].Text = ( i + 1 ) + SpacingIndex + groupLiftingOrderList[ i ].sbdList[ textCurrentLift ] + Spacing + groupLiftingOrderList[ i ].name;
+            //    }
+            //}
+            //else
+            //{
+            //    // If nothing is displayed, clear the labels
+            //    for( int i = 0 ; i < groupLiftingOrderList.Count ; i++ )
+            //        groupLiftingOrderListLabels[ i ].Text = "";
+            //}
         }
     }
 }

@@ -45,7 +45,7 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <TextBlock
-                    Name="L0Tb"
+                    Name="HeaderTb"
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,5,0,0"
@@ -55,7 +55,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Lyftar Ordning" />
                 <TextBlock
-                    Name="L1Tb"
+                    Name="L0Tb"
                     Grid.Row="1"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -63,7 +63,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Pungsson" />
                 <TextBlock
-                    Name="L2Tb"
+                    Name="L1Tb"
                     Grid.Row="2"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -71,7 +71,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle PuhssonÖ" />
                 <TextBlock
-                    Name="L3Tb"
+                    Name="L2Tb"
                     Grid.Row="3"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -79,7 +79,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L4Tb"
+                    Name="L3Tb"
                     Grid.Row="4"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -87,7 +87,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L5Tb"
+                    Name="L4Tb"
                     Grid.Row="5"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -95,7 +95,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L6Tb"
+                    Name="L5Tb"
                     Grid.Row="6"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -103,7 +103,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L7Tb"
+                    Name="L6Tb"
                     Grid.Row="7"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -111,7 +111,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L8Tb"
+                    Name="L7Tb"
                     Grid.Row="8"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -119,7 +119,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L9Tb"
+                    Name="L8Tb"
                     Grid.Row="9"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -127,7 +127,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L10Tb"
+                    Name="L9Tb"
                     Grid.Row="10"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -135,7 +135,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L11Tb"
+                    Name="L10Tb"
                     Grid.Row="11"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -143,7 +143,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L12Tb"
+                    Name="L11Tb"
                     Grid.Row="12"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"
@@ -151,7 +151,7 @@
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Nalle Puhsson" />
                 <TextBlock
-                    Name="L13Tb"
+                    Name="L12Tb"
                     Grid.Row="13"
                     Margin="0,0,0,0"
                     FontSize="{StaticResource FontSize}"

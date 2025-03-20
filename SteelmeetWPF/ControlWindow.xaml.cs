@@ -74,22 +74,6 @@ namespace SteelmeetWPF
         List<Lifter> groupLiftingOrderList = new List<Lifter>();                        // För att sortera viktera
 
         List<Lifter> extraLifters = new List<Lifter>();
-        enum eGroupLiftingOrderState
-        {
-            group1Squat = 0,
-            group1Bench = 1,
-            group1Deadlift = 2,
-
-            group2Squat = 3,
-            group2Bench = 4,
-            group2Deadlift = 5,
-
-            group3Squat = 6,
-            group3Bench = 7,
-            group3Deadlift = 8,
-
-            nothing = 9
-        }
 
         // Default Plate setup 16x25kg
         public PlateInfo plateInfo = new PlateInfo(0, 16, 2, 2, 2, 2, 2, 2, 2, 2, Colors.ForestGreen, Colors.Red, Colors.Blue, Colors.Yellow, Colors.ForestGreen, Colors.WhiteSmoke, Colors.Black, Colors.Silver, Colors.Gainsboro, Colors.Gainsboro);
@@ -109,8 +93,8 @@ namespace SteelmeetWPF
                     return -1; // x should come before y
                 }
 
-                int indexX = x.currentLift - 10;
-                int indexY = y.currentLift - 10;
+                int indexX = (int)x.currentLift;
+                int indexY = (int)y.currentLift;
 
                 if( indexX >= 0 && indexX < x.sbdList.Count && indexY >= 0 && indexY < y.sbdList.Count )
                 {
@@ -471,8 +455,8 @@ namespace SteelmeetWPF
                 else
                     Lifters[ o ].isEquipped = false;
 
-                groupDataList[ Lifters[ o ].groupNumber ].count++;
-                groupDataList[ Lifters[ o ].groupNumber ].lifters.Add( Lifters[ o ] );
+                groupDataList[ Lifters[ o ].groupNumber - 1 ].count++;
+                groupDataList[ Lifters[ o ].groupNumber - 1 ].lifters.Add( Lifters[ o ] );
 
                 if( Lifters[ o ].groupNumber == 1 )
                 {

@@ -119,7 +119,7 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <local:LiftingOrderSpectator Grid.Row="0" VerticalAlignment="Top" x:Name="LiftingOrderSpec" Title="Lyftar Ordning"/>
-            <local:NextGroupOrderSpectator Grid.Row="1" x:Name="NextGroupOrderSpec" Margin="0,0,0,-795" Title="Grupp 2 Bänkpress"/>
+            <local:NextGroupOrderSpectator x:Name="nextGroupOrderSpec" Grid.Row="1" Margin="0,0,0,-795" TitleGroup="Grupp 2 Bänkpress"/>
         </Grid>
     </Grid>
 </Window>

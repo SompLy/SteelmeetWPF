@@ -46,18 +46,18 @@ namespace SteelmeetWPF
         
         void SetNextGroupMargin(float newMargin)
         {
-            if( NextGroupOrderSpec != null )
+            if( nextGroupOrderSpec != null )
             {
-                if( NextGroupOrderSpec.RenderTransform == null || !( NextGroupOrderSpec.RenderTransform is TranslateTransform ) )
+                if( nextGroupOrderSpec.RenderTransform == null || !( nextGroupOrderSpec.RenderTransform is TranslateTransform ) )
                 {
-                    NextGroupOrderSpec.RenderTransform = new TranslateTransform();
+                    nextGroupOrderSpec.RenderTransform = new TranslateTransform();
                 }
                 
-                TranslateTransform translateTransform = NextGroupOrderSpec.RenderTransform as TranslateTransform;
+                TranslateTransform translateTransform = nextGroupOrderSpec.RenderTransform as TranslateTransform;
 
                 if( translateTransform != null )
                 {
-                    double from = NextGroupOrderSpec.Margin.Top;
+                    double from = nextGroupOrderSpec.Margin.Top;
                     double to = newMargin;
 
                     DoubleAnimation animation = new DoubleAnimation

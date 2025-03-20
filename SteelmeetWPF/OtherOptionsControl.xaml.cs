@@ -54,6 +54,8 @@ namespace SteelmeetWPF
                     controlWindow.controlDgCollection.Add( collection );
                 }
             }
+            foreach( SpectatorWindow window in controlWindow.spectatorWindowList )
+                window.nextGroupOrderSpec.GroupLiftOrderUpdate(controlWindow);
         }
     }
 }

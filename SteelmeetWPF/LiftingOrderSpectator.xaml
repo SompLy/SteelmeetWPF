@@ -26,12 +26,13 @@
             </Grid.RowDefinitions>
             <Grid Margin="0,0,0,8">
                 <Border
-            Background="{DynamicResource middleground}"
-            BorderBrush="{DynamicResource middleground}"
-            BorderThickness="4"
-            CornerRadius="8,8,8,8">
+                    Background="{DynamicResource middleground}"
+                    BorderBrush="{DynamicResource middleground}"
+                    BorderThickness="4"
+                    CornerRadius="8,8,8,8">
                 </Border>
                 <TextBlock
+                x:Name="Header"
                 Grid.Row="0"
                 Grid.Column="0"
                 Margin="0,-4,0,0"
