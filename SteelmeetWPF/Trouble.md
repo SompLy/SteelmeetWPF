@@ -1,12 +1,10 @@
 ﻿<h1>STEELMEET TODO
 
 ## In Progress...
-* XAML Competition tab
-* Code Competition tab
-* XAML Spectator tab
-* Code Spectator tab
+* All basic functionality Code Competition tab
+* All basic functionality Code Spectator tab
 * Dynamically animated Y-pos of next groups attempts with animation
-
+* NextGroupLifterOrder
 
 ## Highest
 * XAML Settings tab
@@ -49,6 +47,8 @@
 
 
 ## Done
+* XAML Competition tab
+* XAML Spectator tab
 * In the space that sectator setting was previously put a lifter settings so you can change lifters weights and shit in another group
 * Make LifterInfo usercontrol fit better in spectatorpanel
 * F11 for fullscreen
