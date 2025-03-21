@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -32,6 +31,7 @@ namespace SteelmeetWPF
         public RainbowColor rainbowColor = new RainbowColor();
         Fullscreen fullscreen = new Fullscreen();
         bool isFullscreen = false;
+        public ThemeManagerWrapper themeManagerWrapper;
 
         private readonly double _originalWindowWidth = 1920;
         private readonly double _originalWindowHeight = 1080;
@@ -130,8 +130,8 @@ namespace SteelmeetWPF
             weightInDg.ItemsSource = weighInDgCollection;
             controlDgCollection = new ObservableCollection<ControlDgFormat>();
             controlDg.ItemsSource = controlDgCollection;
-
-            ThemeManager.SetTheme("Borlänge");
+            themeManagerWrapper = new ThemeManagerWrapper( this );
+            themeManagerWrapper.SetTheme( "Khaki" );
         }
 
         public void ExcelImportHandler()
@@ -477,9 +477,9 @@ namespace SteelmeetWPF
                     groupCount = parsedGroupNumber;
             }
 
-            for (int i = 0; i < groupCount; i++)
+            for( int i = 0; i < groupCount; i++ )
             {
-                groupDataList.Add(new GroupData());
+                groupDataList.Add( new GroupData() );
                 groupDataList[ i ].lifters = new List<Lifter>();
             }
 
@@ -595,7 +595,7 @@ namespace SteelmeetWPF
             //{
             //    undoLift( false );
             //}
-            if( (e.Key == Key.F || e.Key == Key.F11 ) && !isWeighInDgInEditMode && !isControlDgInEditMode )
+            if( ( e.Key == Key.F || e.Key == Key.F11 ) && !isWeighInDgInEditMode && !isControlDgInEditMode )
             {
                 fullscreen.ToggleFullscreen( isFullscreen, this );
                 isFullscreen = !isFullscreen;
@@ -654,6 +654,6 @@ namespace SteelmeetWPF
         // WeighIn Tab
 
         // Comp Tab
-        
+
     }
 }

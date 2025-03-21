@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 namespace SteelmeetWPF
 {
@@ -22,7 +17,7 @@ namespace SteelmeetWPF
                     dict.Source = new Uri( "Themes/KhakiTheme.xaml", UriKind.Relative );
                     break;
                 case "OGBlue":
-                    dict.Source = new Uri( "Themes/OGBlueTheme.xaml", UriKind.Relative );
+                    dict.Source = new Uri( "Themes/OGBlue.xaml", UriKind.Relative );
                     break;
                 // Add cases for other themes
                 default:

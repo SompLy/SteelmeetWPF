@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static SteelmeetWPF.ControlWindow;
 
 namespace SteelmeetWPF
 {
@@ -42,7 +31,7 @@ namespace SteelmeetWPF
             InitializeComponent();
         }
 
-        public void GroupLiftOrderUpdate(ControlWindow window)
+        public void GroupLiftOrderUpdate( ControlWindow window )
         {
             ControlWindow controlWindow = window;
 
@@ -51,7 +40,7 @@ namespace SteelmeetWPF
                     L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb,
                     L11Tb, L12Tb, L13Tb, L14Tb, L15Tb, L16Tb, L17Tb, L18Tb, L19Tb } );
 
-            for( int i = 0 ; i < groupLiftingOrderListLabels.Count ; i++ )
+            for( int i = 0; i < groupLiftingOrderListLabels.Count; i++ )
                 groupLiftingOrderListLabels[ i ].Text = "";
 
             List<Lifter.eLiftType> LiftTypesInNextGroup = new List<Lifter.eLiftType>();
@@ -60,11 +49,10 @@ namespace SteelmeetWPF
             int totalGroupCount = controlWindow.groupDataList.Count;
             int groupStartIndex = 0; // Index of lifter to start at
 
-            // Get the next group
             int nextGroupIndex = 0;
             nextGroupIndex = ( controlWindow.currentGroupIndex + 1 ) % totalGroupCount;
 
-            for( int i = 0 ; i < totalGroupCount ; i++ )
+            for( int i = 0; i < totalGroupCount; i++ )
             {
                 if( i == nextGroupIndex )
                 {
@@ -74,7 +62,7 @@ namespace SteelmeetWPF
             }
 
             // For each lifter in the next group, determine the lowest current lift
-            for( int i = groupStartIndex ; i > -1 ; i++ )
+            for( int i = groupStartIndex; i > -1; i++ )
             {
                 if( controlWindow.Lifters[ i ] == null )
                     break;
@@ -82,7 +70,6 @@ namespace SteelmeetWPF
                 Lifter lifter = controlWindow.Lifters[i];
                 if( lifter.groupNumber != nextGroupIndex )
                     break;
-                Header ändras inte:(
                 LiftTypesInNextGroup.Add( lifter.currentLift );
             }
 

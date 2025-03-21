@@ -16,6 +16,8 @@
 
                 <!--  Default Theme  -->
                 <ResourceDictionary Source="Themes/BorlangeTheme.xaml" />
+                <ResourceDictionary Source="Themes/KhakiTheme.xaml" />
+                <ResourceDictionary Source="Themes/OGBlue.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
