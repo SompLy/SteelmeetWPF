@@ -31,7 +31,7 @@ namespace SteelmeetWPF
 
         public static string[] GetAvailableThemes()
         {
-            return new[] { "Borlänge", "Khaki" }; // Add other theme names here
+            return new[] { "Borlänge", "Khaki", "OGBlue" }; // Add other theme names here
         }
     }
 

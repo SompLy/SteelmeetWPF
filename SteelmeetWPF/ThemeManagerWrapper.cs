@@ -55,6 +55,12 @@ namespace SteelmeetWPF
                 Source = new Uri( "ComboBoxCustomStyle.xaml", UriKind.Relative )
             } );
 
+            // Button Background style
+            Application.Current.Resources.MergedDictionaries.Add( new ResourceDictionary
+            {
+                Source = new Uri( "ButtonBackgroundStyle.xaml", UriKind.Relative )
+            } );
+
             //// 
             //Application.Current.Resources.MergedDictionaries.Add( new ResourceDictionary
             //{

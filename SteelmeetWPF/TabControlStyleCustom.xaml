@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     x:Class="SteelmeetWPF.TabControlStyleCustom"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SteelmeetWPF">
 
     <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF" />
     <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC" />
@@ -46,6 +47,7 @@
                             <RowDefinition x:Name="RowDefinition0" Height="Auto" />
                             <RowDefinition x:Name="RowDefinition1" Height="*" />
                         </Grid.RowDefinitions>
+
                         <Rectangle
                             Grid.Row="0"
                             Grid.Column="0"
@@ -61,6 +63,13 @@
                                 <BitmapImage UriSource="/SMLogoWhite.png" />
                             </Image.Source>
                         </Image>
+
+                        <local:WindowsControls 
+                                x:Name="WindowControls" 
+                                HorizontalAlignment="Right"
+                                Panel.ZIndex="2"
+                        />
+
                         <TabPanel
                             x:Name="headerPanel"
                             Grid.Row="0"

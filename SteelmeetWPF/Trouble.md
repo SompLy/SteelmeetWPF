@@ -13,13 +13,12 @@
 * Auto font size for spectator datagrid
 * Make tabcontrol a new usecontrol instead of a just a style to hopefully fix visual bug
 * Drag move on spectator window
-* lifterinfo usercontrols hould be animated when a lifter is judged.
 
 
 ## High
+* lifterinfo usercontrols hould be animated when a lifter is judged.
 * Make themes selectable
 * Auto-save current settings to reg or file.
-* Some usercontrols have a visable line between the control and the border
 * Exporting GL points decimal amount should be lowered to 2
 
 
@@ -47,6 +46,7 @@
 
 
 ## Done
+* Some usercontrols have a visable line between the control and the border
 * XAML Competition tab
 * XAML Spectator tab
 * In the space that sectator setting was previously put a lifter settings so you can change lifters weights and shit in another group

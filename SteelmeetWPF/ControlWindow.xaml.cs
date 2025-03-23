@@ -131,7 +131,7 @@ namespace SteelmeetWPF
             controlDgCollection = new ObservableCollection<ControlDgFormat>();
             controlDg.ItemsSource = controlDgCollection;
             themeManagerWrapper = new ThemeManagerWrapper( this );
-            themeManagerWrapper.SetTheme( "Khaki" );
+            themeManagerWrapper.SetTheme( "Borlänge" );
         }
 
         public void ExcelImportHandler()
@@ -568,6 +568,20 @@ namespace SteelmeetWPF
             }
         }
 
+        public bool ToggleFullscreen()
+        {
+            fullscreen.ToggleFullscreen( isFullscreen, this );
+            isFullscreen = !isFullscreen;
+            return isFullscreen;
+        }
+        public void Shutdown()
+        {
+            var result = MessageBox.Show("Är du säker att du vill terminera STEELMEET?", "STEELMEET Terminering", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+        }
         // Events
         private void HandleInput_KeyDown( object sender, KeyEventArgs e )
         {
@@ -597,16 +611,11 @@ namespace SteelmeetWPF
             //}
             if( ( e.Key == Key.F || e.Key == Key.F11 ) && !isWeighInDgInEditMode && !isControlDgInEditMode )
             {
-                fullscreen.ToggleFullscreen( isFullscreen, this );
-                isFullscreen = !isFullscreen;
+                ToggleFullscreen();
             }
             if( e.Key == Key.Escape && !isWeighInDgInEditMode && !isWeighInDgInEditMode )
             {
-                var result = MessageBox.Show("Är du säker att du vill terminera STEELMEET?", "STEELMEET Terminering", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if( result == MessageBoxResult.Yes )
-                {
-                    Application.Current.Shutdown();
-                }
+                Shutdown();
             }
         }
 

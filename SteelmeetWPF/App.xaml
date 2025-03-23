@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="CheckBoxCustomStyle.xaml" />
                 <ResourceDictionary Source="DataGridCustom.xaml" />
                 <ResourceDictionary Source="ComboBoxCustomStyle.xaml" />
+                <ResourceDictionary Source="ButtonBackgroundStyle.xaml" />
 
                 <!--  Default Theme  -->
                 <ResourceDictionary Source="Themes/BorlangeTheme.xaml" />
