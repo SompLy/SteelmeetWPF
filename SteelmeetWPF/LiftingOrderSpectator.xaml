@@ -77,7 +77,7 @@
                     FontSize="{StaticResource FontSize}"
                     FontWeight="Bold"
                     Foreground="{DynamicResource fontColorLight}"
-                    Text="Sara Sandberg" />
+                    Text="Ostmannen" />
                     <TextBlock
                     Name="L1Tb"
                     Grid.Row="1"

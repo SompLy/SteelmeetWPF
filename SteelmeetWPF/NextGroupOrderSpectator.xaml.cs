@@ -17,7 +17,7 @@ namespace SteelmeetWPF
             DependencyProperty.Register(
                 "TitleGroup",
                 typeof(string),
-                typeof(LiftingOrderSpectator),
+                typeof(NextGroupOrderSpectator),
                 new PropertyMetadata("Lyftar Ordning"));
 
         public string TitleGroup
@@ -62,23 +62,22 @@ namespace SteelmeetWPF
             }
 
             // For each lifter in the next group, determine the lowest current lift
-            for( int i = groupStartIndex; i > -1; i++ )
+            for( int i = groupStartIndex; i < controlWindow.Lifters.Count; i++ )
             {
-                if( controlWindow.Lifters[ i ] == null )
-                    break;
-
                 Lifter lifter = controlWindow.Lifters[i];
                 if( lifter.groupNumber != nextGroupIndex )
-                    break;
-                LiftTypesInNextGroup.Add( lifter.currentLift );
+                    LiftTypesInNextGroup.Add( lifter.currentLift );
             }
 
             Lifter.eLiftType nextGroupLiftType = 0;
             if( LiftTypesInNextGroup.Count > 0 )
                 nextGroupLiftType = LiftTypesInNextGroup.Min();
+            else
+                LiftTypesInNextGroup.Clear();
+
 
             foreach( SpectatorWindow specWindow in controlWindow.spectatorWindowList )
-                specWindow.nextGroupOrderSpec.TitleGroup = "Ingångar : Grupp " + nextGroupIndex + " " + nextGroupLiftType.ToString();
+                specWindow.nextGroupOrderSpec.TitleGroup = "Ingångar : Grupp " + ( nextGroupIndex + 1 ) + " " + nextGroupLiftType.ToString();
 
             //// Variables for looping and displaying text
             //int loopLeft = 0;

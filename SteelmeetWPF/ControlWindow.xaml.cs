@@ -443,8 +443,10 @@ namespace SteelmeetWPF
                 {
                     Lifters[ o ].isBenchOnly = true;
                     Lifters[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
-                    Lifters[ o ].currentLift += 3;
+                    Lifters[ o ].currentLift = Lifter.eLiftType.B1;
                 }
+                else
+                    Lifters[ o ].currentLift = Lifter.eLiftType.S1;
 
                 // Is equipped lifter
                 if( Lifters[ o ].CategoryEnum == Lifter.eCategory.MenEquipped ||

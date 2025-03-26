@@ -46,6 +46,8 @@ namespace SteelmeetWPF
         {
             controlWindow.controlDgCollection.Clear();
 
+            controlWindow.currentGroupIndex = ActiveGroupCob.SelectedIndex;
+
             for( int i = 0 ; i < controlWindow.Lifters.Count ; i++ )
             {
                 if( controlWindow.Lifters[ i ].groupNumber - 1 == ActiveGroupCob.SelectedIndex) // To not start at index 0
