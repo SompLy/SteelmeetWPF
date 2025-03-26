@@ -10,15 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="SMLogoWhite.png" />
+    <None Remove="Steelmeet-logo-miniPNG.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Steelmeet-logo-miniPNG.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\..\Desktop\Steelmeet logo miniPNG.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SpreadsheetLight" Version="3.5.0" />
@@ -26,6 +21,7 @@
   <ItemGroup>
     <Resource Include="SMLogoBlack.png" />
     <Resource Include="SMLogoWhite.png" />
+    <Resource Include="Steelmeet-logo-miniPNG.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="TabControlStyleCustom.xaml.cs">

@@ -60,7 +60,7 @@
                             Margin="10,10,0,0"
                             HorizontalAlignment="Left">
                             <Image.Source>
-                                <BitmapImage UriSource="/SMLogoWhite.png" />
+                                <BitmapImage UriSource="/Steelmeet-logo-miniPNG.png" />
                             </Image.Source>
                         </Image>
 
