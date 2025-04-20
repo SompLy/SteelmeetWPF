@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,6 +97,9 @@ namespace SteelmeetWPF
                 if( result == MessageBoxResult.Yes )
                 {
                     parentWindow.spectatorWindowList.RemoveAt(windowIndex);
+                    for (int i = windowIndex; i < parentWindow.spectatorWindowList.Count; i++)
+                        parentWindow.spectatorWindowList [i].windowIndex--;
+
                     this.Close();
                 }
             }
