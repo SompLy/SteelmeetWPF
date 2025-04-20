@@ -12,8 +12,6 @@
 * Visual Weights in info panels
 * Auto font size for spectator datagrid
 * Make tabcontrol a new usecontrol instead of a just a style to hopefully fix visual bug
-* Drag move on spectator window
-
 
 ## High
 * lifterinfo usercontrols hould be animated when a lifter is judged.
@@ -58,3 +56,4 @@
 * Highlightcolor on checkboxes
 * XAML Weigh-In tab
 * Code Weigh-In tab
+* Drag move on spectator window

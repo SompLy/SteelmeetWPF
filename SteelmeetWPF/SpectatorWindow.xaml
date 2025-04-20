@@ -11,6 +11,7 @@
     KeyDown="SpectatorWindow_OnKeyDown"
     SizeChanged="SpectatorWindow_OnSizeChanged"
     WindowStyle="None"
+    MouseDown="Window_MouseDown"
     mc:Ignorable="d">
     <WindowChrome.WindowChrome>
         <WindowChrome

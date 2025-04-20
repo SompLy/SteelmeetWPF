@@ -110,5 +110,15 @@ namespace SteelmeetWPF
         {
             throw new NotImplementedException();
         }
+
+        private void Window_MouseDown( object sender, System.Windows.Input.MouseButtonEventArgs e )
+        {
+            // Find the parent window
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Window window = Window.GetWindow((DependencyObject)sender);
+                window?.DragMove();
+            }
+        }
     }
 }
