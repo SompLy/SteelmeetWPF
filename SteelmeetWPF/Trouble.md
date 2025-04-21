@@ -1,33 +1,41 @@
 ﻿<h1>STEELMEET TODO
 
 ## In Progress...
-* All basic functionality Code Competition tab
-* All basic functionality Code Spectator tab
-* Dynamically animated Y-pos of next groups attempts with animation
-* NextGroupLifterOrder
+* All basic functionality Code Competition tab (All button should do something)
+* Spectator tab NextGroupLifterOrder
+* Spectator tab lifting order
+
 
 ## Highest
-* XAML Settings tab
-* Code Settings tab
 * Visual Weights in info panels
-* Auto font size for spectator datagrid
-* Make tabcontrol a new usecontrol instead of a just a style to hopefully fix visual bug
+* Auto font size for spectator datagrid to max possible while still fitting all information
 
 ## High
-* lifterinfo usercontrols hould be animated when a lifter is judged.
-* Make themes selectable
-* Auto-save current settings to reg or file.
+* Add button for exporting competitaion results inresults tab
 * Exporting GL points decimal amount should be lowered to 2
+* Warning when sending to comp if comp is loaded
+* Spectator window escape key wants to remove all newer spectator windows
+#### Animations:
+* Animation LifterInfo
+* Animation Group transition spectator panel
+* Animation Lifter order
+* Animation Datagrid judge color (pulse or boing)
 
 
 ## Medium
-* Make TimerControl look better with selecting time
 * Record attempt Spectator Window w/ epic effect
+* Make themes selectable in settings
+* Make TimerControl look better with selecting time
 * Make all colors use the current theme
+* Window only with Lifter info controls for spotters
+* Wight amount and color settings in settings tab
 
 
 ## Low
-* Koeff classes rework
+* XAML Settings tab
+* Code Settings tab
+* Auto-save current settings to reg or file.
+* Koeff classes rework?
 
 
 ## Backlog
@@ -44,16 +52,19 @@
 
 
 ## Done
-* Some usercontrols have a visable line between the control and the border
-* XAML Competition tab
-* XAML Spectator tab
-* In the space that sectator setting was previously put a lifter settings so you can change lifters weights and shit in another group
-* Make LifterInfo usercontrol fit better in spectatorpanel
-* F11 for fullscreen
-* Group switching com window
-* Use custom names for datagrid headers instead of varibe names
-* Highlightcolor on buttons checkboxes
-* Highlightcolor on checkboxes
-* XAML Weigh-In tab
-* Code Weigh-In tab
-* Drag move on spectator window
+* E Make tabcontrol a new usecontrol instead of a just a style to hopefully fix visual bug
+* E Dynamically animated Y-pos of next groups attempts with animation 
+* P Drag move on spectator window 
+* P Top right window buttons
+* E Some usercontrols have a visable line between the control and the border
+* E XAML Competition tab
+* E XAML Spectator tab
+* E In the space that sectator setting was previously put a lifter settings so you can change lifters weights and shit in another group
+* E Make LifterInfo usercontrol fit better in spectatorpanel
+* E F11 for fullscreen
+* E Group switching com window
+* E Use custom names for datagrid headers instead of varibe names
+* E Highlightcolor on buttons checkboxes
+* E Highlightcolor on checkboxes
+* E XAML Weigh-In tab
+* E Code Weigh-In tab
