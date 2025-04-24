@@ -14,6 +14,9 @@
 * Add button for exporting competitaion results inresults tab
 * Exporting GL points decimal amount should be lowered to 2
 * Warning when sending to comp if comp is loaded
+* Crash when changing group of lifter and sending to comp if already in competition
+
+
 #### Animations:
 * Animation LifterInfo
 * Animation Group transition spectator panel
