@@ -38,6 +38,15 @@ namespace SteelmeetWPF
             parentWindow = _controlWindow;
             windowIndex = parentWindow.spectatorWindowList.Count();
             Loaded += SpectatorWindowLoaded;
+
+#if DEBUG
+            // Window sizing for easier debugging
+            Height = 540;
+            Width = 960;
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Left = 960;
+            Top = 200;
+#endif
         }
 
         private void SpectatorWindowLoaded(object sender, RoutedEventArgs e)

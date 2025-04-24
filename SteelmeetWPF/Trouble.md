@@ -14,7 +14,6 @@
 * Add button for exporting competitaion results inresults tab
 * Exporting GL points decimal amount should be lowered to 2
 * Warning when sending to comp if comp is loaded
-* Spectator window escape key wants to remove all newer spectator windows
 #### Animations:
 * Animation LifterInfo
 * Animation Group transition spectator panel
@@ -23,6 +22,7 @@
 
 
 ## Medium
+* Spectator window escape key wants to remove all newer spectator windows
 * Record attempt Spectator Window w/ epic effect
 * Make themes selectable in settings
 * Make TimerControl look better with selecting time

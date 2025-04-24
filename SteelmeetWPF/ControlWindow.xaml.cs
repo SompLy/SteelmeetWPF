@@ -132,6 +132,15 @@ namespace SteelmeetWPF
             controlDg.ItemsSource = controlDgCollection;
             themeManagerWrapper = new ThemeManagerWrapper( this );
             themeManagerWrapper.SetTheme( "Borlänge" );
+
+#if DEBUG
+            // Window sizing for easier debugging
+            Height = 540;
+            Width = 960;
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Left = 0;
+            Top = 200;
+#endif
         }
 
         public void ExcelImportHandler()
