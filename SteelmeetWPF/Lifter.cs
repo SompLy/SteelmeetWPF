@@ -44,9 +44,9 @@ namespace SteelmeetWPF
             this.b1 = float.Parse( b1 );
             this.d1 = float.Parse( d1 );
 
-            currentLift = 0;
+            currentLiftType = 0;
             LiftRecord = new List<bool>();
-            sbdList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
+            sbdListWeight = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
         }
 
         public Lifter(WeighInDgFormat weighInCollection)
@@ -68,9 +68,9 @@ namespace SteelmeetWPF
             this.b1 = float.Parse( weighInCollection.b1, CultureInfo.InvariantCulture );
             this.d1 = float.Parse( weighInCollection.d1, CultureInfo.InvariantCulture );
 
-            currentLift = 0;
+            currentLiftType = 0;
             LiftRecord = new List<bool>();
-            sbdList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
+            sbdListWeight = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
         }
 
         public int place { get; set; }
@@ -129,13 +129,14 @@ namespace SteelmeetWPF
             D1,
             D2,
             D3,
+            Done,
         }
-        public eLiftType currentLift { get; set; }
+        public eLiftType currentLiftType { get; set; }
         public float bestS { get; set; }
         public float bestB { get; set; }
         public float bestD { get; set; }
         public List<bool> LiftRecord { get; set; } //en lista med true eller false beroende på om lyftaren fick godkänt eller inte
-        public List<float> sbdList { get; set; }
+        public List<float> sbdListWeight { get; set; }
         public int index { get; set; }
         public float estimatedTotal { get; set; }
         public float estimatedGLPoints { get; set; }

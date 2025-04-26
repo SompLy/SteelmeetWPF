@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
 
 namespace SteelmeetWPF
 {
@@ -10,8 +13,12 @@ namespace SteelmeetWPF
     /// </summary>
     public partial class NextGroupOrderSpectator : UserControl
     {
-        public List<TextBlock> groupLiftingOrderListLabels = new List<TextBlock>();     // Order med lyftare och vikt de ska ta i rätt ordning.
-        List<Lifter> groupLiftingOrderList = new List<Lifter>();                        // För att sortera viktera
+        private bool loaded = false;
+
+        public const float NextGroupMarginOffsetPerLifter = -39.65f;
+
+        bool viewNothing = false;
+        public List<TextBlock> LiftersInNextGroupTextBoxes = new List<TextBlock>();     // Order med lyftare och vikt de ska ta i rätt ordning.
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(
@@ -26,6 +33,41 @@ namespace SteelmeetWPF
             set { SetValue( TitleProperty, value ); }
         }
 
+        public class LifterComparer: IComparer<Lifter>
+        {
+            public int Compare( Lifter x, Lifter y )
+            {
+                if( x.isRetrying && !y.isRetrying )
+                {
+                    return 1; // x should come after y
+                }
+                else if( !x.isRetrying && y.isRetrying )
+                {
+                    return -1; // x should come before y
+                }
+
+                int indexX = (int)x.currentLiftType;
+                int indexY = (int)y.currentLiftType;
+
+                if( indexX >= 0 && indexX < x.sbdListWeight.Count && indexY >= 0 && indexY < y.sbdListWeight.Count )
+                {
+                    float weightX = x.sbdListWeight[indexX];
+                    float weightY = y.sbdListWeight[indexY];
+
+                    int weightComparison = weightX.CompareTo(weightY);
+
+                    if( weightComparison != 0 )
+                    {
+                        return weightComparison;
+                    }
+
+                    return x.lotNumber.CompareTo( y.lotNumber );
+                }
+
+                return 0;
+            }
+        }
+
         public NextGroupOrderSpectator()
         {
             InitializeComponent();
@@ -33,162 +75,113 @@ namespace SteelmeetWPF
 
         public void GroupLiftOrderUpdate( ControlWindow window )
         {
+            if( !loaded )
+            {
+                LiftersInNextGroupTextBoxes.Clear();
+
+                LiftersInNextGroupTextBoxes.AddRange( new TextBlock[] {
+                L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb,
+                L11Tb, L12Tb, L13Tb, L14Tb, L15Tb, L16Tb, L17Tb, L18Tb, L19Tb } );
+
+                loaded = true;
+            }
+
             ControlWindow controlWindow = window;
 
-            if( groupLiftingOrderListLabels.Count < 1 )
-                groupLiftingOrderListLabels.AddRange( new TextBlock[] {
-                    L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb,
-                    L11Tb, L12Tb, L13Tb, L14Tb, L15Tb, L16Tb, L17Tb, L18Tb, L19Tb } );
+            for( int i = 0; i < LiftersInNextGroupTextBoxes.Count; i++ )
+                LiftersInNextGroupTextBoxes[ i ].Text = "";
 
-            for( int i = 0; i < groupLiftingOrderListLabels.Count; i++ )
-                groupLiftingOrderListLabels[ i ].Text = "";
+            List<Lifter> liftersInNextGroup = new List<Lifter>();
 
-            List<Lifter.eLiftType> LiftTypesInNextGroup = new List<Lifter.eLiftType>();
-            LiftTypesInNextGroup.Clear();
+            liftersInNextGroup.Clear();
 
             int totalGroupCount = controlWindow.groupDataList.Count;
-            int groupStartIndex = 0; // Index of lifter to start at
+            int firstLifterInNextGroupIndex = 0;
 
             int nextGroupIndex = 0;
             nextGroupIndex = ( controlWindow.currentGroupIndex + 1 ) % totalGroupCount;
 
-            for( int i = 0; i < totalGroupCount; i++ )
+            liftersInNextGroup = controlWindow.groupDataList[ nextGroupIndex ].lifters;
+            firstLifterInNextGroupIndex = liftersInNextGroup[0].index;
+
+            // For each lifter in the next group, determine the lowest current lift
+            Lifter.eLiftType nextGroupLiftType = 0;
+            if( liftersInNextGroup.Count > 0 )
+                nextGroupLiftType = liftersInNextGroup.Min( lifter => lifter.currentLiftType );
+
+            foreach( SpectatorWindow specWindow in controlWindow.spectatorWindowList )
+                specWindow.nextGroupOrderSpec.TitleGroup = "Grupp " + ( nextGroupIndex + 1 ) + " " + nextGroupLiftType.ToString();
+
+            // Sort and Remove
+            var comparer = new LifterComparer();
+            liftersInNextGroup = liftersInNextGroup.OrderBy( item => item, comparer ).ToList();
+            for( int i = 0 ; i < liftersInNextGroup.Count ; i++ )
             {
-                if( i == nextGroupIndex )
+                if( liftersInNextGroup[ i ].currentLiftType > nextGroupLiftType )
                 {
-                    groupStartIndex = i;
-                    break;
+                    liftersInNextGroup.RemoveAt( i );
                 }
             }
 
-            // For each lifter in the next group, determine the lowest current lift
-            for( int i = groupStartIndex; i < controlWindow.Lifters.Count; i++ )
+            viewNothing = ( liftersInNextGroup.Count > 0 && ( liftersInNextGroup[ 0 ].currentLiftType == Lifter.eLiftType.None || liftersInNextGroup[ 0 ].currentLiftType == Lifter.eLiftType.Done ) );
+
+            if( !viewNothing )
             {
-                Lifter lifter = controlWindow.Lifters[i];
-                if( lifter.groupNumber != nextGroupIndex )
-                    LiftTypesInNextGroup.Add( lifter.currentLift );
+                for( int i = 0 ; i < liftersInNextGroup.Count ; i++ )
+                {
+                    string Spacing = " ";
+                    string SpacingIndex = " ";
+                    int currentLiftIndex = ( int )liftersInNextGroup[ i ].currentLiftType;
+                    float value = liftersInNextGroup[i].sbdListWeight[currentLiftIndex];
+                    string text = liftersInNextGroup[i].sbdListWeight[currentLiftIndex].ToString();
+
+                    if( value <= 100.0f )
+                        Spacing += "  ";
+
+                    if( !text.Contains( ".5" ) )
+                        Spacing += "   ";
+
+                    if( i >= 9 )
+                        SpacingIndex = "| ";
+                    else
+                        SpacingIndex = "  | ";
+
+                    LiftersInNextGroupTextBoxes[ i ].Text = ( i + 1 ) + SpacingIndex + liftersInNextGroup[ i ].sbdListWeight[ currentLiftIndex ] + Spacing + liftersInNextGroup[ i ].name;
+                }
+            }
+            else
+            {
+                for( int i = 0 ; i < liftersInNextGroup.Count ; i++ )
+                    LiftersInNextGroupTextBoxes[ i ].Text = "";
             }
 
-            Lifter.eLiftType nextGroupLiftType = 0;
-            if( LiftTypesInNextGroup.Count > 0 )
-                nextGroupLiftType = LiftTypesInNextGroup.Min();
-            else
-                LiftTypesInNextGroup.Clear();
+            SetNextGroupMargin( liftersInNextGroup.Count );
+        }
 
+        void SetNextGroupMargin( int liftersInNextGroupCount )
+        {
+            if( RenderTransform == null || !( RenderTransform is TranslateTransform ) )
+            {
+                RenderTransform = new TranslateTransform();
+            }
 
-            foreach( SpectatorWindow specWindow in controlWindow.spectatorWindowList )
-                specWindow.nextGroupOrderSpec.TitleGroup = "Ingångar : Grupp " + ( nextGroupIndex + 1 ) + " " + nextGroupLiftType.ToString();
+            TranslateTransform translateTransform = RenderTransform as TranslateTransform;
 
-            //// Variables for looping and displaying text
-            //int loopLeft = 0;
-            //int loopMiddle = 0;
-            //int textCurrentLift = 0;
-            //string lblText = "";
-            //bool ViewNothing = false;
+            if( translateTransform != null )
+            {
+                double from = Margin.Top;
+                double to = NextGroupMarginOffsetPerLifter * liftersInNextGroupCount;
 
-            //// Set the loop parameters and label text based on the lifting order state
-            //switch( groupLiftingOrderState )
-            //{
-            //    case eGroupLiftingOrderState.group1Squat:
-            //        loopLeft = 0;
-            //        loopMiddle = group1Count;
-            //        textCurrentLift = 0;
-            //        lblText = "Ingångar : Grupp 1 Böj";
-            //        break;
-            //    case eGroupLiftingOrderState.group1Bench:
-            //        loopLeft = 0;
-            //        loopMiddle = group1Count;
-            //        textCurrentLift = 3;
-            //        lblText = "Ingångar : Grupp 1 Bänk";
-            //        break;
-            //    case eGroupLiftingOrderState.group1Deadlift:
-            //        loopLeft = 0;
-            //        loopMiddle = group1Count;
-            //        textCurrentLift = 6;
-            //        lblText = "Ingångar : Grupp 1 Mark";
-            //        break;
-            //    case eGroupLiftingOrderState.group2Squat:
-            //        loopLeft = group1Count;
-            //        loopMiddle = group1Count + group2Count;
-            //        textCurrentLift = 0;
-            //        lblText = "Ingångar : Grupp 2 Böj";
-            //        break;
-            //    case eGroupLiftingOrderState.group2Bench:
-            //        loopLeft = group1Count;
-            //        loopMiddle = group1Count + group2Count;
-            //        textCurrentLift = 3;
-            //        lblText = "Ingångar : Grupp 2 Bänk";
-            //        break;
-            //    case eGroupLiftingOrderState.group2Deadlift:
-            //        loopLeft = group1Count;
-            //        loopMiddle = group1Count + group2Count;
-            //        textCurrentLift = 6;
-            //        lblText = "Ingångar : Grupp 2 Mark";
-            //        break;
-            //    default:
-            //        break;
-            //}
+                DoubleAnimation animation = new DoubleAnimation
+                {
+                    From = from,
+                    To = to,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(1000))
+                };
 
-            //groupLiftingOrderList.Clear();
-            //for( int i = loopLeft ; i < loopMiddle ; i++ )
-            //{
-            //    groupLiftingOrderList.Add( LifterID[ i ] );
-            //}
+                translateTransform.BeginAnimation( TranslateTransform.YProperty, animation );
+            }
 
-            //// Sort the list based on the custom comparer
-            //var comparer = new LifterComparer();
-            //groupLiftingOrderList = groupLiftingOrderList.OrderBy( item => item, comparer ).ToList();
-
-            //// Remove all lifters who have a higher current lift than the lowest one
-            //var tempLowestCurrentLift = groupLiftingOrderList.Select(x => x.CurrentLift);
-            //if( tempLowestCurrentLift.Count() > 0 )
-            //{
-            //    int low = tempLowestCurrentLift.Min();
-            //    for( int i = 0 ; i < groupLiftingOrderList.Count ; )
-            //    {
-            //        if( groupLiftingOrderList[ i ].CurrentLift > low )
-            //            groupLiftingOrderList.RemoveAt( i );
-            //        else
-            //            i++;
-            //    }
-            //}
-
-            //// Display the lifting order text
-            //if( !ViewNothing )
-            //    lbl_OpeningLift.Text = lblText;
-            //else
-            //    lbl_OpeningLift.Text = "";
-
-            //// Display the order for all lifters
-            //if( !ViewNothing )
-            //{
-            //    for( int i = 0 ; i < groupLiftingOrderList.Count ; i++ )
-            //    {
-            //        string Spacing = " ";
-            //        string SpacingIndex = " ";
-            //        float value = groupLiftingOrderList[i].sbdList[textCurrentLift];
-            //        string text = groupLiftingOrderList[i].sbdList[textCurrentLift].ToString();
-
-            //        if( value <= 100.0f )
-            //            Spacing += "  ";
-
-            //        if( !text.Contains( ".5" ) )
-            //            Spacing += "   ";
-
-            //        if( i >= 9 )
-            //            SpacingIndex = "| ";
-            //        else
-            //            SpacingIndex = "  | ";
-
-            //        groupLiftingOrderListLabels[ i ].Text = ( i + 1 ) + SpacingIndex + groupLiftingOrderList[ i ].sbdList[ textCurrentLift ] + Spacing + groupLiftingOrderList[ i ].name;
-            //    }
-            //}
-            //else
-            //{
-            //    // If nothing is displayed, clear the labels
-            //    for( int i = 0 ; i < groupLiftingOrderList.Count ; i++ )
-            //        groupLiftingOrderListLabels[ i ].Text = "";
-            //}
         }
     }
 }

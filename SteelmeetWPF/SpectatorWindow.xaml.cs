@@ -29,8 +29,6 @@ namespace SteelmeetWPF
         Fullscreen fullscreen = new Fullscreen();
         bool isFullscreen = false;
 
-        private const float NextGroupMarginOffsetPerLifter = -39.65f;
-
         public SpectatorWindow( ControlWindow _controlWindow )
         {
             InitializeComponent();
@@ -51,37 +49,9 @@ namespace SteelmeetWPF
 
         private void SpectatorWindowLoaded(object sender, RoutedEventArgs e)
         {
-            SetNextGroupMargin( NextGroupMarginOffsetPerLifter * 10 );
+            nextGroupOrderSpec.GroupLiftOrderUpdate(parentWindow);
         }
-        
-        void SetNextGroupMargin(float newMargin)
-        {
-            if( nextGroupOrderSpec != null )
-            {
-                if( nextGroupOrderSpec.RenderTransform == null || !( nextGroupOrderSpec.RenderTransform is TranslateTransform ) )
-                {
-                    nextGroupOrderSpec.RenderTransform = new TranslateTransform();
-                }
-                
-                TranslateTransform translateTransform = nextGroupOrderSpec.RenderTransform as TranslateTransform;
-
-                if( translateTransform != null )
-                {
-                    double from = nextGroupOrderSpec.Margin.Top;
-                    double to = newMargin;
-
-                    DoubleAnimation animation = new DoubleAnimation
-                    {
-                        From = from,
-                        To = to,
-                        Duration = new Duration(TimeSpan.FromMilliseconds(1000))
-                    };
-                    
-                    translateTransform.BeginAnimation( TranslateTransform.YProperty, animation );
-                }
-            }
-        }
-
+       
         private void SpectatorWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             double scaleX = this.ActualWidth / _originalWindowWidth;

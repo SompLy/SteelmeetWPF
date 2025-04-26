@@ -80,40 +80,6 @@ namespace SteelmeetWPF
 
         public CultureInfo customCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
-        public class LifterComparer : IComparer<Lifter>
-        {
-            public int Compare( Lifter x, Lifter y )
-            {
-                if( x.isRetrying && !y.isRetrying )
-                {
-                    return 1; // x should come after y
-                }
-                else if( !x.isRetrying && y.isRetrying )
-                {
-                    return -1; // x should come before y
-                }
-
-                int indexX = (int)x.currentLift;
-                int indexY = (int)y.currentLift;
-
-                if( indexX >= 0 && indexX < x.sbdList.Count && indexY >= 0 && indexY < y.sbdList.Count )
-                {
-                    float weightX = x.sbdList[indexX];
-                    float weightY = y.sbdList[indexY];
-
-                    int weightComparison = weightX.CompareTo(weightY);
-
-                    if( weightComparison != 0 )
-                    {
-                        return weightComparison;
-                    }
-
-                    return x.lotNumber.CompareTo( y.lotNumber );
-                }
-
-                return 0;
-            }
-        }
         public class LifterComparerTotal : IComparer<Lifter>
         {
             public int Compare( Lifter x, Lifter y )
@@ -213,8 +179,8 @@ namespace SteelmeetWPF
                         benchHeight    = sl.GetCellValueAsString(i, 12),
                         benchRack      = sl.GetCellValueAsString(i, 13),
                         liftoff        = sl.GetCellValueAsString(i, 14),
-                        d1             = sl.GetCellValueAsString(i, 15),
-                        b1             = sl.GetCellValueAsString(i, 16)
+                        b1             = sl.GetCellValueAsString(i, 15),
+                        d1             = sl.GetCellValueAsString(i, 16)
                     };
 
                     weighInDgCollection.Add( collection );
@@ -318,6 +284,7 @@ namespace SteelmeetWPF
         {
             Lifters.Clear();
             controlDgCollection.Clear();
+            WeighInInfoUpdate();
 
             for( int o = 0; o < weighInDgCollection.Count - 1; o++ )
             {
@@ -452,10 +419,10 @@ namespace SteelmeetWPF
                 {
                     Lifters[ o ].isBenchOnly = true;
                     Lifters[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
-                    Lifters[ o ].currentLift = Lifter.eLiftType.B1;
+                    Lifters[ o ].currentLiftType = Lifter.eLiftType.B1;
                 }
                 else
-                    Lifters[ o ].currentLift = Lifter.eLiftType.S1;
+                    Lifters[ o ].currentLiftType = Lifter.eLiftType.S1;
 
                 // Is equipped lifter
                 if( Lifters[ o ].CategoryEnum == Lifter.eCategory.MenEquipped ||
