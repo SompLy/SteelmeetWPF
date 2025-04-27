@@ -38,10 +38,10 @@ namespace SteelmeetWPF
                 {
                     property = typeof( WeighInDgFormat ).GetProperty( e.PropertyName );
                 }
-                //else if( sender == spectatorDg )
-                //{
-                //    property = typeof( SpectatorDgFormat ).GetProperty( e.PropertyName );
-                //}
+                else if( dataGrid.Name == "spectatorDg")
+                {
+                    property = typeof( SpectatorDgFormat ).GetProperty( e.PropertyName );
+                }
             }
             
             var displayAttr = property?.GetCustomAttribute<DisplayAttribute>();

@@ -18,7 +18,7 @@ namespace SteelmeetWPF
         public const float NextGroupMarginOffsetPerLifter = -39.65f;
 
         bool viewNothing = false;
-        public List<TextBlock> LiftersInNextGroupTextBoxes = new List<TextBlock>();     // Order med lyftare och vikt de ska ta i rätt ordning.
+        public List<TextBlock> LiftersInNextGroupTextBoxes = new List<TextBlock>();
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(
@@ -31,41 +31,6 @@ namespace SteelmeetWPF
         {
             get { return ( string )GetValue( TitleProperty ); }
             set { SetValue( TitleProperty, value ); }
-        }
-
-        public class LifterComparer: IComparer<Lifter>
-        {
-            public int Compare( Lifter x, Lifter y )
-            {
-                if( x.isRetrying && !y.isRetrying )
-                {
-                    return 1; // x should come after y
-                }
-                else if( !x.isRetrying && y.isRetrying )
-                {
-                    return -1; // x should come before y
-                }
-
-                int indexX = (int)x.currentLiftType;
-                int indexY = (int)y.currentLiftType;
-
-                if( indexX >= 0 && indexX < x.sbdListWeight.Count && indexY >= 0 && indexY < y.sbdListWeight.Count )
-                {
-                    float weightX = x.sbdListWeight[indexX];
-                    float weightY = y.sbdListWeight[indexY];
-
-                    int weightComparison = weightX.CompareTo(weightY);
-
-                    if( weightComparison != 0 )
-                    {
-                        return weightComparison;
-                    }
-
-                    return x.lotNumber.CompareTo( y.lotNumber );
-                }
-
-                return 0;
-            }
         }
 
         public NextGroupOrderSpectator()
@@ -123,7 +88,7 @@ namespace SteelmeetWPF
                 }
             }
 
-            viewNothing = ( liftersInNextGroup.Count > 0 && ( liftersInNextGroup[ 0 ].currentLiftType == Lifter.eLiftType.None || liftersInNextGroup[ 0 ].currentLiftType == Lifter.eLiftType.Done ) );
+            viewNothing = liftersInNextGroup.Count > 0 && ( liftersInNextGroup[ 0 ].currentLiftType == Lifter.eLiftType.Done );
 
             if( !viewNothing )
             {
@@ -146,7 +111,7 @@ namespace SteelmeetWPF
                     else
                         SpacingIndex = "  | ";
 
-                    LiftersInNextGroupTextBoxes[ i ].Text = ( i + 1 ) + SpacingIndex + liftersInNextGroup[ i ].sbdListWeight[ currentLiftIndex ] + Spacing + liftersInNextGroup[ i ].name;
+                    LiftersInNextGroupTextBoxes[ i ].Text = ( i + 1 ) + SpacingIndex + value + Spacing + liftersInNextGroup[ i ].name;
                 }
             }
             else

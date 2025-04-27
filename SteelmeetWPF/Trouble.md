@@ -2,7 +2,6 @@
 
 ## In Progress...
 * All basic functionality Code Competition tab (All button should do something)
-* Spectator tab NextGroupLifterOrder
 * Spectator tab lifting order
 
 
@@ -15,11 +14,11 @@
 * Exporting GL points decimal amount should be lowered to 2
 * Warning when sending to comp if comp is loaded
 * Crash when changing group of lifter and sending to comp if already in competition
-
+* Right-click on attempt to open menu and change it's judging
 
 #### Animations:
 * Animation LifterInfo
-* Animation Group transition spectator panel
+* Animation Group sliding transition spectator panel
 * Animation Lifter order
 * Animation Datagrid judge color (pulse or boing)
 
@@ -32,6 +31,7 @@
 * Make all colors use the current theme
 * Window only with Lifter info controls for spotters
 * Wight amount and color settings in settings tab
+* Custom window for Messagebox that correspond with the design of the rest of the program
 
 
 ## Low
@@ -55,6 +55,7 @@
 
 
 ## Done
+* E Spectator tab NextGroupLifterOrder
 * E Make tabcontrol a new usecontrol instead of a just a style to hopefully fix visual bug
 * E Dynamically animated Y-pos of next groups attempts with animation 
 * P Drag move on spectator window 

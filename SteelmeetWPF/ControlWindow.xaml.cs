@@ -42,14 +42,16 @@ namespace SteelmeetWPF
 
         public string browsedFilePath;
         public string browsedFile;
-        public string recordType;            // Klubb, Distrikt, Svenskt rekord, Europa rekord, World record!!!
+        public string recordType;            // Klubb, Distrikt, Svenskt rekord, Europa rekord, World record!!! borde vara en enum?
 
-        public int selectedRowIndex;
+        public int selectedLifterIndex;
         public int selectedColumnIndex;
         int secondsLapp;
         int minutesLapp;
         int secondsLyft;
         int minutesLyft;
+
+
 
         public class GroupData
         {
@@ -66,12 +68,6 @@ namespace SteelmeetWPF
         public List<int> usedPlatesList2 = new List<int>(); // Hur många plates calculatorn har använt.
         List<int> totalPlatesList2 = new List<int>();       // Antalet paltes som användaren anvivit
         List<float> weightsList2 = new List<float>();       // Vikter
-
-        public List<TextBlock> LiftingOrderListLabels = new List<TextBlock>();          // Order med lyftare och vikt de ska ta i rätt ordning.
-        public List<Lifter> LiftingOrderList = new List<Lifter>();                      // För att sortera
-
-        public List<TextBlock> groupLiftingOrderListLabels = new List<TextBlock>();     // Order med lyftare och vikt de ska ta i rätt ordning.
-        List<Lifter> groupLiftingOrderList = new List<Lifter>();                        // För att sortera viktera
 
         List<Lifter> extraLifters = new List<Lifter>();
 

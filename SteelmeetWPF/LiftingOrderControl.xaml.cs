@@ -15,11 +15,10 @@ using System.Windows.Shapes;
 
 namespace SteelmeetWPF
 {
-    /// <summary>
-    /// Interaction logic for LiftingOrder.xaml
-    /// </summary>
     public partial class LiftingOrderControl : UserControl
     {
+        public List<Lifter> LiftingOrder = new List<Lifter>();
+
         public LiftingOrderControl()
         {
             InitializeComponent();
