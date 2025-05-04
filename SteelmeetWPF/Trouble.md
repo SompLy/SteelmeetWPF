@@ -8,6 +8,8 @@
 ## Highest
 * Visual Weights in info panels
 * Auto font size for spectator datagrid to max possible while still fitting all information
+* Clicking in datagrid needs to change the selected lifter
+* Rack heights ned to be visable on the LifterInfoControl
 
 ## High
 * Add button for exporting competitaion results inresults tab
@@ -24,6 +26,7 @@
 
 
 ## Medium
+* Replace all messageboxes with a "pop-up" notification style thing that goes away after a couple of seconds
 * Spectator window escape key wants to remove all newer spectator windows
 * Record attempt Spectator Window w/ epic effect
 * Make themes selectable in settings

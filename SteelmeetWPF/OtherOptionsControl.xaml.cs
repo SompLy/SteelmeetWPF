@@ -56,6 +56,10 @@ namespace SteelmeetWPF
                     controlWindow.controlDgCollection.Add( collection );
                 }
             }
+
+            controlWindow.liftingOrder.LiftingOrderList.Clear();
+            controlWindow.liftingOrder.UpdateAll( controlWindow );
+            controlWindow.selectedLifterIndex = controlWindow.liftingOrder.LiftingOrderList[ 0 ].index;
             foreach( SpectatorWindow window in controlWindow.spectatorWindowList )
                 window.nextGroupOrderSpec.GroupLiftOrderUpdate(controlWindow);
         }

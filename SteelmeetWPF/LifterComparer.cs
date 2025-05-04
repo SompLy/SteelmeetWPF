@@ -22,10 +22,10 @@ namespace SteelmeetWPF
             int indexX = (int)x.currentLiftType;
             int indexY = (int)y.currentLiftType;
 
-            if( indexX >= 0 && indexX < x.sbdListWeight.Count && indexY >= 0 && indexY < y.sbdListWeight.Count )
+            if( indexX >= 0 && indexX < x.sbdWeightsList.Count && indexY >= 0 && indexY < y.sbdWeightsList.Count )
             {
-                float weightX = x.sbdListWeight[indexX];
-                float weightY = y.sbdListWeight[indexY];
+                float weightX = x.sbdWeightsList[indexX];
+                float weightY = y.sbdWeightsList[indexY];
 
                 int weightComparison = weightX.CompareTo(weightY);
 

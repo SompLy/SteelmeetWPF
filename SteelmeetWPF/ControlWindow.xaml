@@ -120,7 +120,7 @@
                                     Background="#FF126D00"
                                     BorderBrush="Black"
                                     Click="SendToCompetitionBtn_Click"
-                                    Content="Send to Comp"
+                                    Content="Start Competition!"
                                     FontSize="20"
                                     Style="{DynamicResource ButtonStyleStandard}" />
                             </Grid>

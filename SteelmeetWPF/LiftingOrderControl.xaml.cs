@@ -17,11 +17,14 @@ namespace SteelmeetWPF
 {
     public partial class LiftingOrderControl : UserControl
     {
-        public List<Lifter> LiftingOrder = new List<Lifter>();
-
         public LiftingOrderControl()
         {
             InitializeComponent();
+        }
+
+        public TextBlock[] GetTextBlocks()
+        {
+            return new TextBlock[]{ L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb, L11Tb, L12Tb };
         }
     }
 }

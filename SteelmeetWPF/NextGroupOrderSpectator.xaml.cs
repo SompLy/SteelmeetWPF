@@ -58,8 +58,6 @@ namespace SteelmeetWPF
 
             List<Lifter> liftersInNextGroup = new List<Lifter>();
 
-            liftersInNextGroup.Clear();
-
             int totalGroupCount = controlWindow.groupDataList.Count;
             int firstLifterInNextGroupIndex = 0;
 
@@ -97,8 +95,8 @@ namespace SteelmeetWPF
                     string Spacing = " ";
                     string SpacingIndex = " ";
                     int currentLiftIndex = ( int )liftersInNextGroup[ i ].currentLiftType;
-                    float value = liftersInNextGroup[i].sbdListWeight[currentLiftIndex];
-                    string text = liftersInNextGroup[i].sbdListWeight[currentLiftIndex].ToString();
+                    float value = liftersInNextGroup[i].sbdWeightsList[currentLiftIndex];
+                    string text = liftersInNextGroup[i].sbdWeightsList[currentLiftIndex].ToString();
 
                     if( value <= 100.0f )
                         Spacing += "  ";

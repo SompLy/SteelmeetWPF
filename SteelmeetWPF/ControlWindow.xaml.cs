@@ -23,10 +23,12 @@ namespace SteelmeetWPF
 
         public List<SpectatorWindow> spectatorWindowList = new List<SpectatorWindow>();
 
-        public ObservableCollection<WeighInDgFormat> weighInDgCollection;
-        public ObservableCollection<ControlDgFormat> controlDgCollection;
+        public ObservableCollection<WeighInDgFormat> weighInDgCollection { get; set; }
+        public ObservableCollection<ControlDgFormat> controlDgCollection { get; set; }
 
         private readonly HashSet<string> hiddenColumns = new() {};
+
+        public LiftingOrder liftingOrder = new LiftingOrder();
 
         public RainbowColor rainbowColor = new RainbowColor();
         Fullscreen fullscreen = new Fullscreen();
@@ -46,13 +48,7 @@ namespace SteelmeetWPF
 
         public int selectedLifterIndex;
         public int selectedColumnIndex;
-        int secondsLapp;
-        int minutesLapp;
-        int secondsLyft;
-        int minutesLyft;
-
-
-
+        
         public class GroupData
         {
             public int count;
@@ -68,8 +64,6 @@ namespace SteelmeetWPF
         public List<int> usedPlatesList2 = new List<int>(); // Hur många plates calculatorn har använt.
         List<int> totalPlatesList2 = new List<int>();       // Antalet paltes som användaren anvivit
         List<float> weightsList2 = new List<float>();       // Vikter
-
-        List<Lifter> extraLifters = new List<Lifter>();
 
         // Default Plate setup 16x25kg
         public PlateInfo plateInfo = new PlateInfo(0, 16, 2, 2, 2, 2, 2, 2, 2, 2, Colors.ForestGreen, Colors.Red, Colors.Blue, Colors.Yellow, Colors.ForestGreen, Colors.WhiteSmoke, Colors.Black, Colors.Silver, Colors.Gainsboro, Colors.Gainsboro);

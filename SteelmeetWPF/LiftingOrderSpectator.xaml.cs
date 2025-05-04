@@ -45,81 +45,9 @@ namespace SteelmeetWPF
             InitializeComponent();
         }
 
-        public void GroupLiftOrderUpdate( ControlWindow window )
+        public TextBlock[] GetTextBlocks()
         {
-            //if( !loaded )
-            //{
-            //    LiftersInGroupTextBoxes.Clear();
-
-            //    LiftersInGroupTextBoxes.AddRange( new TextBlock[] {
-            //    L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb,
-            //    L11Tb, L12Tb, L13Tb, L14Tb, L15Tb, L16Tb, L17Tb, L18Tb, L19Tb } );
-
-            //    loaded = true;
-            //}
-
-            //ControlWindow controlWindow = window;
-
-            //for( int i = 0 ; i < LiftersInGroupTextBoxes.Count ; i++ )
-            //    LiftersInGroupTextBoxes[ i ].Text = "";
-
-            //List<Lifter> liftersInGroup = new List<Lifter>();
-
-            //liftersInGroup.Clear();
-
-            //int totalGroupCount = controlWindow.groupDataList.Count;
-            //int firstLifterInNextGroupIndex = 0;
-
-            //liftersInGroup = controlWindow.groupDataList[ controlWindow.currentGroupIndex ].lifters;
-            //firstLifterInNextGroupIndex = liftersInGroup[ 0 ].index;
-
-            //// For each lifter in the next group, determine the lowest current lift
-            //Lifter.eLiftType nextGroupLiftType = 0;
-            //if( liftersInGroup.Count > 0 )
-            //    nextGroupLiftType = liftersInGroup.Min( lifter => lifter.currentLiftType );
-
-            //// Sort and Remove
-            //var comparer = new LifterComparer();
-            //liftersInGroup = liftersInGroup.OrderBy( item => item, comparer ).ToList();
-            //for( int i = 0 ; i < liftersInGroup.Count ; i++ )
-            //{
-            //    if( liftersInGroup[ i ].currentLiftType > nextGroupLiftType )
-            //    {
-            //        liftersInGroup.RemoveAt( i );
-            //    }
-            //}
-
-            //viewNothing = ( liftersInGroup.Count > 0 && ( liftersInGroup[ 0 ].currentLiftType == Lifter.eLiftType.None || liftersInGroup[ 0 ].currentLiftType == Lifter.eLiftType.Done ) );
-
-            //if( !viewNothing )
-            //{
-            //    for( int i = 0 ; i < liftersInGroup.Count ; i++ )
-            //    {
-            //        string Spacing = " ";
-            //        string SpacingIndex = " ";
-            //        int currentLiftIndex = ( int )liftersInGroup[ i ].currentLiftType;
-            //        float value = liftersInGroup[i].sbdListWeight[currentLiftIndex];
-            //        string text = liftersInGroup[i].sbdListWeight[currentLiftIndex].ToString();
-
-            //        if( value <= 100.0f )
-            //            Spacing += "  ";
-
-            //        if( !text.Contains( ".5" ) )
-            //            Spacing += "   ";
-
-            //        if( i >= 9 )
-            //            SpacingIndex = "| ";
-            //        else
-            //            SpacingIndex = "  | ";
-
-            //        LiftersInGroupTextBoxes[ i ].Text = ( i + 1 ) + SpacingIndex + value + Spacing + liftersInGroup[ i ].name;
-            //    }
-            //}
-            //else
-            //{
-            //    for( int i = 0 ; i < liftersInGroup.Count ; i++ )
-            //        LiftersInGroupTextBoxes[ i ].Text = "";
-            //}
+            return new TextBlock[] { L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb, L11Tb, L12Tb };
         }
     }
 }
