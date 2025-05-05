@@ -12,6 +12,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
+using System.Globalization;
 
 namespace SteelmeetWPF
 {
@@ -23,8 +24,8 @@ namespace SteelmeetWPF
         {
             this.AutoGeneratingColumn += OnAutoGeneratingColumn;
 
-            //this.Loaded += ( s, e ) => FontAutoScale();
-            //this.SizeChanged += ( s, e ) => FontAutoScale();
+            this.Loaded += ( s, e ) => FontAutoScale();
+            this.SizeChanged += ( s, e ) => FontAutoScale();
 
         }
 
@@ -72,7 +73,11 @@ namespace SteelmeetWPF
                 return;
 
             AutoSizeColumns();
-            FontSizeCalculation();
+            this.Dispatcher.BeginInvoke
+                ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
+                {
+                    //FontSizeCalculation();             
+                } ) );
         }
         private void FontSizeCalculation()
         {
@@ -80,8 +85,9 @@ namespace SteelmeetWPF
             double dataGridWidth = GetDataGridActualWidth();
 
             double multiplier = totalWidth / dataGridWidth;
+            this.FontSize = Math.Clamp( this.FontSize * multiplier, 0, 35791 );
 
-            this.FontSize *= multiplier;
+            //this.FontSize *= double.Parse( multiplier.ToString().Replace( ',', '.' ) );
         }
         private double GetDataGridActualWidth()
         {
@@ -93,22 +99,36 @@ namespace SteelmeetWPF
       
         public void AutoSizeColumns()
         {
-            double minWidth = 0;
+            double minWidth = 100;
 
             foreach (var column in this.Columns)
             {
-                column.Width = new DataGridLength( 1, DataGridLengthUnitType.SizeToCells );
-                //column.Width = new DataGridLength( 1, DataGridLengthUnitType.SizeToHeader );
-                //column.Width = new DataGridLength( 1, DataGridLengthUnitType.Auto );
+                column.Width = 10;
             }
 
             this.Dispatcher.BeginInvoke
                 ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
-            {
+                {
                     foreach (var column in this.Columns)
                     {
-                        if (column.ActualWidth < minWidth)
-                            column.Width = new DataGridLength( minWidth, DataGridLengthUnitType.Pixel );
+                        //   column.Width = new DataGridLength( 1, DataGridLengthUnitType.SizeToCells );
+                        //   column.Width = new DataGridLength( 1, DataGridLengthUnitType.SizeToHeader );
+                        column.Width = new DataGridLength( 1, DataGridLengthUnitType.Auto );
+                    }
+                } ) );
+            //7if ( true )
+            //7    return;
+
+
+            this.Dispatcher.BeginInvoke
+                ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
+            {
+                Random kalle = new Random();
+                    foreach (var column in this.Columns)
+                    {
+                        //column.Width = kalle.Next(20, 100);
+                        //if (column.ActualWidth < minWidth )
+                        //    column.Width = new DataGridLength( minWidth, DataGridLengthUnitType.Pixel );
                     }
             } ) );
         }

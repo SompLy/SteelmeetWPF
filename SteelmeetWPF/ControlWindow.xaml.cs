@@ -56,7 +56,7 @@ namespace SteelmeetWPF
         }
 
         public List<GroupData> groupDataList = new List<GroupData>();
-        public int currentGroupIndex;
+        public int currentGroupIndex = 0;
 
         public List<int> usedPlatesList = new List<int>();  // Hur många plates calculatorn har använt.
         List<int> totalPlatesList = new List<int>();        // Antalet paltes som användaren anvivit

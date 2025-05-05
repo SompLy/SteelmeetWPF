@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SteelmeetWPF
@@ -46,7 +47,10 @@ namespace SteelmeetWPF
         {
             controlWindow.controlDgCollection.Clear();
 
-            controlWindow.currentGroupIndex = ActiveGroupCob.SelectedIndex;
+            if (ActiveGroupCob.SelectedIndex < 0)
+                controlWindow.currentGroupIndex = 0;
+            else
+                controlWindow.currentGroupIndex = ActiveGroupCob.SelectedIndex;
 
             for( int i = 0 ; i < controlWindow.Lifters.Count ; i++ )
             {

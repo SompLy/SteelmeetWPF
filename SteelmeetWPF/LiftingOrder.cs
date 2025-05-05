@@ -170,7 +170,7 @@ namespace SteelmeetWPF
 
             // Last lifter in orders textblock slides in from side
 
-            // Done!!! :)
+            // Done!!! >:)
         }
     }
 }
