@@ -6,10 +6,12 @@
 
 
 ## Highest
+* Info panels control & spectator
 * Visual Weights in info panels
 * Auto font size for spectator datagrid to max possible while still fitting all information
 * Clicking in datagrid needs to change the selected lifter
-* Rack heights ned to be visable on the LifterInfoControl
+* Rack heights need to be visable on the LifterInfoControl
+* lifting order begin at 0 should begin at 1?
 
 ## High
 * Add button for exporting competitaion results inresults tab
@@ -58,6 +60,13 @@
 
 
 ## Done
+* E liftingOrder class where the liftingorder is handled & also updates visual lifting orders for control & spectator windows
+* E JudgeControl Good or bad lifts (other buttons not done)
+* E Simple RemoveLifter funtion in LiftingOrder class that will also handle animation of liftingorder
+* E funcitons to update various stats in Lifter.cs after judging (RankUpdate, CalculateGLPoints, EstimatedUpdate, BestSBDUpdate)
+* E funcitons to color specific cells in DataGrids
+* E Switching groups clears and updates liftingOrder
+* E ControlDgFormat to inherit from INotifyPropertyChanged for automatically sync Lifter with DataGrids
 * E Spectator tab NextGroupLifterOrder
 * E Make tabcontrol a new usecontrol instead of a just a style to hopefully fix visual bug
 * E Dynamically animated Y-pos of next groups attempts with animation 

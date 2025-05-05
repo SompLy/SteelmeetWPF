@@ -13,22 +13,22 @@ namespace SteelmeetWPF
         [Display( Name = "Lot" )]
         public string? lotNumber { get; set; }
 
-        [Display( Name = "Weight Class" )]
+        [Display( Name = "Weight\nClass" )]
         public string? weightClass { get; set; }
 
         [Display( Name = "Category" )]
         public string? category { get; set; }
 
-        [Display( Name = "Licence Number" )]
+        [Display( Name = "Licence\nNumber" )]
         public string? licenceNumber { get; set; }
 
         [Display( Name = "Association" )]
         public string? accossiation { get; set; }
 
-        [Display( Name = "Body Weight" )]
+        [Display( Name = "Body\nWeight" )]
         public string? bodyWeight { get; set; }
 
-        [Display( Name = "Squat Height" )]
+        [Display( Name = "Squat\nHeight" )]
         public string? squatHeight { get; set; }
 
         [Display( Name = "Tilted" )]
@@ -37,10 +37,10 @@ namespace SteelmeetWPF
         [Display( Name = "Squat" )]
         public string? s1 { get; set; }
 
-        [Display( Name = "Bench Height" )]
+        [Display( Name = "Bench\nHeight" )]
         public string? benchHeight { get; set; }
 
-        [Display( Name = "Bench Rack" )]
+        [Display( Name = "Bench\nRack" )]
         public string? benchRack { get; set; }
 
         [Display( Name = "Liftoff" )]
