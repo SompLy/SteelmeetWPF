@@ -13,6 +13,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace SteelmeetWPF
 {
@@ -26,7 +27,6 @@ namespace SteelmeetWPF
 
             this.Loaded += ( s, e ) => FontAutoScale();
             this.SizeChanged += ( s, e ) => FontAutoScale();
-
         }
 
         private void OnAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -73,30 +73,55 @@ namespace SteelmeetWPF
                 return;
 
             AutoSizeColumns();
-            this.Dispatcher.BeginInvoke
+            FontSizeCalculation();
+
+            this.Dispatcher.BeginInvoke // This is dumb... But this works
+            ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
+            {
+                AutoSizeColumns();
+                FontSizeCalculation();
+                this.Dispatcher.BeginInvoke
                 ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
                 {
-                    //FontSizeCalculation();             
+                    AutoSizeColumns();
+                    FontSizeCalculation();
+                    this.Dispatcher.BeginInvoke
+                    ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
+                    {
+                        AutoSizeColumns();
+                        FontSizeCalculation();
+                    } ) );
                 } ) );
+            } ) );
         }
+
+
         private void FontSizeCalculation()
         {
             double totalWidth = this.ActualWidth;
-            double dataGridWidth = GetDataGridActualWidth();
+            
+            if ( IsVerticalScrollBarVisible() )
+            {
+                totalWidth -= SystemParameters.VerticalScrollBarWidth;
+            }
+
+            double dataGridWidth = this.Columns.Sum(c => c.ActualWidth); //GetDataGridActualWidth();
 
             double multiplier = totalWidth / dataGridWidth;
             this.FontSize = Math.Clamp( this.FontSize * multiplier, 0, 35791 );
-
-            //this.FontSize *= double.Parse( multiplier.ToString().Replace( ',', '.' ) );
         }
-        private double GetDataGridActualWidth()
+        private bool IsVerticalScrollBarVisible()
         {
-            double width = 0;
-            for (int i = 0; i < this.Columns.Count; i++)
-                width += this.Columns [i].ActualWidth;
-            return width;
+            if (VisualTreeHelper.GetChildrenCount( this ) == 0)
+                return false;
+
+            Decorator border = VisualTreeHelper.GetChild( this, 0) as Decorator;
+            if (border is null || border.Child is not ScrollViewer scrollViewer)
+                return false;
+
+            return scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible;
         }
-      
+
         public void AutoSizeColumns()
         {
             double minWidth = 100;
@@ -106,18 +131,17 @@ namespace SteelmeetWPF
                 column.Width = 10;
             }
 
-            this.Dispatcher.BeginInvoke
-                ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
+           // this.Dispatcher.BeginInvoke
+           //     ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
+            {
+                foreach (var column in this.Columns)
                 {
-                    foreach (var column in this.Columns)
-                    {
-                        //   column.Width = new DataGridLength( 1, DataGridLengthUnitType.SizeToCells );
-                        //   column.Width = new DataGridLength( 1, DataGridLengthUnitType.SizeToHeader );
-                        column.Width = new DataGridLength( 1, DataGridLengthUnitType.Auto );
-                    }
-                } ) );
-            //7if ( true )
-            //7    return;
+                    DataGridLength value = new DataGridLength( 1, DataGridLengthUnitType.Auto );
+                    column.Width = value;
+                }
+            } //) );
+            //if ( true )
+            //    return;
 
 
             this.Dispatcher.BeginInvoke
