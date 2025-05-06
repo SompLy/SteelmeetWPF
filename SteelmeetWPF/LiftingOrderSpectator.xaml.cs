@@ -47,7 +47,7 @@ namespace SteelmeetWPF
 
         public TextBlock[] GetTextBlocks()
         {
-            return new TextBlock[] { L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb, L11Tb, L12Tb };
+            return new TextBlock[] { L0Tb, L1Tb, L2Tb, L3Tb, L4Tb, L5Tb, L6Tb, L7Tb, L8Tb, L9Tb, L10Tb, L11Tb, L12Tb, L13Tb, L14Tb, L15Tb, L16Tb, L17Tb, L18Tb, L19Tb };
         }
     }
 }

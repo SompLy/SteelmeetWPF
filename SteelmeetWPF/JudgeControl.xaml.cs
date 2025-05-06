@@ -116,7 +116,7 @@ namespace SteelmeetWPF
                 selectedLifter.currentLiftType += 1;
 
             // Needs to increment currentLiftType before updating liftingOrder
-            liftingOrder.RemoveLifter( selectedLifter, controlWindow );
+            liftingOrder.RemoveLifter( selectedLifter, controlWindow, controlWindow.spectatorWindowList);
             controlWindow.selectedLifterIndex = liftingOrder.LiftingOrderList[ 0 ].index;
         }
 

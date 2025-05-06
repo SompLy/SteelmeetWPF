@@ -42,9 +42,23 @@
             </Viewbox>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="283*" />
+                    <ColumnDefinition Width="450*" />
                     <ColumnDefinition Width="333*" />
                 </Grid.ColumnDefinitions>
+                <Viewbox
+                    Grid.Column="0"
+                    Margin="20,-2,0,-20"
+                    HorizontalAlignment="Right"
+                    Stretch="Uniform">
+                    <TextBlock
+                        Name="HeightsTb"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontWeight="bold"
+                        FontFamily="{DynamicResource fontFamily}"
+                        Foreground="{DynamicResource fontColorDark}"
+                        Text="12/10" />
+                </Viewbox>
                 <Viewbox
                     Grid.Column="1"
                     Margin="0,-2,60,-20"

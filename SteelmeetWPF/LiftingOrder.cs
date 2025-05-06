@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
 
 namespace SteelmeetWPF
 {
@@ -112,7 +115,7 @@ namespace SteelmeetWPF
                      row.UpdateFromLifter();
         }
 
-        void UpdateSpectator( SpectatorWindow spectatorWindow )
+        public void UpdateSpectator( SpectatorWindow spectatorWindow )
         {
             if( !spectatorLoaded )
             {
@@ -154,23 +157,109 @@ namespace SteelmeetWPF
                     SpectatorTbList[ i ].Text = i + spacingIndex + value + spacing + LiftingOrderList[ i ].name;
             }
         }
-        public void RemoveLifter(Lifter lifterToRemove, ControlWindow controlWindow)
+        public void RemoveLifter(Lifter lifterToRemove, ControlWindow controlWindow, List<SpectatorWindow> spectatorWindows)
         {
+            foreach( SpectatorWindow spectatorWindow in spectatorWindows )
+            {
+                // Play animation for spectator window
+
+                TextBlock lifterTextBlock = null;
+                TextBlock[] textBlocks = spectatorWindow.LiftingOrderSpec.GetTextBlocks();
+
+                for( int i = 0 ; i < textBlocks.Length ; i++ )
+                    if( textBlocks[ i ].Text.Contains( lifterToRemove.name ) )
+                        lifterTextBlock = textBlocks[ i ];
+
+                if( lifterTextBlock == null )
+                    break;
+
+                // Animate that textblock so it goes to the side
+
+                if( lifterTextBlock.RenderTransform == null || !( lifterTextBlock.RenderTransform is TranslateTransform ) )
+                    lifterTextBlock.RenderTransform = new TranslateTransform();
+
+                TranslateTransform translateTransform = lifterTextBlock.RenderTransform as TranslateTransform;
+
+                if( translateTransform != null )
+                {
+                    double from = translateTransform.X;
+                    double to = translateTransform.X + 400;
+
+                    DoubleAnimation animation = new DoubleAnimation
+                    {
+                        From = from,
+                        To = to,
+                        Duration = new Duration(TimeSpan.FromMilliseconds(250))
+                    };
+
+                    animation.Completed += ( s, e ) =>
+                    {
+                        // Animate all blocks below to go up
+
+                        int removedIndex = Array.IndexOf(textBlocks, lifterTextBlock);
+                        int blocksToMove = textBlocks.Length - removedIndex - 1;
+                        int completedCount = 0;
+
+                        for( int i = removedIndex + 1 ; i < textBlocks.Length ; i++ )
+                        {
+                            TextBlock blockBelow = textBlocks[i];
+
+                            if( blockBelow.RenderTransform == null || !( blockBelow.RenderTransform is TranslateTransform ) )
+                                blockBelow.RenderTransform = new TranslateTransform();
+
+                            TranslateTransform translateTransform2 = blockBelow.RenderTransform as TranslateTransform;
+
+                            double fromY = translateTransform2.Y;
+                            double toY = translateTransform2.Y - 40;
+
+                            DoubleAnimation moveUpAnimation = new DoubleAnimation
+                            {
+                                From = fromY,
+                                To = toY,
+                                Duration = new Duration(TimeSpan.FromMilliseconds(250))
+                            };
+
+                            moveUpAnimation.Completed += ( s, e ) =>
+                            {
+                                completedCount++;
+
+                                if( completedCount == blocksToMove )
+                                {
+                                    // ✅ All animations complete, reset all transforms
+                                    foreach( TextBlock tb in textBlocks )
+                                    {
+                                        if( tb.RenderTransform is TranslateTransform tt )
+                                        {
+                                            tt.ApplyAnimationClock( TranslateTransform.XProperty, null );
+                                            tt.ApplyAnimationClock( TranslateTransform.YProperty, null );
+                                            tt.X = 0;
+                                            tt.Y = 0;
+                                        }
+                                    }
+
+                                    foreach( SpectatorWindow specWindow in controlWindow.spectatorWindowList )
+                                        UpdateSpectator( specWindow );
+                                }
+                            };
+
+                            translateTransform2.BeginAnimation( TranslateTransform.YProperty, moveUpAnimation );
+                        }
+                    };
+
+                    translateTransform.BeginAnimation( TranslateTransform.XProperty, animation );
+                }
+
+
+
+                // Last lifter in orders textblock slides in from side
+
+                // Done!!! >:)
+
+            }
+
+            UpdateLiftingorder( controlWindow );
+            UpdateControl( controlWindow );
             LiftingOrderList.Remove( lifterToRemove );
-            UpdateAll( controlWindow );
-            // Play animation on lifter that is removed and move the whoe lifting order textblocks up
-
-            // Get Textblock that corresponds to lifter
-
-            // Animate that textblock so it goes to the side
-
-            // Animate all blocks below to go up
-
-            // Switch to to the positions that they were in before & Update lifting order same frame
-
-            // Last lifter in orders textblock slides in from side
-
-            // Done!!! >:)
         }
     }
 }

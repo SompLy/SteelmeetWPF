@@ -19,6 +19,21 @@
             BorderThickness="4"
             CornerRadius="8,8,8,8">
         </Border>
+        <Rectangle
+        Height="30"
+        VerticalAlignment="Top"
+        IsHitTestVisible="False"
+        Opacity="1"
+            Margin="0,-20,0,0">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                    <GradientStop Color="{DynamicResource backgroundColor}" Offset="0"/>
+                    <!-- Solid black at top -->
+                    <GradientStop Color="#00000000" Offset="1"/>
+                    <!-- Transparent at bottom -->
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />

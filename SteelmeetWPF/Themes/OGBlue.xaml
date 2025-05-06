@@ -1,5 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="backgroundColor">#1B262C</Color>
+    <Color x:Key="background2Color">0F4C75</Color>
+    <Color x:Key="middlegroundColor">0F4C75</Color>
+    <Color x:Key="accentColor">#BBE1FA</Color>
+
     <SolidColorBrush x:Key="background" Color="#1B262C" />
     <SolidColorBrush x:Key="background2" Color="#0F4C75" />
     <SolidColorBrush x:Key="middleground" Color="#0F4C75" />

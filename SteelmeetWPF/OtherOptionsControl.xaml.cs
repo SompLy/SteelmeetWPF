@@ -40,6 +40,7 @@ namespace SteelmeetWPF
                 var specList = controlWindow.spectatorWindowList;
                 specList.Add( new SpectatorWindow( controlWindow ) );
                 specList[ specList.Count - 1 ].Show();
+                controlWindow.liftingOrder.UpdateSpectator( specList[ specList.Count - 1 ] );
             }
         }
 
