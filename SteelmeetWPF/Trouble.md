@@ -8,7 +8,6 @@
 ## Highest
 * Info panels control & spectator
 * Visual Weights in info panels
-* Auto font size for spectator datagrid to max possible while still fitting all information
 * Clicking in datagrid needs to change the selected lifter
 * Rack heights need to be visable on the LifterInfoControl
 * lifting order begin at 0 should begin at 1?
@@ -60,6 +59,7 @@
 
 
 ## Done
+* P Auto font size for spectator datagrid to max possible while still fitting all information
 * E liftingOrder class where the liftingorder is handled & also updates visual lifting orders for control & spectator windows
 * E JudgeControl Good or bad lifts (other buttons not done)
 * E Simple RemoveLifter funtion in LiftingOrder class that will also handle animation of liftingorder
