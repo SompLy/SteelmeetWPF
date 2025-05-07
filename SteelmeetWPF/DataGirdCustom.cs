@@ -14,6 +14,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using System.Globalization;
 using System.Windows.Media;
+using System.Collections.Specialized;
 
 namespace SteelmeetWPF
 {
@@ -25,8 +26,8 @@ namespace SteelmeetWPF
         {
             this.AutoGeneratingColumn += OnAutoGeneratingColumn;
 
-            this.Loaded += ( s, e ) => FontAutoScale();
-            this.SizeChanged += ( s, e ) => FontAutoScale();
+            this.Loaded += ( s, e ) => AutoScaleDataGrid();
+            this.SizeChanged += ( s, e ) => AutoScaleDataGrid();
         }
 
         private void OnAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -67,36 +68,36 @@ namespace SteelmeetWPF
                 _hiddenColumns.Add(columnName);
         }
 
-        private void FontAutoScale()
+        public void AutoScaleDataGrid()
         {
             if (this.Columns == null || this.Columns.Count == 0)
                 return;
 
             AutoSizeColumns();
-            FontSizeCalculation();
+            AutoSizeFont();
 
             this.Dispatcher.BeginInvoke // This is dumb... But this works
             ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
             {
                 AutoSizeColumns();
-                FontSizeCalculation();
+                AutoSizeFont();
                 this.Dispatcher.BeginInvoke
                 ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
                 {
                     AutoSizeColumns();
-                    FontSizeCalculation();
+                    AutoSizeFont();
                     this.Dispatcher.BeginInvoke
                     ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
                     {
                         AutoSizeColumns();
-                        FontSizeCalculation();
+                        AutoSizeFont();
                     } ) );
                 } ) );
             } ) );
         }
 
 
-        private void FontSizeCalculation()
+        private void AutoSizeFont()
         {
             double totalWidth = this.ActualWidth;
             
@@ -108,7 +109,7 @@ namespace SteelmeetWPF
             double dataGridWidth = this.Columns.Sum(c => c.ActualWidth); //GetDataGridActualWidth();
 
             double multiplier = totalWidth / dataGridWidth;
-            this.FontSize = Math.Clamp( this.FontSize * multiplier, 0, 35791 );
+            this.FontSize = Math.Clamp( this.FontSize * multiplier, 10, 35791 );
         }
         private bool IsVerticalScrollBarVisible()
         {
@@ -131,30 +132,12 @@ namespace SteelmeetWPF
                 column.Width = 10;
             }
 
-           // this.Dispatcher.BeginInvoke
-           //     ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
+            foreach (var column in this.Columns)
             {
-                foreach (var column in this.Columns)
-                {
-                    DataGridLength value = new DataGridLength( 1, DataGridLengthUnitType.Auto );
-                    column.Width = value;
-                }
-            } //) );
-            //if ( true )
-            //    return;
+                DataGridLength value = new DataGridLength( 1, DataGridLengthUnitType.Auto );
+                column.Width = value;
+            }
 
-
-            this.Dispatcher.BeginInvoke
-                ( System.Windows.Threading.DispatcherPriority.ContextIdle, new Action( () =>
-            {
-                Random kalle = new Random();
-                    foreach (var column in this.Columns)
-                    {
-                        //column.Width = kalle.Next(20, 100);
-                        //if (column.ActualWidth < minWidth )
-                        //    column.Width = new DataGridLength( minWidth, DataGridLengthUnitType.Pixel );
-                    }
-            } ) );
         }
     }
 }

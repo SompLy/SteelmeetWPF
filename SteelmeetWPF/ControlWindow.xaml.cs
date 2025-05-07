@@ -179,6 +179,7 @@ namespace SteelmeetWPF
             try
             {
                 WeighInInfoUpdate();
+                weightInDg.AutoScaleDataGrid();
             }
             catch( Exception ex )
             {
