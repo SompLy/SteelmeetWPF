@@ -62,11 +62,27 @@ namespace SteelmeetWPF
                 }
             }
 
+            // Update :
+            // liftingOrder
+            // selectedLifterIndex
+            // lifterInfo
+            // nextGroupLiftOrder
+
             controlWindow.liftingOrder.LiftingOrderList.Clear();
             controlWindow.liftingOrder.UpdateAll( controlWindow );
-            controlWindow.selectedLifterIndex = controlWindow.liftingOrder.LiftingOrderList[ 0 ].index;
-            foreach( SpectatorWindow window in controlWindow.spectatorWindowList )
+
+            controlWindow.SelectedLifterIndex = controlWindow.liftingOrder.LiftingOrderList[ 0 ].index;
+
+            controlWindow.lifterInfo1.Update( controlWindow.liftingOrder.LiftingOrderList[ 0 ] );
+            controlWindow.lifterInfo2.Update( controlWindow.liftingOrder.LiftingOrderList[ 1 ] );
+
+            foreach( SpectatorWindow window in controlWindow.spectatorWindowList ) 
+            {
+                window.lifterInfo1.Update( controlWindow.liftingOrder.LiftingOrderList[ 0 ] );
+                window.lifterInfo2.Update( controlWindow.liftingOrder.LiftingOrderList[ 1 ] );
+
                 window.nextGroupOrderSpec.GroupLiftOrderUpdate(controlWindow);
+            }
         }
     }
 }

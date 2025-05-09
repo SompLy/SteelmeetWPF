@@ -2,16 +2,14 @@
 
 ## In Progress...
 * All basic functionality Code Competition tab (All button should do something)
-* Info panels control & spectator
-* Rack heights need to be visable on the LifterInfoControl
-
-## Highest
-* Select next lifter
+* Timer
 * Undo lift
 * Retry lift
-* SuggestedWeights
-* Timer
+* Something wrong with the order of updates for spectatorpanek suggetedbuttons runs an update all that breaks something with animation 
+
+## Highest
 * Visual Weights in info panels
+* Right-click on attempt to open menu and change it's judging and weight
 
 ## High
 * lifting order begin at 0 should begin at 1?
@@ -19,7 +17,6 @@
 * Exporting GL points decimal amount should be lowered to 2
 * Warning when sending to comp if comp is loaded
 * Crash when changing group of lifter and sending to comp if already in competition
-* Right-click on attempt to open menu and change it's judging
 
 #### Animations:
 * Animation LifterInfo
@@ -58,6 +55,10 @@
 
 
 ## Done
+* E SuggestedWeights
+* E Rack heights need to be visable on the LifterInfoControl
+* E Info panels control & spectator
+* E Select next lifter
 * E GL points never gets set in datagrid
 * E est gl should only have 2 deciamls
 * P Spectator window escape key wants to remove all newer spectator windows

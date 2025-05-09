@@ -41,8 +41,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_2_5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="2.5"
+                    Tag="2.5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -52,8 +53,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="5"
+                    Tag="5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -63,8 +65,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_7_5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="7.5"
+                    Tag="7.5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -74,8 +77,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_10Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="10"
+                    Tag="10"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -85,9 +89,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_12_5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="12.5"
-                    
+                    Tag="12.5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -97,8 +101,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_15Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="15"
+                    Tag="15"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -108,8 +113,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_17_5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="17.5"
+                    Tag="17.5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -119,8 +125,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_20Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="20"
+                    Tag="20"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -130,8 +137,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="_25Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="25"
+                    Tag="25"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -141,8 +149,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="__2_5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="-2.5"
+                    Tag="-2.5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -152,8 +161,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="__5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="-5"
+                    Tag="-5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
                 <Button
@@ -163,8 +173,9 @@
                     Margin="-1"
                     Background="Transparent"
                     BorderBrush="Black"
-                    Click="__7_5Btn_Click"
+                    Click="Suggested_Btn_Click"
                     Content="-7.5"
+                    Tag="-7.5"
                     FontSize="18"
                     Style="{DynamicResource ButtonStyleStandard}" />
             </Grid>

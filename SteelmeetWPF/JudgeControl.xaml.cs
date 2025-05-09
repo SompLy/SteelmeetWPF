@@ -52,7 +52,7 @@ namespace SteelmeetWPF
                 MessageBox.Show( "Lyftare saknas :(, starta en tävling först!", "⚠SteelMeet varning!⚠" );
 
             var liftingOrder = controlWindow.liftingOrder;
-            var selectedLifter = controlWindow.Lifters[ controlWindow.selectedLifterIndex ];
+            var selectedLifter = controlWindow.Lifters[ controlWindow.SelectedLifterIndex ];
 
             if( !liftingOrder.LiftingOrderList.Contains( selectedLifter ) )
             {
@@ -104,7 +104,7 @@ namespace SteelmeetWPF
             selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = isLiftGood;
             selectedLifter.BestSBDUpdate();
             selectedLifter.total = selectedLifter.bestS + selectedLifter.bestB + selectedLifter.bestD;
-            selectedLifter.CalculateGLPoints( selectedLifter.total );
+            selectedLifter.pointsGL = ( double )Math.Round(selectedLifter.CalculateGLPoints( selectedLifter.total ), 2);
             selectedLifter.RankUpdate( controlWindow );
             selectedLifter.isRetrying = false;
             selectedLifter.EstimatedUpdate();
@@ -117,7 +117,7 @@ namespace SteelmeetWPF
 
             // Needs to increment currentLiftType before updating liftingOrder
             liftingOrder.RemoveLifter( selectedLifter, controlWindow, controlWindow.spectatorWindowList);
-            controlWindow.selectedLifterIndex = liftingOrder.LiftingOrderList[ 0 ].index;
+            controlWindow.SelectedLifterIndex = liftingOrder.LiftingOrderList[ 0 ].index;
         }
 
         private DataGridCell GetCell( DataGridRow row, int columnIndex )
@@ -210,23 +210,7 @@ namespace SteelmeetWPF
 
         private void SelectNextLifter()
         {
-            //if( liftingOrder.Count > 0 )
-            //{
-            //    dataGridViewControlPanel.CurrentCell = dataGridViewControlPanel.Rows[ liftingOrder[ 0 ].index - groupRowFixer ].Cells[ 1 ];
-            //    // Markerar rad för den aktiva lyftaren
-            //    for( int columnIndex = 2 ; columnIndex <= 5 ; columnIndex++ )
-            //        dataGridViewControlPanel.Rows[ liftingOrder[ 0 ].index - groupRowFixer ].Cells[ columnIndex ].Selected = true;
-            //
-            //    // Uppdaterar platcalculatorn för den buggar ibland
-            //    // Om gruppen är klar
-            //    if( liftingOrder[ 0 ].CurrentLift - firstLiftColumn <= 8 )
-            //        PlateCalculator( liftingOrder[ 0 ].sbdList[ liftingOrder[ 0 ].CurrentLift - firstLiftColumn ], plateInfo );
-            //    // Om gruppen är klar
-            //    if( liftingOrder.Count > 1 && liftingOrder[ 1 ].CurrentLift - firstLiftColumn <= 8 )
-            //        PlateCalculator2( liftingOrder[ 1 ].sbdList[ liftingOrder[ 1 ].CurrentLift - firstLiftColumn ], plateInfo );
-            //
-            //    InfopanelsUpdate();
-            //}
+            controlWindow.SelectedLifterIndex = controlWindow.liftingOrder.LiftingOrderList[ 0 ].index;
         }
         public void undoLift( bool _isRetrying )
         { 

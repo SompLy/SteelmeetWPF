@@ -96,7 +96,7 @@ namespace SteelmeetWPF
             float estimatedDeadlift = Math.Max( sbdWeightsList[ 6 ], Math.Max( sbdWeightsList[ 7 ], sbdWeightsList[ 8 ] ) );
 
             estimatedTotal = estimatedSquat + estimatedBench + estimatedDeadlift;
-            estimatedGLPoints = CalculateGLPoints( estimatedTotal );
+            estimatedGLPoints = ( float )Math.Round(CalculateGLPoints( estimatedTotal ), 2);
         }
 
         public float CalculateGLPoints( float calcTotal )

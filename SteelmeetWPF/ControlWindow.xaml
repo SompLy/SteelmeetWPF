@@ -290,7 +290,8 @@
                                 ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}"
                                 HeadersVisibility="Column"
                                 RowBackground="{DynamicResource middleground}"
-                                Style="{DynamicResource DataGirdCustomStyle}" />
+                                Style="{DynamicResource DataGirdCustomStyle}"
+                                PreviewMouseLeftButtonDown="controlDg_PreviewMouseLeftButtonDown" />
                             <!--  Right side UserConstrols  -->
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
@@ -321,7 +322,9 @@
                 Foreground="{DynamicResource fontColorLight}"
                 Header="Resultat"
                 Style="{DynamicResource TabItemStyleCustom}">
-                <Grid Background="{DynamicResource background}" />
+                <Grid Background="{DynamicResource background}" >
+                    <Image Margin="722,323,722,324" Source="/Image1.png" Stretch="Fill"/>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

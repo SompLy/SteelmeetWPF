@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,37 @@ namespace SteelmeetWPF
         public LifterInfoControl()
         {
             InitializeComponent();
+        }
+
+        public void Update( Lifter lifter ) 
+        {
+            NameTb.Text = lifter.name;
+            WeightTb.Text = lifter.sbdWeightsList[ ( int )lifter.currentLiftType ].ToString();
+
+            if( lifter.currentLiftType < Lifter.eLiftType.B1 )
+            {
+                HeightsTb.Text = "Höjd " + lifter.squatHeight;
+
+                if( new[] { "Nej", "No", "" }.Any( s => lifter.tilted.Contains( s ) ) )
+                    TiltedLiftoffTb.Text = "";
+                else
+                    TiltedLiftoffTb.Text = lifter.tilted;
+            }
+            else if( lifter.currentLiftType < Lifter.eLiftType.D1 )
+            {
+                HeightsTb.Text = "Höjd " + lifter.benchHeight + "/" + lifter.benchRack;
+
+                if( new[] { "Nej", "No", "" }.Any( s => lifter.tilted.Contains( s ) ) )
+                    TiltedLiftoffTb.Text = "";
+                else
+                    TiltedLiftoffTb.Text = lifter.liftoff;
+            }
+            else 
+            {
+                TiltedLiftoffTb.Text = "";
+                // View total -> est total
+            }
+
         }
     }
 }

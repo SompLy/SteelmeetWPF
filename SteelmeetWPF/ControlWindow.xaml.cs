@@ -46,7 +46,20 @@ namespace SteelmeetWPF
         public string browsedFile;
         public string recordType;            // Klubb, Distrikt, Svenskt rekord, Europa rekord, World record!!! borde vara en enum?
 
-        public int selectedLifterIndex;
+        private int _selectedLifterIndex;
+        public int SelectedLifterIndex
+        {
+            get => _selectedLifterIndex;
+            set
+            {
+                if( _selectedLifterIndex != value )
+                {
+                    _selectedLifterIndex = value;
+                    OnSelectedLifterIndexChanged();
+                }
+            }
+        }
+
         public int selectedColumnIndex;
         
         public class GroupData
@@ -629,9 +642,27 @@ namespace SteelmeetWPF
             SendToCompetitionTab();
         }
 
-        // WeighIn Tab
+        private void controlDg_PreviewMouseLeftButtonDown( object sender, MouseButtonEventArgs e )
+        {
+            var depObj = (DependencyObject)e.OriginalSource;
 
-        // Comp Tab
+            while( depObj != null && !( depObj is DataGridRow ) )
+            {
+                depObj = VisualTreeHelper.GetParent( depObj );
+            }
 
+            if( depObj is DataGridRow row )
+            {
+                int rowIndex = controlDg.ItemContainerGenerator.IndexFromContainer(row);
+
+                SelectedLifterIndex = groupDataList[ currentGroupIndex ].lifters[ rowIndex ].index;
+            }
+
+        }
+
+        private void OnSelectedLifterIndexChanged()
+        {
+            suggestedWeightControl.Update( Lifters[ SelectedLifterIndex ], this );
+        }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.InkML;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,66 +22,52 @@ namespace SteelmeetWPF
     /// </summary>
     public partial class SuggestedWeightControl : UserControl
     {
+        private Lifter lifter = null;
+        private ControlWindow controlWindow = null;
+
         public SuggestedWeightControl()
         {
             InitializeComponent();
         }
 
-        private void _2_5Btn_Click(object sender, RoutedEventArgs e)
+        public void Update( Lifter _lifter, ControlWindow _controlWindow ) 
         {
-            throw new NotImplementedException();
+            lifter = _lifter;
+            controlWindow = _controlWindow;
+
+            float baseWeight = lifter.sbdWeightsList[ ( int )lifter.currentLiftType ];
+            float[] weightIncrements = { 2.5f, 5.0f, 7.5f, 10.0f, 12.5f, 15.0f, 17.5f, 20f, 25.0f };
+
+            _2_5Btn.Content  = ( baseWeight + weightIncrements[ 0 ] ).ToString();
+            _5Btn.Content    = ( baseWeight + weightIncrements[ 1 ] ).ToString();
+            _7_5Btn.Content  = ( baseWeight + weightIncrements[ 2 ] ).ToString();
+            _10Btn.Content   = ( baseWeight + weightIncrements[ 3 ] ).ToString();
+            _12_5Btn.Content = ( baseWeight + weightIncrements[ 4 ] ).ToString();
+            _15Btn.Content   = ( baseWeight + weightIncrements[ 5 ] ).ToString();
+            _17_5Btn.Content = ( baseWeight + weightIncrements[ 6 ] ).ToString();
+            _20Btn.Content   = ( baseWeight + weightIncrements[ 7 ] ).ToString();
+            _25Btn.Content   = ( baseWeight + weightIncrements[ 8 ] ).ToString();
+
+            __2_5Btn.Content = ( baseWeight - weightIncrements[ 0 ] ).ToString();
+            __5Btn.Content   = ( baseWeight - weightIncrements[ 1 ] ).ToString();
+            __7_5Btn.Content = ( baseWeight - weightIncrements[ 2 ] ).ToString();
+
+            _controlWindow.liftingOrder.UpdateAll( _controlWindow );
         }
 
-        private void _5Btn_Click(object sender, RoutedEventArgs e)
+        private void Suggested_Btn_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
-        }
+            if( lifter == null )
+                return;
 
-        private void _7_5Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+            if( sender is Button button ) 
+            {
+                float increment = float.Parse(button.Tag.ToString(), CultureInfo.InvariantCulture);
 
-        private void _10Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+                lifter.sbdWeightsList[ ( int )lifter.currentLiftType ] += increment;
+            }
 
-        private void _12_5Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void _15Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void _17_5Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void _20Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        private void _25Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        private void __2_5Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void __5Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        private void __7_5Btn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
+            Update( lifter, controlWindow );
         }
     }
 }

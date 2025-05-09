@@ -156,7 +156,18 @@ namespace SteelmeetWPF
                 else if( i < LiftingOrderList.Count )
                     SpectatorTbList[ i ].Text = i + spacingIndex + value + spacing + LiftingOrderList[ i ].name;
             }
+
+            UpdateSpectatorInfoPanels( spectatorWindow );
         }
+
+        void UpdateSpectatorInfoPanels( SpectatorWindow spectatorWindow )
+        {
+            // Animate here?
+
+            spectatorWindow.lifterInfo1.Update( LiftingOrderList[ 0 ] );
+            spectatorWindow.lifterInfo2.Update( LiftingOrderList[ 1 ] );
+        }
+
         public void RemoveLifter(Lifter lifterToRemove, ControlWindow controlWindow, List<SpectatorWindow> spectatorWindows)
         {
             foreach( SpectatorWindow spectatorWindow in spectatorWindows )
