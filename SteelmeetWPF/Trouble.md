@@ -2,17 +2,19 @@
 
 ## In Progress...
 * All basic functionality Code Competition tab (All button should do something)
-* Spectator tab lifting order
-
+* Info panels control & spectator
+* Rack heights need to be visable on the LifterInfoControl
 
 ## Highest
-* Info panels control & spectator
+* Select next lifter
+* Undo lift
+* Retry lift
+* SuggestedWeights
+* Timer
 * Visual Weights in info panels
-* Clicking in datagrid needs to change the selected lifter
-* Rack heights need to be visable on the LifterInfoControl
-* lifting order begin at 0 should begin at 1?
 
 ## High
+* lifting order begin at 0 should begin at 1?
 * Add button for exporting competitaion results inresults tab
 * Exporting GL points decimal amount should be lowered to 2
 * Warning when sending to comp if comp is loaded
@@ -22,23 +24,20 @@
 #### Animations:
 * Animation LifterInfo
 * Animation Group sliding transition spectator panel
-* Animation Lifter order
 * Animation Datagrid judge color (pulse or boing)
-
+* Animation Wheights in infopanels. Each weight go up then go on the bar then the lock at the end
 
 ## Medium
 * Replace all messageboxes with a "pop-up" notification style thing that goes away after a couple of seconds
-* Spectator window escape key wants to remove all newer spectator windows
 * Record attempt Spectator Window w/ epic effect
 * Make themes selectable in settings
 * Make TimerControl look better with selecting time
 * Make all colors use the current theme
 * Window only with Lifter info controls for spotters
-* Wight amount and color settings in settings tab
 * Custom window for Messagebox that correspond with the design of the rest of the program
 
-
 ## Low
+* Wight amount and color settings in settings tab
 * XAML Settings tab
 * Code Settings tab
 * Auto-save current settings to reg or file.
@@ -59,6 +58,12 @@
 
 
 ## Done
+* E GL points never gets set in datagrid
+* E est gl should only have 2 deciamls
+* P Spectator window escape key wants to remove all newer spectator windows
+* E Clicking in datagrid needs to change the selected lifter
+* E Animation Lifter order
+* E Spectator tab lifting order
 * P Auto font size for spectator datagrid to max possible while still fitting all information
 * E liftingOrder class where the liftingorder is handled & also updates visual lifting orders for control & spectator windows
 * E JudgeControl Good or bad lifts (other buttons not done)
