@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SteelmeetWPF
 {
-    public class ControlDgFormat: INotifyPropertyChanged
+    public class DgFormat: INotifyPropertyChanged
     {
         private readonly Lifter _source;
 
-        public ControlDgFormat( Lifter lifter )
+        public DgFormat( Lifter lifter )
         {
             _source = lifter;
             UpdateFromLifter();

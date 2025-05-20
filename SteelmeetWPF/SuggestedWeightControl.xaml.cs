@@ -30,7 +30,7 @@ namespace SteelmeetWPF
             InitializeComponent();
         }
 
-        public void Update( Lifter _lifter, ControlWindow _controlWindow ) 
+        public void Update( Lifter _lifter, ControlWindow _controlWindow, bool shouldUpdateLiftingOrder = false ) 
         {
             lifter = _lifter;
             controlWindow = _controlWindow;
@@ -52,7 +52,8 @@ namespace SteelmeetWPF
             __5Btn.Content   = ( baseWeight - weightIncrements[ 1 ] ).ToString();
             __7_5Btn.Content = ( baseWeight - weightIncrements[ 2 ] ).ToString();
 
-            _controlWindow.liftingOrder.UpdateAll( _controlWindow );
+            if ( !shouldUpdateLiftingOrder ) // Fattar inte varför i helvette denna är reversed men det funkar
+                _controlWindow.liftingOrder.UpdateAll( _controlWindow );
         }
 
         private void Suggested_Btn_Click(object sender, RoutedEventArgs e)

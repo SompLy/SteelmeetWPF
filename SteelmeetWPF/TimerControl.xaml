@@ -41,6 +41,18 @@
                     FontWeight="Bold"
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Lyft" />
+                <Button
+                        Name="MinutesResetBtn"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="150,0,0,0"
+                        Padding="-4,0,-4,0"
+                        Background="Transparent"
+                        BorderBrush="Black"
+                        Click="MinutesResetBtn_Click"
+                        Content="X"
+                        FontSize="16"
+                        Style="{DynamicResource ButtonStyleStandard}" />
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="1"
@@ -51,6 +63,18 @@
                     FontWeight="Bold"
                     Foreground="{DynamicResource fontColorDark}"
                     Text="Lapp" />
+                <Button
+                        Name="TimestampResetBtn"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="150,0,0,0"
+                        Padding="-4,0,-4,0"
+                        Background="Transparent"
+                        BorderBrush="Black"
+                        Click="TimestampResetBtn_Click"
+                        Content="X"
+                        FontSize="16"
+                        Style="{DynamicResource ButtonStyleStandard}" />
                 <!--  Timers  -->
                 <TextBlock
                     Name="liftTimerTb"
@@ -78,35 +102,25 @@
                 <Grid Grid.Row="2" Grid.Column="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <ComboBox
+                            Name="MinutesMinCb"
+                            Margin="28,0,0,0"
+                            Width="40"
+                            Style="{DynamicResource ComboBoxCustomStyle}" />
                     <Button
                         Name="MinutesBtn"
                         Grid.Row="0"
                         Grid.Column="1"
-                        Margin="0,0,4,0"
+                        Margin="10,0,0,0"
+                        Padding="4,0,4,0"
                         Background="Transparent"
                         BorderBrush="Black"
                         Click="MinutesBtn_Click"
                         Content="Minuter"
                         FontSize="16"
                         Style="{DynamicResource ButtonStyleStandard}" />
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <ComboBox
-                            Name="MinutesMinCb"
-                            Width="40"
-                            Style="{DynamicResource ComboBoxCustomStyle}" />
-                        <TextBlock
-                            Margin="2,0"
-                            VerticalAlignment="Center"
-                            FontFamily="Montserrat"
-                            FontSize="16"
-                            Foreground="Black"
-                            Text=":" />
-                        <ComboBox
-                            Name="MinutesSecCb"
-                            Width="40"
-                            Style="{DynamicResource ComboBoxCustomStyle}" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="2" Grid.Column="1">
@@ -127,7 +141,7 @@
                         Style="{DynamicResource ButtonStyleStandard}" />
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <ComboBox
-                            Name="TimestampMinCb"
+                            Name="TimestampHourCb"
                             Width="40"
                             Style="{DynamicResource ComboBoxCustomStyle}" />
                         <TextBlock
@@ -138,7 +152,7 @@
                             Foreground="Black"
                             Text=":" />
                         <ComboBox
-                            Name="TimestampSecCb"
+                            Name="TimestampMinCb"
                             Width="40"
                             Style="{DynamicResource ComboBoxCustomStyle}" />
                     </StackPanel>

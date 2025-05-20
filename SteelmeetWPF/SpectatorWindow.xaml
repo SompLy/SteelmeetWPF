@@ -106,7 +106,7 @@
                         Grid.Row="0"
                         Grid.Column="2"
                         Margin="0,0,0,0">
-                        <local:ClockSpectator/>
+                        <local:ClockSpectator x:Name="timer"/>
                     </Grid>
                 </Grid>
             </Grid>

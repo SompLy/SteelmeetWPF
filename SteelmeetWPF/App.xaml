@@ -6,6 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                
+                <!--  Styles  -->
                 <ResourceDictionary Source="TabControlStyleCustom.xaml" />
                 <ResourceDictionary Source="TabItemStyleCustom.xaml" />
                 <ResourceDictionary Source="ButtonStandardCustom.xaml" />
@@ -19,6 +21,7 @@
                 <ResourceDictionary Source="Themes/KhakiTheme.xaml" />
                 <ResourceDictionary Source="Themes/OGBlue.xaml" />
                 <ResourceDictionary Source="Themes/BorlangeTheme.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

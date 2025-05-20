@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Presentation;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +24,6 @@ using System.Windows.Shapes;
 // RankUpdate           DONE
 // Set current cell?
 // EstimatedUpdate      DOINE
-// InfopanelsUpdate, ska nog inte behövas om det bindas rätt
 // Mark the row of the current lifter in the datagrid
 
 namespace SteelmeetWPF
@@ -32,7 +33,6 @@ namespace SteelmeetWPF
         ControlWindow controlWindow;
 
         bool isRecord = false;
-
 
         public JudgeControl()
         {
@@ -67,8 +67,8 @@ namespace SteelmeetWPF
             }
 
             // Set colors
-            Color backColor = isLiftGood ? Colors.ForestGreen : Colors.Red;
-            Color foreColor = Color.FromArgb( 255, 187, 225, 250);
+            System.Windows.Media.Color backColor = isLiftGood ? Colors.ForestGreen : Colors.Red;
+            System.Windows.Media.Color foreColor = System.Windows.Media.Color.FromArgb( 255, 187, 225, 250);
             ColorDataGridCell( selectedLifter.currentLiftType, selectedLifter, backColor, foreColor );
 
             backColor = Colors.White;
@@ -94,11 +94,12 @@ namespace SteelmeetWPF
             //      dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ columnIndex ].Selected = true;
 
             // Update Other
-            //TimerController( 2 ); //Startar lapp timern på 1 minut
-            //TimerController( 3 ); //Stoppar lyft timern och sätter timern på 00:00
+            controlWindow.timerControl.TimerController( TimerControl.TimerOptions.LAPP_ONE_MINUTE ); //Startar lapp timern på 1 minut
+            controlWindow.timerControl.TimerController( TimerControl.TimerOptions.LIFT_RESET ); //Stoppar lyft timern och sätter timern på 00:00
             isRecord = false;
             //RecordUpdate();
             //InfopanelsUpdate();
+            controlWindow.weightInDg.AutoScaleDataGrid();
 
             // Update stats
             selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = isLiftGood;
@@ -164,7 +165,7 @@ namespace SteelmeetWPF
             return columnIndex;
         }
 
-        private void ColorDataGridCell( Lifter.eLiftType lifttype, Lifter selectedLifter, Color backgroundColor, Color foregroundColor ) // Gör så denna jävel funkar
+        private void ColorDataGridCell( Lifter.eLiftType lifttype, Lifter selectedLifter, System.Windows.Media.Color backgroundColor, System.Windows.Media.Color foregroundColor ) // Gör så denna jävel funkar
         {
             // Where does the lift start in the datagrid then add lifttype and you have your correct cell
             var dataGrid = controlWindow.controlDg;
@@ -210,28 +211,112 @@ namespace SteelmeetWPF
 
         private void SelectNextLifter()
         {
-            controlWindow.SelectedLifterIndex = controlWindow.liftingOrder.LiftingOrderList[ 0 ].index;
+            if ( controlWindow.liftingOrder.LiftingOrderList.Count > 0 )
+                controlWindow.SelectedLifterIndex = controlWindow.liftingOrder.LiftingOrderList[ 0 ].index;
         }
+
         public void undoLift( bool _isRetrying )
-        { 
+        {
+            if( controlWindow.controlDgCollection.Count < 1 )
+                MessageBox.Show( "Lyftare saknas :(, starta en tävling först!", "⚠SteelMeet varning!⚠" );
+
+            var liftingOrder = controlWindow.liftingOrder;
+            var selectedLifter = controlWindow.Lifters[ controlWindow.SelectedLifterIndex ];
+
+            if( selectedLifter.isBenchOnly && selectedLifter.currentLiftType == Lifter.eLiftType.B1 ||
+                selectedLifter.currentLiftType == Lifter.eLiftType.S1 )
+                return;
+
+            // Set colors
+            System.Windows.Media.Color backColor = Colors.White;
+            System.Windows.Media.Color foreColor = Colors.Black;
+            ColorDataGridCell( selectedLifter.currentLiftType - 1, selectedLifter, backColor, foreColor );
+
+            if( selectedLifter.currentLiftType != Lifter.eLiftType.S1 &&
+                selectedLifter.currentLiftType != Lifter.eLiftType.B1 &&
+                selectedLifter.currentLiftType != Lifter.eLiftType.D1 )
+                    selectedLifter.sbdWeightsList[ ( int )selectedLifter.currentLiftType ] = 0.0f;
+
+            // Markerar rad för den aktiva lyftaren
+            //for( int columnIndex = 2 ; columnIndex <= 5 ; columnIndex++ )
+            //      dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ columnIndex ].Selected = true;
+
+            // Update Other
+            isRecord = false;
+            //RecordUpdate();
+
+            // Update stats
+            selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = false;
+            selectedLifter.BestSBDUpdate();
+            selectedLifter.total = selectedLifter.bestS + selectedLifter.bestB + selectedLifter.bestD;
+            selectedLifter.pointsGL = ( double )Math.Round( selectedLifter.CalculateGLPoints( selectedLifter.total ), 2 );
+            selectedLifter.RankUpdate( controlWindow );
+            selectedLifter.isRetrying = false;
+            selectedLifter.EstimatedUpdate();
+
+            // Decrement current lift
+            if( selectedLifter.isBenchOnly && selectedLifter.currentLiftType == Lifter.eLiftType.Done )
+                selectedLifter.currentLiftType = Lifter.eLiftType.B3;
+            else
+                selectedLifter.currentLiftType -= 1;
+
+            // Needs to decrement currentLiftType before updating liftingOrder
+            liftingOrder.RemoveLifter( selectedLifter, controlWindow, controlWindow.spectatorWindowList );
+            if ( liftingOrder.LiftingOrderList.Count > 0 )
+                controlWindow.SelectedLifterIndex = liftingOrder.LiftingOrderList[ 0 ].index;
+
+            //        public void undoLift( bool _isRetrying )
+            //{
+            //    if( LifterID[ SelectedRowIndex + groupRowFixer ].isBenchOnly && LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift == 13 )
+            //        return;
+
+            //    if( LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift > firstLiftColumn )
+            //    {
+            //        if( _isRetrying )
+            //            LifterID[ SelectedRowIndex + groupRowFixer ].isRetrying = true;
+
+            //        LiftingOrderList.Add( LifterID[ SelectedRowIndex + groupRowFixer ] );
+
+            //        LiftingOrderUpdate();// Updaterar lyftar ordning
+            //        LifterID[ SelectedRowIndex + groupRowFixer ].isRetrying = true;
+            //        // Ångarar ett lyft för lyftaren i LiftRecord
+            //        // Lift record håller koll på vilka av lyften som lyftaren gjort har blivit godkända eller underkända i boolformat
+            //        LifterID[ SelectedRowIndex + groupRowFixer ].LiftRecord.RemoveAt( LifterID[ SelectedRowIndex + groupRowFixer ].LiftRecord.Count - 1 );
+
+            //        if( LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift != 13 && LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift != 16 )
+            //            dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift ].Value = 0;
+
+            //        dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift ].Style.BackColor = Color.Empty;
+            //        dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift ].Style.ForeColor = Color.FromArgb( 187, 225, 250 );
+            //        dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift - 1 ].Style.BackColor = currentLiftColor;
+            //        dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift - 1 ].Style.ForeColor = Color.Black;
+            //        dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift - 1 ].Style.Font = new System.Drawing.Font( "Segoe UI", 10f, FontStyle.Regular );
+            //        LifterID[ SelectedRowIndex + groupRowFixer ].CurrentLift -= 1;
+
+            //        // Uppdaterar total och GLpoints
+            //        LiftingOrderList[ 0 ].total = LiftingOrderList[ 0 ].bestS + LiftingOrderList[ 0 ].bestB + LiftingOrderList[ 0 ].bestD;
+            //        LiftingOrderList[ 0 ].pointsGL = GLPointsCalculator( LiftingOrderList[ 0 ], LiftingOrderList[ 0 ].total );
+            //        dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ 19 ].Value = LiftingOrderList[ 0 ].total;
+            //        dataGridViewControlPanel.Rows[ SelectedRowIndex ].Cells[ 21 ].Value = LiftingOrderList[ 0 ].pointsGL.ToString( "0.00" );
+
+            //    }
+            //    InfopanelsUpdate();
+            //}
         }
 
         private void BarReadyBtn_Click( object sender, RoutedEventArgs e )
         {
             //TimerController( 0 );
-            //if( liftingOrder.Count > 0 )
+            if( controlWindow.liftingOrder.LiftingOrderList.Count > 0 )
+            {
+                controlWindow.timerControl.TimerController( TimerControl.TimerOptions.LIFT_ONE_MINUTE );
                 SelectNextLifter();
+            }
         }
 
         private void SelectNextLifterBtn_Click( object sender, RoutedEventArgs e )
         {
             SelectNextLifter();
-        }
-
-        private void RetryBtn_Click( object sender, RoutedEventArgs e )
-        {
-            undoLift( true );
-            //LiftingOrderUpdate();
         }
 
         private void GoodLiftBtn_Click( object sender, RoutedEventArgs e )
@@ -242,6 +327,11 @@ namespace SteelmeetWPF
         private void BadLiftBtn_Click( object sender, RoutedEventArgs e )
         {
             JudgeLift( false );
+        }
+
+        private void RetryBtn_Click( object sender, RoutedEventArgs e )
+        {
+            undoLift( true );
         }
 
         private void UndoBtn_Click( object sender, RoutedEventArgs e )

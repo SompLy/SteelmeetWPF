@@ -163,9 +163,15 @@ namespace SteelmeetWPF
         void UpdateSpectatorInfoPanels( SpectatorWindow spectatorWindow )
         {
             // Animate here?
+            if( LiftingOrderList.Count > 0 )
+                spectatorWindow.lifterInfo1.Update( LiftingOrderList[ 0 ] );
+            else
+                spectatorWindow.lifterInfo1.Visibility = Visibility.Hidden;
 
-            spectatorWindow.lifterInfo1.Update( LiftingOrderList[ 0 ] );
-            spectatorWindow.lifterInfo2.Update( LiftingOrderList[ 1 ] );
+            if( LiftingOrderList.Count > 1 )
+                spectatorWindow.lifterInfo2.Update( LiftingOrderList[ 1 ] );
+            else
+                spectatorWindow.lifterInfo2.Visibility = Visibility.Hidden;
         }
 
         public void RemoveLifter(Lifter lifterToRemove, ControlWindow controlWindow, List<SpectatorWindow> spectatorWindows)
@@ -236,7 +242,6 @@ namespace SteelmeetWPF
 
                                 if( completedCount == blocksToMove )
                                 {
-                                    // ✅ All animations complete, reset all transforms
                                     foreach( TextBlock tb in textBlocks )
                                     {
                                         if( tb.RenderTransform is TranslateTransform tt )

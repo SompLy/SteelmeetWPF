@@ -24,7 +24,7 @@ namespace SteelmeetWPF
         public List<SpectatorWindow> spectatorWindowList = new List<SpectatorWindow>();
 
         public ObservableCollection<WeighInDgFormat> weighInDgCollection { get; set; }
-        public ObservableCollection<ControlDgFormat> controlDgCollection { get; set; }
+        public ObservableCollection<DgFormat> controlDgCollection { get; set; }
 
         private readonly HashSet<string> hiddenColumns = new() {};
 
@@ -97,7 +97,7 @@ namespace SteelmeetWPF
 
             weighInDgCollection = new ObservableCollection<WeighInDgFormat>();
             weightInDg.ItemsSource = weighInDgCollection;
-            controlDgCollection = new ObservableCollection<ControlDgFormat>();
+            controlDgCollection = new ObservableCollection<DgFormat>();
             controlDg.ItemsSource = controlDgCollection;
             themeManagerWrapper = new ThemeManagerWrapper( this );
             themeManagerWrapper.SetTheme( "Borlänge" );
@@ -442,7 +442,7 @@ namespace SteelmeetWPF
 
                 if( Lifters[ o ].groupNumber == 1 )
                 {
-                    var collection = new ControlDgFormat( Lifters[ o ] );
+                    var collection = new DgFormat( Lifters[ o ] );
                     controlDgCollection.Add( collection );
                 }
             }
@@ -662,7 +662,7 @@ namespace SteelmeetWPF
 
         private void OnSelectedLifterIndexChanged()
         {
-            suggestedWeightControl.Update( Lifters[ SelectedLifterIndex ], this );
+            suggestedWeightControl.Update( Lifters[ SelectedLifterIndex ], this, true );
         }
     }
 }

@@ -57,7 +57,7 @@ namespace SteelmeetWPF
             {
                 if( controlWindow.Lifters[ i ].groupNumber - 1 == ActiveGroupCob.SelectedIndex) // To not start at index 0
                 {
-                    var collection = new ControlDgFormat(controlWindow.Lifters[i]);
+                    var collection = new DgFormat(controlWindow.Lifters[i]);
                     controlWindow.controlDgCollection.Add( collection );
                 }
             }

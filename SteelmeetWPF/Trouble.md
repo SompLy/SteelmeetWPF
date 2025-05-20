@@ -1,21 +1,17 @@
 ﻿<h1>STEELMEET TODO
 
 ## In Progress...
-* All basic functionality Code Competition tab (All button should do something)
-* Timer
-* Undo lift
-* Retry lift
-* Something wrong with the order of updates for spectatorpanek suggetedbuttons runs an update all that breaks something with animation 
-
-## Highest
+* Datagrid in Spectator panel
 * Visual Weights in info panels
 * Right-click on attempt to open menu and change it's judging and weight
 
+## Highest
+
 ## High
 * lifting order begin at 0 should begin at 1?
+* Warning when sending to comp if comp is loaded
 * Add button for exporting competitaion results inresults tab
 * Exporting GL points decimal amount should be lowered to 2
-* Warning when sending to comp if comp is loaded
 * Crash when changing group of lifter and sending to comp if already in competition
 
 #### Animations:
@@ -55,6 +51,16 @@
 
 
 ## Done
+* E Flames
+* E Removed spectatorDgFormat and renamed controlDgFormat to DgFormat to be more genereic
+* E Judge control buttons
+* E Undo & Select next lifter
+* E Timer start for select nextlifter
+* E Timer works yee but has some polishingtodo but not importatnt for now
+* E Hide lifterInfo if no more lifters
+* E Animated GIF NuGet w/ licence
+* E Timer
+* E Something wrong with the order of updates for spectatorpanek suggetedbuttons runs an update all that breaks something with animation 
 * E SuggestedWeights
 * E Rack heights need to be visable on the LifterInfoControl
 * E Info panels control & spectator

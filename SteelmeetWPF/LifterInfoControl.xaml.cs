@@ -26,8 +26,16 @@ namespace SteelmeetWPF
             InitializeComponent();
         }
 
-        public void Update( Lifter lifter ) 
+        public void Update( Lifter lifter )
         {
+            if( lifter.currentLiftType >= Lifter.eLiftType.Done )
+            {
+                Visibility = Visibility.Hidden;
+                return;
+            }
+            else
+                Visibility = Visibility.Visible;
+
             NameTb.Text = lifter.name;
             WeightTb.Text = lifter.sbdWeightsList[ ( int )lifter.currentLiftType ].ToString();
 
@@ -49,12 +57,17 @@ namespace SteelmeetWPF
                 else
                     TiltedLiftoffTb.Text = lifter.liftoff;
             }
-            else 
+            else
             {
                 TiltedLiftoffTb.Text = "";
                 // View total -> est total
             }
 
+            if( NameTb.Text == "Edvin Öhrström" &&
+                ( lifter.currentLiftType == Lifter.eLiftType.B1 || lifter.currentLiftType == Lifter.eLiftType.B2 || lifter.currentLiftType == Lifter.eLiftType.B3 ) )
+                FlameEffect.Visibility = Visibility.Visible;
+            else
+                FlameEffect.Visibility = Visibility.Hidden;
         }
     }
 }
