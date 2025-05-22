@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Packaging;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,8 @@ namespace SteelmeetWPF
             windowIndex = parentWindow.spectatorWindowList.Count();
             Loaded += SpectatorWindowLoaded;
 
+            specDg.ItemsSource = _controlWindow.specDgCollection;
+
 #if DEBUG
             // Window sizing for easier debugging
             Height = 540;
@@ -50,8 +53,9 @@ namespace SteelmeetWPF
         private void SpectatorWindowLoaded(object sender, RoutedEventArgs e)
         {
             nextGroupOrderSpec.GroupLiftOrderUpdate(parentWindow);
+            parentWindow.judgeControl.ColorWholeDataGrid(); // Fix this shit, should only update spectator grids adn should not be called from judge control taht is cursed but it's late and tired :)
         }
-       
+
         private void SpectatorWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             double scaleX = this.ActualWidth / _originalWindowWidth;

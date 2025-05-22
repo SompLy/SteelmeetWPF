@@ -18,7 +18,7 @@ using System.Collections.Specialized;
 
 namespace SteelmeetWPF
 {
-    class DataGirdCustom : DataGrid
+    public class DataGirdCustom : DataGrid
     {
         private readonly HashSet<string> _hiddenColumns = new(); // Stores hidden columns dynamically
 

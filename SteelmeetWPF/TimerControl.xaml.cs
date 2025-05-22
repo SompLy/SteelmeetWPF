@@ -145,6 +145,10 @@ namespace SteelmeetWPF
         private void LiftTimer_Tick( object sender, EventArgs e )
         {
             liftTime = liftTime.Add( TimeSpan.FromSeconds( -1 ) );
+
+            if( liftTime <= TimeSpan.Zero )
+                TimerController( TimerOptions.LIFT_RESET );
+
             string time = liftTime.ToString( @"mm\:ss" );
             liftTimerTb.Text = time;
 
@@ -155,6 +159,10 @@ namespace SteelmeetWPF
         private void LappTimer_Tick( object sender, EventArgs e )
         {
             lappTime = lappTime.Add( TimeSpan.FromSeconds( -1 ) );
+
+            if( liftTime <= TimeSpan.Zero )
+                TimerController( TimerOptions.LAPP_RESET );
+
             string time = lappTime.ToString( @"mm\:ss" );
             smallPieceOfPaperTimerTb.Text = time;
 

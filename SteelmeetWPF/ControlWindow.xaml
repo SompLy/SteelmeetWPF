@@ -281,6 +281,8 @@
                                 d:ItemsSource="{d:SampleData ItemCount=10}"
                                 AlternatingRowBackground="{DynamicResource background2}"
                                 AutoGenerateColumns="True"
+                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 Background="{DynamicResource background}"
                                 BeginningEdit="WeighInDg_BeginningEdit"
                                 BorderThickness="0"

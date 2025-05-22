@@ -45,7 +45,7 @@ namespace SteelmeetWPF
             this.d1 = float.Parse( d1 );
 
             currentLiftType = 0;
-            LiftRecord = new List<bool>();
+            LiftRecord = new List<eLiftJudge>();
             sbdWeightsList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
         }
 
@@ -69,7 +69,7 @@ namespace SteelmeetWPF
             this.d1 = float.Parse( weighInCollection.d1, CultureInfo.InvariantCulture );
 
             currentLiftType = 0;
-            LiftRecord = new List<bool>() { false, false, false, false, false, false, false, false, false };
+            LiftRecord = new List<eLiftJudge>() { eLiftJudge.NONE, eLiftJudge.NONE, eLiftJudge.NONE, eLiftJudge.NONE, eLiftJudge.NONE, eLiftJudge.NONE, eLiftJudge.NONE, eLiftJudge.NONE, eLiftJudge.NONE };
             sbdWeightsList = new List<float>() { this.s1, s2, s3, this.b1, b2, b3, this.d1, d2, d3 };
         }
 
@@ -81,7 +81,7 @@ namespace SteelmeetWPF
                 sbdValues[ i ] = sbdWeightsList[ i ];
 
             for( int i = 0 ; i < 9 ; i++ )
-                if( !LiftRecord[ i ] )
+                if( LiftRecord[ i ] != eLiftJudge.GOOD )
                     sbdValues[ i ] = 0.0f;
 
             bestS = Math.Max( sbdValues[ 0 ], Math.Max( sbdValues[ 1 ], sbdValues[ 2 ] ) );
@@ -273,7 +273,13 @@ namespace SteelmeetWPF
         public float bestS { get; set; }
         public float bestB { get; set; }
         public float bestD { get; set; }
-        public List<bool> LiftRecord { get; set; } //en lista med true eller false beroende på om lyftaren fick godkänt eller inte
+        public enum eLiftJudge 
+        {
+            GOOD,
+            BAD,
+            NONE,
+        }
+        public List<eLiftJudge> LiftRecord { get; set; }
         public List<float> sbdWeightsList { get; set; }
         public int index { get; set; }
         public float estimatedTotal { get; set; }

@@ -10,7 +10,8 @@
     <SolidColorBrush x:Key="background2" Color="#0F4C75" />
     <SolidColorBrush x:Key="middleground" Color="#0F4C75" />
     <SolidColorBrush x:Key="accent" Color="#BBE1FA" />
-    <FontFamily x:Key="fontFamily">Montserrat</FontFamily>
+    <FontFamily x:Key="fontFamily">pack://application:,,,/Fonts/#Montserrat</FontFamily>
+    <FontFamily x:Key="fontFamilyMono">pack://application:,,,/Fonts/#JetBrainsMono</FontFamily>
     <SolidColorBrush x:Key="fontColorLight" Color="White" />
     <SolidColorBrush x:Key="fontColorDark" Color="Black" />
 </ResourceDictionary>

@@ -86,7 +86,8 @@
                     FontSize="55"
                     FontWeight="DemiBold"
                     Foreground="{DynamicResource fontColorDark}"
-                    Text="00:00" />
+                    Text="00:00"
+                    TextAlignment="Center"/>
                 <TextBlock
                     Name="smallPieceOfPaperTimerTb"
                     Grid.Row="1"
@@ -97,7 +98,8 @@
                     FontSize="55"
                     FontWeight="DemiBold"
                     Foreground="{DynamicResource fontColorDark}"
-                    Text="00:00" />
+                    Text="00:00"
+                    TextAlignment="Center"/>
                 <!--  Bottom Row  -->
                 <Grid Grid.Row="2" Grid.Column="0">
                     <Grid.ColumnDefinitions>
@@ -147,7 +149,7 @@
                         <TextBlock
                             Margin="2,0"
                             VerticalAlignment="Center"
-                            FontFamily="Montserrat"
+                            FontFamily="{DynamicResource fontFamily}"
                             FontSize="16"
                             Foreground="Black"
                             Text=":" />

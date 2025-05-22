@@ -63,7 +63,7 @@
                     </Viewbox>
                     <Viewbox
                     Grid.Column="1"
-                    Margin="-140,-2,0,-20"
+                    Margin="-140,-2,10,-20"
                     HorizontalAlignment="Right"
                     Stretch="Uniform">
                         <TextBlock

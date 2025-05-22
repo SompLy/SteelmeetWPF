@@ -3,6 +3,7 @@ using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Windows;
@@ -10,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Linq;
 using Colors = System.Windows.Media.Colors;
 
 namespace SteelmeetWPF
@@ -25,6 +27,7 @@ namespace SteelmeetWPF
 
         public ObservableCollection<WeighInDgFormat> weighInDgCollection { get; set; }
         public ObservableCollection<DgFormat> controlDgCollection { get; set; }
+        public ObservableCollection<DgFormat> specDgCollection { get; set; }
 
         private readonly HashSet<string> hiddenColumns = new() {};
 
@@ -99,6 +102,8 @@ namespace SteelmeetWPF
             weightInDg.ItemsSource = weighInDgCollection;
             controlDgCollection = new ObservableCollection<DgFormat>();
             controlDg.ItemsSource = controlDgCollection;
+            specDgCollection = new ObservableCollection<DgFormat>();
+
             themeManagerWrapper = new ThemeManagerWrapper( this );
             themeManagerWrapper.SetTheme( "Borlänge" );
 
@@ -110,6 +115,47 @@ namespace SteelmeetWPF
             Left = 0;
             Top = 200;
 #endif
+        }
+
+        public void ConfigureSpecDataGrid( DataGirdCustom dataGrid )
+        {
+            dataGrid.AutoGenerateColumns = false;
+            dataGrid.Columns.Clear();
+
+            var excludedProps = new List<string>
+            {
+                nameof(DgFormat.Placement),
+                nameof(DgFormat.BenchHeight),
+                nameof(DgFormat.BenchRack),
+                nameof(DgFormat.SquatHeight),
+                nameof(DgFormat.EstimatedPlacement),
+
+            };
+
+            var props = typeof(DgFormat).GetProperties();
+
+            foreach( var prop in props )
+            {
+                if( excludedProps.Contains( prop.Name ) )
+                    continue;
+
+                var displayAttr = prop.GetCustomAttributes(typeof(DisplayAttribute), false)
+                              .Cast<DisplayAttribute>()
+                              .FirstOrDefault();
+
+                string header = displayAttr?.Name ?? prop.Name;
+
+                var column = new DataGridTextColumn
+                {
+                    Header = header,
+                    Binding = new System.Windows.Data.Binding(prop.Name)
+                };
+
+                dataGrid.Columns.Add( column );
+            }
+
+            dataGrid.ItemsSource = specDgCollection;
+
         }
 
         public void ExcelImportHandler()
@@ -288,6 +334,8 @@ namespace SteelmeetWPF
         {
             Lifters.Clear();
             controlDgCollection.Clear();
+            specDgCollection.Clear();
+
             WeighInInfoUpdate();
 
             for( int o = 0; o < weighInDgCollection.Count - 1; o++ )
@@ -422,7 +470,7 @@ namespace SteelmeetWPF
                     Lifters[ o ].CategoryEnum == Lifter.eCategory.WomenEquippedBench )
                 {
                     Lifters[ o ].isBenchOnly = true;
-                    Lifters[ o ].LiftRecord.AddRange( new bool[] { true, true, true } );
+                    Lifters[ o ].LiftRecord.AddRange( new Lifter.eLiftJudge[] { Lifter.eLiftJudge.GOOD, Lifter.eLiftJudge.GOOD, Lifter.eLiftJudge.GOOD } );
                     Lifters[ o ].currentLiftType = Lifter.eLiftType.B1;
                 }
                 else
@@ -444,6 +492,7 @@ namespace SteelmeetWPF
                 {
                     var collection = new DgFormat( Lifters[ o ] );
                     controlDgCollection.Add( collection );
+                    specDgCollection.Add( collection );
                 }
             }
         }

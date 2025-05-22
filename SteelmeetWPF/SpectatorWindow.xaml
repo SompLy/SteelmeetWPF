@@ -79,12 +79,12 @@
                     d:ItemsSource="{d:SampleData ItemCount=14}"
                     AlternatingRowBackground="{DynamicResource background2}"
                     AutoGenerateColumns="True"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Background="{DynamicResource background}"
-                    BeginningEdit="SpecDg_OnBeginningEditInDg_BeginningEdit"
                     BorderThickness="0"
-                    CanUserAddRows="True"
+                    CanUserAddRows="False"
                     CanUserSortColumns="False"
-                    CellEditEnding="SpecDg_OnCellEditEndingDg_CellEditEnding"
                     ColumnHeaderStyle="{DynamicResource WeighInDataGridColumnHeaderStyle}"
                     HeadersVisibility="Column"
                     FontWeight="DemiBold"
@@ -101,10 +101,25 @@
                         <ColumnDefinition Width="1.1*" />
                     </Grid.ColumnDefinitions>
                     <!--  Ads  -->
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="0,0,0,0">
+                        <TextBlock
+                    Name="NameTb"
+                    FontWeight="Bold"
+                    FontFamily="{DynamicResource fontFamily}"
+                    Foreground="{DynamicResource fontColorLight}"
+                            FontSize="140"
+                            Margin="30,0,0,0"
+                    Text="Serie 2" />
+                        <Image Source="/Images/ökkLogo.png" Margin="550,10,10,10"/>
+                        
+                    </Grid>
                     <!--  Clock  -->
                     <Grid
                         Grid.Row="0"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Margin="0,0,0,0">
                         <local:ClockSpectator x:Name="timer"/>
                     </Grid>

@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 // TODO :
 // Lifting orderupdate  DONE
@@ -48,8 +49,11 @@ namespace SteelmeetWPF
 
         public void JudgeLift( bool isLiftGood )
         {
-            if( controlWindow.controlDgCollection.Count < 1 )
+            if( controlWindow.controlDgCollection.Count < 1 ) 
+            {
                 MessageBox.Show( "Lyftare saknas :(, starta en tävling först!", "⚠SteelMeet varning!⚠" );
+                return;
+            }
 
             var liftingOrder = controlWindow.liftingOrder;
             var selectedLifter = controlWindow.Lifters[ controlWindow.SelectedLifterIndex ];
@@ -99,10 +103,16 @@ namespace SteelmeetWPF
             isRecord = false;
             //RecordUpdate();
             //InfopanelsUpdate();
-            controlWindow.weightInDg.AutoScaleDataGrid();
+            controlWindow.controlDg.AutoScaleDataGrid();
+            foreach( var specWindow in controlWindow.spectatorWindowList )
+                specWindow.specDg.AutoScaleDataGrid();
 
             // Update stats
-            selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = isLiftGood;
+            if( isLiftGood )
+                selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = Lifter.eLiftJudge.GOOD;
+            else
+                selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = Lifter.eLiftJudge.BAD;
+
             selectedLifter.BestSBDUpdate();
             selectedLifter.total = selectedLifter.bestS + selectedLifter.bestB + selectedLifter.bestD;
             selectedLifter.pointsGL = ( double )Math.Round(selectedLifter.CalculateGLPoints( selectedLifter.total ), 2);
@@ -111,7 +121,7 @@ namespace SteelmeetWPF
             selectedLifter.EstimatedUpdate();
 
             // Increase current lift
-            if( selectedLifter.isBenchOnly && selectedLifter.currentLiftType == Lifter.eLiftType.D1 )
+            if( selectedLifter.isBenchOnly && selectedLifter.currentLiftType == Lifter.eLiftType.B3 )
                 selectedLifter.currentLiftType = Lifter.eLiftType.Done;
             else
                 selectedLifter.currentLiftType += 1;
@@ -147,14 +157,12 @@ namespace SteelmeetWPF
             return null;
         }
 
-        int GetStartingCell( string columnName ) 
+        int GetStartingCell( string columnName, DataGirdCustom _dataGrid ) 
         {
-            var dataGrid = controlWindow.controlDg;
-
             int columnIndex = -1;
-            for( int i = 0 ; i < dataGrid.Columns.Count ; i++ )
+            for( int i = 0 ; i < _dataGrid.Columns.Count ; i++ )
             {
-                if( dataGrid.Columns[ i ] is DataGridBoundColumn col &&
+                if( _dataGrid.Columns[ i ] is DataGridBoundColumn col &&
                     col.Binding is System.Windows.Data.Binding b &&
                     b.Path.Path == columnName )
                 {
@@ -169,7 +177,7 @@ namespace SteelmeetWPF
         {
             // Where does the lift start in the datagrid then add lifttype and you have your correct cell
             var dataGrid = controlWindow.controlDg;
-            int startingCell = GetStartingCell( "S1" );
+            int startingCell = GetStartingCell( "S1", dataGrid );
 
             int withinGroupLifterIndex = 0;
             for( int i = 0 ; i < controlWindow.groupDataList[ controlWindow.currentGroupIndex ].lifters.Count ; i++ )
@@ -195,6 +203,7 @@ namespace SteelmeetWPF
             foreach( SpectatorWindow specWindow in controlWindow.spectatorWindowList )
             {
                 dataGrid = specWindow.specDg;
+                startingCell = GetStartingCell( "S1", dataGrid );
 
                 row = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex( withinGroupLifterIndex );
                 if( row != null )
@@ -209,10 +218,59 @@ namespace SteelmeetWPF
             }
         }
 
+        public void ColorWholeDataGrid()
+        {
+            Dispatcher.CurrentDispatcher.InvokeAsync( () =>
+            {
+                for( int i = 0 ; i < controlWindow.groupDataList[ controlWindow.currentGroupIndex ].count ; i++ )
+                {
+                    Lifter lifter = controlWindow.groupDataList[controlWindow.currentGroupIndex].lifters[i];
+
+                    for( int j = 0 ; j < lifter.sbdWeightsList.Count ; j++ )
+                    {
+                        System.Windows.Media.Color backColor;
+                        System.Windows.Media.Color foreColor;
+
+                        switch( lifter.LiftRecord[ j ] )
+                        {
+                            case Lifter.eLiftJudge.GOOD:
+                                backColor = Colors.ForestGreen;
+                                foreColor = System.Windows.Media.Color.FromArgb( 255, 187, 225, 250 );
+                                break;
+                            case Lifter.eLiftJudge.BAD:
+                                backColor = Colors.Red;
+                                foreColor = System.Windows.Media.Color.FromArgb( 255, 187, 225, 250 );
+                                break;
+                            case Lifter.eLiftJudge.NONE:
+                                backColor = Colors.White;
+                                foreColor = Colors.Black;
+                                break;
+                            default:
+                                continue;
+                        }
+
+                        if( lifter.isBenchOnly && j < 3  )
+                        {
+                            backColor = Colors.White;
+                            foreColor = Colors.Black;
+                        }
+
+                        ColorDataGridCell( ( Lifter.eLiftType )j, lifter, backColor, foreColor );
+                    }
+                }
+
+                controlWindow.controlDg.UpdateLayout();
+            }, DispatcherPriority.ContextIdle );
+        }
+
         private void SelectNextLifter()
         {
             if ( controlWindow.liftingOrder.LiftingOrderList.Count > 0 )
                 controlWindow.SelectedLifterIndex = controlWindow.liftingOrder.LiftingOrderList[ 0 ].index;
+
+            controlWindow.controlDg.AutoScaleDataGrid();
+            foreach( var specWindow in controlWindow.spectatorWindowList )
+                specWindow.specDg.AutoScaleDataGrid();
         }
 
         public void undoLift( bool _isRetrying )
@@ -246,7 +304,7 @@ namespace SteelmeetWPF
             //RecordUpdate();
 
             // Update stats
-            selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = false;
+            selectedLifter.LiftRecord[ ( int )selectedLifter.currentLiftType ] = Lifter.eLiftJudge.NONE;
             selectedLifter.BestSBDUpdate();
             selectedLifter.total = selectedLifter.bestS + selectedLifter.bestB + selectedLifter.bestD;
             selectedLifter.pointsGL = ( double )Math.Round( selectedLifter.CalculateGLPoints( selectedLifter.total ), 2 );

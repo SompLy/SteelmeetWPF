@@ -35,6 +35,9 @@ namespace SteelmeetWPF
             lifter = _lifter;
             controlWindow = _controlWindow;
 
+            if( lifter.currentLiftType == Lifter.eLiftType.Done )
+                return;
+
             float baseWeight = lifter.sbdWeightsList[ ( int )lifter.currentLiftType ];
             float[] weightIncrements = { 2.5f, 5.0f, 7.5f, 10.0f, 12.5f, 15.0f, 17.5f, 20f, 25.0f };
 
@@ -59,6 +62,8 @@ namespace SteelmeetWPF
         private void Suggested_Btn_Click(object sender, RoutedEventArgs e)
         {
             if( lifter == null )
+                return;
+            if( lifter.currentLiftType == Lifter.eLiftType.Done )
                 return;
 
             if( sender is Button button ) 

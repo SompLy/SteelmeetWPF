@@ -1,11 +1,14 @@
 ﻿<h1>STEELMEET TODO
 
 ## In Progress...
-* Datagrid in Spectator panel
-* Visual Weights in info panels
-* Right-click on attempt to open menu and change it's judging and weight
 
 ## Highest
+* Visual Weights in info panels
+* Right-click on attempt to open menu and change it's judging and weight
+* Export results
+* Fix auto size updating
+* Auto size need to take rows into consideration otherwise it can only handle 13 lifters depending on amount of columns
+* Auto install fonts montserrat and JetBrains mono
 
 ## High
 * lifting order begin at 0 should begin at 1?
@@ -21,6 +24,7 @@
 * Animation Wheights in infopanels. Each weight go up then go on the bar then the lock at the end
 
 ## Medium
+* Strikeout text on bad lifts
 * Replace all messageboxes with a "pop-up" notification style thing that goes away after a couple of seconds
 * Record attempt Spectator Window w/ epic effect
 * Make themes selectable in settings
@@ -51,6 +55,14 @@
 
 
 ## Done
+* E Something in the lower left corner Steelmeet logo and ökk logo
+* E somehow change heigts and other that might be relevent ( temp fix )
+* E color squats white if bencher in colorWholeDataGrid funciton
+* E color whole datagrid when switching groups & opening a new spectator window
+* E benchpressers gets do do one deadlift
+* E Remove scrollbar from datagrids
+* E Center text in timers otherwise is move all the time ( new font )
+* E Datagrid in Spectator panel with excluing columns feature ( will later be in settings so the user can choose what they want to show for thier comp )
 * E Flames
 * E Removed spectatorDgFormat and renamed controlDgFormat to DgFormat to be more genereic
 * E Judge control buttons

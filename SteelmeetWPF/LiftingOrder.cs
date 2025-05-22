@@ -113,6 +113,22 @@ namespace SteelmeetWPF
 
             foreach( var row in controlWindow.controlDgCollection )
                      row.UpdateFromLifter();
+
+            UpdateControlInfoPanels(controlWindow);
+        }
+
+        public void UpdateControlInfoPanels( ControlWindow _controlWindow )
+        {
+            // Animate here?
+            if( LiftingOrderList.Count > 0 )
+                _controlWindow.lifterInfo1.Update( LiftingOrderList[ 0 ] );
+            else
+                _controlWindow.lifterInfo1.Visibility = Visibility.Hidden;
+
+            if( LiftingOrderList.Count > 1 )
+                _controlWindow.lifterInfo2.Update( LiftingOrderList[ 1 ] );
+            else
+                _controlWindow.lifterInfo2.Visibility = Visibility.Hidden;
         }
 
         public void UpdateSpectator( SpectatorWindow spectatorWindow )
@@ -160,7 +176,7 @@ namespace SteelmeetWPF
             UpdateSpectatorInfoPanels( spectatorWindow );
         }
 
-        void UpdateSpectatorInfoPanels( SpectatorWindow spectatorWindow )
+        public void UpdateSpectatorInfoPanels( SpectatorWindow spectatorWindow )
         {
             // Animate here?
             if( LiftingOrderList.Count > 0 )
