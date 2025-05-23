@@ -105,7 +105,7 @@ namespace SteelmeetWPF
             specDgCollection = new ObservableCollection<DgFormat>();
 
             themeManagerWrapper = new ThemeManagerWrapper( this );
-            themeManagerWrapper.SetTheme( "Borlänge" );
+            themeManagerWrapper.SetTheme( "OGBlue" );
 
 #if DEBUG
             // Window sizing for easier debugging

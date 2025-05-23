@@ -7,11 +7,12 @@
     <Color x:Key="accentColor">#BBE1FA</Color>
 
     <SolidColorBrush x:Key="background" Color="#1B262C" />
-    <SolidColorBrush x:Key="background2" Color="#0F4C75" />
+    <SolidColorBrush x:Key="background2" Color="#2C6690" />
     <SolidColorBrush x:Key="middleground" Color="#0F4C75" />
     <SolidColorBrush x:Key="accent" Color="#BBE1FA" />
+    <FontFamily x:Key="fontFamilyJetBrainsMono">pack://application:,,,/Fonts/#JetBrains Mono</FontFamily>
+    <FontFamily x:Key="fontFamilyConsolasMono">Consolas</FontFamily>
     <FontFamily x:Key="fontFamily">pack://application:,,,/Fonts/#Montserrat</FontFamily>
-    <FontFamily x:Key="fontFamilyMono">pack://application:,,,/Fonts/#JetBrainsMono</FontFamily>
     <SolidColorBrush x:Key="fontColorLight" Color="White" />
     <SolidColorBrush x:Key="fontColorDark" Color="Black" />
 </ResourceDictionary>
