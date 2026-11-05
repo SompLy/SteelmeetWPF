@@ -63,7 +63,7 @@
           </StackPanel>
           <Border Grid.Row="1" Background="#121820" BorderBrush="#1f2731" BorderThickness="1" CornerRadius="8" Padding="2">
             <DataGrid x:Name="WeighInDg" AutoGenerateColumns="False" HeadersVisibility="Column"
-                      CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False"
+                      CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False" CellEditEnding="WeighInDg_CellEditEnding"
                       GridLinesVisibility="Vertical" RowHeight="30" FontFamily="JetBrains Mono" FontSize="12"
                       Foreground="#e6ebf3" Background="#121820" RowBackground="#121820" 
                       HorizontalGridLinesBrush="#1f2731" VerticalGridLinesBrush="#1f2731">

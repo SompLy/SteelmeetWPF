@@ -20,7 +20,10 @@ public class App : Application
             var args = Environment.GetCommandLineArgs();
             for (int i = 0; i < args.Length - 1; i++)
                 if (args[i] == "--meet") meetId = args[i + 1];
-            desktop.MainWindow = new MainWindow(meetId);
+            string? page = null;
+            for (int i = 0; i < args.Length - 1; i++)
+                if (args[i] == "--page") page = args[i + 1];
+            desktop.MainWindow = new MainWindow(meetId, page);
             if (args.Contains("--max"))
                 desktop.MainWindow.WindowState = WindowState.Maximized;
         }

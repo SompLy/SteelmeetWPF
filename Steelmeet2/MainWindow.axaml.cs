@@ -19,8 +19,11 @@ public partial class MainWindow : Window
     DispatcherTimer? liftTimer, lappTimer;
     int liftSec, lappSec;
 
-    public MainWindow(string? openMeetId = null)
+    bool openToTavling = true;
+    global::System.Collections.Generic.List<string>? openMeetArgs;
+    public MainWindow(string? openMeetId = null, string? startupPage = null)
     {
+        if (startupPage == "weigh") openToTavling = false;
         InitializeComponent();
         Loaded += async (_, _) => await RefreshNetStatusAsync();
         FetchBtn.Click += async (_, _) => await FetchCompetitionsAsync();
@@ -368,6 +371,7 @@ public partial class MainWindow : Window
             currentMeet = bundle;
             WeighInRowCollectionReplace(bundle.rows);
             MeetName.Text = bundle.name; MeetDate.Text = bundle.date;
+            AutoScaleWeighInGrid();
             WeighStatus.Text = $"möte {id}: {bundle.rows.Count} rader (PIN behövs vid publicering)";
 
             // seed Tävling-motorn från invägningen
@@ -375,7 +379,7 @@ public partial class MainWindow : Window
             FillOptionCombos();
             UpdateTavlingUI($"möte {id} laddat — grupp {(engine.ActiveGroup ?? "alla")}");
             TimerController(TimerOpt.LIFT_RESET);
-            NavList.SelectedIndex = 1; // hoppa till Tävling-sidan
+            NavList.SelectedIndex = openToTavling ? 1 : 0; // Tävling direkt, eller stanna på Invägning
         }
         catch (Exception ex) { WeighStatus.Text = "öppna misslyckades: " + ex.Message; }
     }
@@ -400,6 +404,36 @@ public partial class MainWindow : Window
         foreach (var r in rows) weighInRows.Add(r);
     }
 
+    // ============ AutoScale: kolumnerna breda nog att visa ALL text + rubrik (som v1 DataGirdCustom) ============
+    static readonly Typeface MonoTypeface = new Typeface(new FontFamily("JetBrains Mono"), FontStyle.Normal);
+
+    double TextWidth(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return 0;
+        var ft = new FormattedText(s, System.Globalization.CultureInfo.InvariantCulture,
+            FlowDirection.LeftToRight, MonoTypeface, 12, Brushes.White);
+        return ft.WidthIncludingTrailingWhitespace;
+    }
+
+    static readonly string[] WeighColProps = { "groupNumber", "name", "lotNumber", "weightClass", "category", "licenceNumber", "accossiation", "bodyWeight", "squatHeight", "tilted", "s1", "benchHeight", "benchRack", "liftoff", "b1", "d1" };
+
+    void AutoScaleWeighInGrid()
+    {
+        if (WeighInDg.Columns.Count != WeighColProps.Length) return;
+        var props = typeof(WeighInRow).GetProperties().ToDictionary(p => p.Name, p => (Func<WeighInRow, string?>)(r => (string?)p.GetValue(r)));
+        for (int c = 0; c < WeighColProps.Length; c++)
+        {
+            double w = TextWidth(WeighInDg.Columns[c].Header?.ToString() ?? "");
+            foreach (var r in weighInRows)
+                w = Math.Max(w, TextWidth(props[WeighColProps[c]](r) ?? ""));
+            WeighInDg.Columns[c].Width = DataGridLength.Auto;   // DataGrid mäter innehållet själv
+            WeighInDg.Columns[c].MinWidth = w + 22;             // säkra rubrik-höjden (header) via minbredd
+        }
+    }
+
+    void WeighInDg_CellEditEnding(object? sender, DataGridCellEditEndingEventArgs e) =>
+        Dispatcher.UIThread.Post(AutoScaleWeighInGrid);
+
     // ---------- excel ----------
     async Task ImportExcelAsync()
     {
@@ -415,6 +449,7 @@ public partial class MainWindow : Window
         {
             var rows = ExcelIO.Import(files[0].Path.LocalPath);
             WeighInRowCollectionReplace(rows);
+            AutoScaleWeighInGrid();
             currentMeet ??= new MeetBundle { id = "m" + DateTime.Now.ToString("yyyyMMddHHmmss") };
             WeighStatus.Text = $"importerat {rows.Count} rader — SÄRNAMN och PIN för att publicera";
         }
