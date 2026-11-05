@@ -73,14 +73,32 @@ public sealed class DbClient
     }
 
     // ---------- Tillåtna SM-endpoints (ligger på db.steelmeet.se) ----------
-    public Task<List<ApiCompetition>> GetCompetitionsAsync() =>
-        GetAsync<List<ApiCompetition>>("api/competitions?limit=50", "competitions");
+    public async Task<List<SsfCompetition>> GetCompetitionsAsync()
+    {
+        var page = await GetAsync<SsfPage>("api/competitions?limit=50", "competitions");
+        return page.Results;
+    }
 
-    public Task<ApiCompetition> GetCompetitionAsync(string id) =>
-        GetAsync<ApiCompetition>($"api/competitions/{id}", "comp_" + id);
+    public Task<SsfCompetition> GetCompetitionAsync(string id) =>
+        GetAsync<SsfCompetition>($"api/competitions/{id}", "comp_" + id);
 }
 
-public record ApiCompetition(string CompetitionId, string Name, DateTime StartDate, string Status);
+public sealed class SsfPage
+{
+    public int Count { get; set; }
+    public List<SsfCompetition> Results { get; set; } = new();
+}
+
+public sealed class SsfCompetition
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+    public string StartDate { get; set; } = "";
+    public string State { get; set; } = "";
+    public string Location { get; set; } = "";
+    public string Organizer { get; set; } = "";
+    public int RegistrationsCount { get; set; }
+}
 
 public static class OfflineCache
 {

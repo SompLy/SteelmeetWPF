@@ -61,7 +61,7 @@ public partial class MainWindow : Window
         {
             var comps = await client.GetCompetitionsAsync();
             DbStatus.Text = $"OK — {comps.Count} tävlingar (cache: {OfflineCache.CachePath("get", "competitions")})";
-            CompList.ItemsSource = comps.Select(c => $"{c.CompetitionId}  {c.Name}  ({c.StartDate:yyyy-MM-dd})  {c.Status}");
+            CompList.ItemsSource = comps.Select(c => $"{c.Id}  {c.Name}  ({c.StartDate})  {c.State}  [{c.Location}]  anm\u00e4lda: {c.RegistrationsCount}");
         }
         catch (Exception ex)
         {
