@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <PackageIcon>SMLogoWhite.png</PackageIcon>
+    <Version>2.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.*" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.*" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.*" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\JetBrainsMono-Bold.ttf" />
+    <None Remove="Fonts\JetBrainsMono-Regular.ttf" />
+    <None Remove="Fonts\JetBrainsMono-SemiBold.ttf" />
+    <None Remove="Fonts\Montserrat-Medium.ttf" />
+    <None Remove="Fonts\Montserrat-SemiBold.ttf" />
+    <None Remove="Fonts\Montserrat-ExtraBold.ttf" />
+    <None Remove="Fonts\Montserrat-Black.ttf" />
+    <None Remove="SMLogoWhite.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Fonts\JetBrainsMono-Bold.ttf" />
+    <AvaloniaResource Include="Fonts\JetBrainsMono-Regular.ttf" />
+    <AvaloniaResource Include="Fonts\JetBrainsMono-SemiBold.ttf" />
+    <AvaloniaResource Include="Fonts\Montserrat-Medium.ttf" />
+    <AvaloniaResource Include="Fonts\Montserrat-SemiBold.ttf" />
+    <AvaloniaResource Include="Fonts\Montserrat-ExtraBold.ttf" />
+    <AvaloniaResource Include="Fonts\Montserrat-Black.ttf" />
+    <AvaloniaResource Include="SMLogoWhite.png" />
+  </ItemGroup>
+</Project>
