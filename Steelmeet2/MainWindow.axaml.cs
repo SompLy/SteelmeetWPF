@@ -78,7 +78,7 @@ public partial class MainWindow : Window
         }
         RefreshComboFilled = false;
 
-        // --meet <id>: öppna ett möte direkt vid start (t ex demo/lansering)
+        // --meet <id>: öppna en tävling direkt vid start (t ex demo/lansering)
         if (openMeetId is not null)
             Loaded += async (_, _) => await LoadMeetIntoAppAsync(openMeetId);
     }
@@ -167,7 +167,7 @@ public partial class MainWindow : Window
     // ==============================  TÄVLING  ==============================
     void JudgeAndRefresh(bool good)
     {
-        if (engine is null) { CompStatus.Text = "öppna ett möte först"; return; }
+        if (engine is null) { CompStatus.Text = "öppna en tävling först"; return; }
         engine.Judge(good);
         TimerController(TimerOpt.LAPP_ONE_MINUTE); // som v1: 1-min lapp efter domslut
         TimerController(TimerOpt.LIFT_RESET);
@@ -176,7 +176,7 @@ public partial class MainWindow : Window
 
     void UndoAndRefresh(bool retry)
     {
-        if (engine is null) { CompStatus.Text = "öppna ett möte först"; return; }
+        if (engine is null) { CompStatus.Text = "öppna en tävling först"; return; }
         int before = engine.Current?.AttemptIdx ?? 0;
         engine.Undo(retry);
         UpdateTavlingUI(retry ? "RETRY — försöket returneras" : "UNDO — försöket återställs");
@@ -319,20 +319,20 @@ public partial class MainWindow : Window
         FetchBtn.IsEnabled = true;
     }
 
-    // ---------- möten ----------
+    // ---------- tävlingar ----------
     async Task CreateOrSaveMeetAsync(bool newMeet)
     {
         string pin = MeetPin.Text?.Trim() ?? "";
         string name = MeetName.Text?.Trim() ?? "";
         string date = MeetDate.Text?.Trim() ?? "";
-        if (name.Length == 0 || pin.Length == 0) { WeighStatus.Text = "mötesnamn + PIN krävs"; return; }
+        if (name.Length == 0 || pin.Length == 0) { WeighStatus.Text = "tävlingsnamn + PIN krävs"; return; }
 
         if (newMeet)
         {
             currentMeet = new MeetBundle { id = "m" + DateTime.Now.ToString("yyyyMMddHHmmss"), name = name, date = date, category = "", organizer = "steelmeet2" };
             WeighStatus.Text = $"skapat {currentMeet.id} (lokalt)";
         }
-        else if (currentMeet is null) { WeighStatus.Text = "öppna/skapa ett möte först"; return; }
+        else if (currentMeet is null) { WeighStatus.Text = "öppna/skapa en tävling först"; return; }
 
         currentMeet!.name = name; currentMeet!.date = date;
         currentMeet!.rows = weighInRows.ToList();
@@ -348,7 +348,7 @@ public partial class MainWindow : Window
         {
             var meets = (await client.GetMeetsAsync()).Results;
             MeetsCombo.ItemsSource = meets.Select(m => $"{m.id} — {m.name} ({m.date})").ToList();
-            WeighStatus.Text = $"{meets.Count} möten i databasen";
+            WeighStatus.Text = $"{meets.Count} tävlingar i databasen";
             if (meets.Count > 0) MeetsCombo.SelectedIndex = 0;
         }
         catch (Exception ex) { WeighStatus.Text = "lista misslyckades: " + ex.Message; }
@@ -357,7 +357,7 @@ public partial class MainWindow : Window
     async Task OpenSelectedMeetAsync()
     {
         var meta = MeetsCombo.SelectedItem as string;
-        if (meta is null) { WeighStatus.Text = "välj möte i listan"; return; }
+        if (meta is null) { WeighStatus.Text = "välj tävling i listan"; return; }
         string id = meta.Split(" — ")[0];
         MeetPin.Text = "";
         await LoadMeetIntoAppAsync(id);
@@ -372,12 +372,12 @@ public partial class MainWindow : Window
             WeighInRowCollectionReplace(bundle.rows);
             MeetName.Text = bundle.name; MeetDate.Text = bundle.date;
             AutoScaleWeighInGrid();
-            WeighStatus.Text = $"möte {id}: {bundle.rows.Count} rader (PIN behövs vid publicering)";
+            WeighStatus.Text = $"tävling {id}: {bundle.rows.Count} rader (PIN behövs vid publicering)";
 
             // seed Tävling-motorn från invägningen
             engine = MeetEngine.FromBundle(bundle);
             FillOptionCombos();
-            UpdateTavlingUI($"möte {id} laddat — grupp {(engine.ActiveGroup ?? "alla")}");
+            UpdateTavlingUI($"tävling {id} laddat — grupp {(engine.ActiveGroup ?? "alla")}");
             TimerController(TimerOpt.LIFT_RESET);
             NavList.SelectedIndex = openToTavling ? 1 : 0; // Tävling direkt, eller stanna på Invägning
         }

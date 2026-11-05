@@ -47,18 +47,18 @@
       <Grid x:Name="PageWeighIn" IsVisible="True" RowDefinitions="Auto,*,Auto" Margin="0">
           <StackPanel Grid.Row="0" Spacing="8" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" Spacing="8">
-              <TextBox x:Name="MeetName" Watermark="Mötesnamn" Width="220" />
+              <TextBox x:Name="MeetName" Watermark="Tävlingsnamn" Width="220" />
               <TextBox x:Name="MeetDate" Watermark="yyyy-mm-dd" Width="110" />
               <TextBox x:Name="MeetPin" Watermark="PIN" PasswordChar="*" Width="80" />
-              <Button x:Name="NewMeetBtn" Classes="sm-button" Content="SKAPA" MinHeight="36" />
+              <Button x:Name="NewMeetBtn" Classes="sm-button sm-compact" Content="SKAPA TÄVLING" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="8">
-              <Button x:Name="LoadMeetsBtn" Classes="sm-button" Content="LISTA MÖTEN" MinHeight="36" />
+              <Button x:Name="LoadMeetsBtn" Classes="sm-button sm-compact" Content="LISTA TÄVLINGAR" />
               <ComboBox x:Name="MeetsCombo" Width="320" MinHeight="36" />
-              <Button x:Name="OpenMeetBtn" Classes="sm-button" Content="ÖPPNA" MinHeight="36" />
-              <Button x:Name="ImportBtn" Classes="sm-button" Content="IMPORTERA EXCEL" MinHeight="36" />
-              <Button x:Name="ExportBtn" Classes="sm-button" Content="EXPORTERA EXCEL" MinHeight="36" />
-              <Button x:Name="PublishBtn" Classes="sm-button" Content="PUBLICERA" MinHeight="36" />
+              <Button x:Name="OpenMeetBtn" Classes="sm-button sm-compact" Content="ÖPPNA" />
+              <Button x:Name="ImportBtn" Classes="sm-button sm-compact" Content="IMPORTERA EXCEL" />
+              <Button x:Name="ExportBtn" Classes="sm-button sm-compact" Content="EXPORTERA EXCEL" />
+              <Button x:Name="PublishBtn" Classes="sm-button sm-compact" Content="PUBLICERA" />
             </StackPanel>
           </StackPanel>
           <Border Grid.Row="1" Background="#121820" BorderBrush="#1f2731" BorderThickness="1" CornerRadius="8" Padding="2">
@@ -204,7 +204,7 @@
           <Border Grid.Column="1" Background="#0e141d" CornerRadius="10" Padding="12" BorderBrush="#1f2731" BorderThickness="1">
             <StackPanel Spacing="10">
               <TextBlock Text="STATUS" FontSize="10" Foreground="#8b97a6" />
-              <TextBlock x:Name="CompStatus" Text="öppna ett möte på Invägning-sidan" Foreground="#e6ebf3" FontSize="13" TextWrapping="Wrap" />
+              <TextBlock x:Name="CompStatus" Text="öppna en tävling på Invägning-sidan" Foreground="#e6ebf3" FontSize="13" TextWrapping="Wrap" />
               <TextBlock Text="ORDNING (kommer)" FontSize="10" Foreground="#8b97a6" />
               <TextBlock x:Name="NextMiniOrder" Text="" Foreground="#e6ebf3" FontFamily="JetBrains Mono" FontSize="12" TextWrapping="Wrap" />
               <TextBlock x:Name="PinEcho" Text="" Foreground="#8b97a6" FontSize="11" TextWrapping="Wrap" />
@@ -224,8 +224,8 @@
         <Grid x:Name="PageDb" IsVisible="False" RowDefinitions="Auto,*,Auto">
           <StackPanel Grid.Row="0" Spacing="10">
             <StackPanel Orientation="Horizontal" Spacing="10">
-              <Button x:Name="FetchBtn" Classes="sm-button" Content="HÄMTA TÄVLINGAR" MinWidth="220" MinHeight="46" />
-              <Button x:Name="FlushBtn" Classes="sm-button" Content="FLUSH KÖ" MinHeight="46" />
+              <Button x:Name="FetchBtn" Classes="sm-button sm-compact" Content="HÄMTA TÄVLINGAR" />
+              <Button x:Name="FlushBtn" Classes="sm-button sm-compact" Content="FLUSH KÖ" />
             </StackPanel>
             <TextBlock x:Name="DbStatus" Text="klart." Foreground="{StaticResource Muted}" FontFamily="JetBrains Mono" FontSize="12" TextWrapping="Wrap" />
           </StackPanel>
