@@ -1,6 +1,6 @@
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
+using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Steelmeet2.Db;
@@ -14,8 +14,10 @@ public partial class MainWindow : Window
     MeetBundle? currentMeet;
     readonly ObservableCollection<WeighInRow> weighInRows = new();
     MeetEngine? engine;
-    DispatcherTimer? liftTimer;
-    int timerSecondsLeft = 120;
+
+    // timrar
+    DispatcherTimer? liftTimer, lappTimer;
+    int liftSec, lappSec;
 
     public MainWindow(string? openMeetId = null)
     {
@@ -28,12 +30,11 @@ public partial class MainWindow : Window
             DbStatus.Text = $"kö flushad: {n} item(s) skickade";
         };
 
+        WeighInDg.ItemsSource = weighInRows;
         var clockTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-        clockTimer.Tick += (_, _) => Clock.Text = DateTime.Now.ToString("HH:mm:ss");
+        clockTimer.Tick += ClockTextCallback;
         clockTimer.Start();
         Clock.Text = DateTime.Now.ToString("HH:mm:ss");
-
-        WeighInDg.ItemsSource = weighInRows;
         NewMeetBtn.Click += async (_, _) => await CreateOrSaveMeetAsync(true);
         PublishBtn.Click += async (_, _) => await CreateOrSaveMeetAsync(false);
         LoadMeetsBtn.Click += async (_, _) => await LoadMeetsAsync();
@@ -41,94 +42,279 @@ public partial class MainWindow : Window
         ImportBtn.Click += async (_, _) => await ImportExcelAsync();
         ExportBtn.Click += async (_, _) => await ExportExcelAsync();
 
-        // Tävling-sidan: engine + timer + domslut
+        // domarpanel
         GoodBtn.Click += (_, _) => JudgeAndRefresh(true);
         BadBtn.Click += (_, _) => JudgeAndRefresh(false);
-        NextLiftBtn.Click += (_, _) => BumpCurrentWeight();
-        TimerStart.Click += (_, _) =>
-        {
-            if (liftTimer is null)
-            {
-                liftTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-                liftTimer.Tick += (_, _) =>
-                {
-                    timerSecondsLeft--;
-                    if (timerSecondsLeft <= 0) { StopTimer(); TimerBig.Foreground = Avalonia.Media.Brushes.IndianRed; }
-                    UpdateTimerText();
-                };
-                liftTimer.Start();
-            }
-            else
-            {
-                if (liftTimer.IsEnabled) StopTimer(); else liftTimer.Start();
-            }
-            UpdateTimerText();
-        };
-        TimerReset.Click += (_, _) => { StopTimer(); timerSecondsLeft = 120; TimerBig.Foreground = Avalonia.Media.Brushes.White; UpdateTimerText(); };
+        UndoBtn.Click += (_, _) => UndoAndRefresh(false);
+        RetryBtn.Click += (_, _) => UndoAndRefresh(true);
+        NextLifterBtn.Click += (_, _) => { engine?.PickNext(); UpdateTavlingUI("nästa vald"); };
+        BarReadyBtn.Click += (_, _) => { engine?.PickNext(); TimerController(TimerOpt.LIFT_ONE_MINUTE); UpdateTavlingUI("bar ready — 1:00 startad"); };
 
-#if DEBUG
-        try { MeetEngine.SelfCheck(); }
-        catch (Exception ex) { Console.Error.WriteLine("SelfCheck FAIL: " + ex.Message); }
-#endif
+        // lyftklocka
+        LiftMinutesBtn.Click += (_, _) =>
+        {
+            if (LiftMinutesCob.SelectedItem is ComboBoxItem it && int.TryParse(it.Content?.ToString(), out int min))
+                TimerController(TimerOpt.CUSTOM_TIME, min, 0);
+        };
+        LiftResetBtn.Click += (_, _) => TimerController(TimerOpt.LIFT_RESET);
+        // lappklocka
+        StampSetBtn.Click += (_, _) => SetLappFromTimestamp();
+        StampResetBtn.Click += (_, _) => TimerController(TimerOpt.LAPP_RESET);
+        for (int m = 1; m <= 60; m++) LiftMinutesCob.Items.Add(new ComboBoxItem { Content = m.ToString() });
+
+        // viktkorrectioner: current attempt ± inc
+        foreach (var (btn, delta) in new (Button, float)[]
+        {
+            (Plus2_5, 2.5f), (Plus5, 5f), (Plus7_5, 7.5f), (Plus10, 10f), (Plus12_5, 12.5f),
+            (Plus15, 15f), (Plus17_5, 17.5f), (Plus20, 20f), (Plus25, 25f),
+            (Minus2_5, -2.5f), (Minus5, -5f), (Minus7_5, -7.5f),
+        })
+        {
+            float d = delta;
+            btn.Click += (_, _) => { engine?.AdjustWeight(d); UpdateTavlingUI($"viktjustering {d:+0.0;-0.0}"); };
+        }
+        RefreshComboFilled = false;
 
         // --meet <id>: öppna ett möte direkt vid start (t ex demo/lansering)
         if (openMeetId is not null)
             Loaded += async (_, _) => await LoadMeetIntoAppAsync(openMeetId);
     }
 
-    void UpdateTimerText()
+    bool RefreshComboFilled;
+
+    void Nav_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        TimerBig.Text = $"{timerSecondsLeft / 60}:{(timerSecondsLeft % 60):00}";
-        TimerBig.Foreground = liftTimer is { IsEnabled: true }
-            ? Avalonia.Media.Brushes.MediumSpringGreen
-            : Avalonia.Media.Brushes.White;
+        if (PageTitle is null) return;
+        PageTitle.Text = ((ListBoxItem?)NavList.SelectedItem)?.Content is TextBlock tb ? tb.Text : "";
+        PageWeighIn.IsVisible = NavList.SelectedIndex == 0;
+        PageComp.IsVisible = NavList.SelectedIndex == 1;
+        PageJudge.IsVisible = NavList.SelectedIndex == 2;
+        PageResults.IsVisible = NavList.SelectedIndex == 3;
+        PageDb.IsVisible = NavList.SelectedIndex == 4;
+        PageSettings.IsVisible = NavList.SelectedIndex == 5;
     }
 
-    void StopTimer() { liftTimer?.Stop(); }
+    // ==============================  TIMERS  ==============================
+    enum TimerOpt { LIFT_ONE_MINUTE, CUSTOM_TIME, LAPP_ONE_MINUTE, LIFT_RESET, LAPP_RESET }
 
+    void TimerController(TimerOpt opt, int customMin = 0, int customSec = 0)
+    {
+        switch (opt)
+        {
+            case TimerOpt.LIFT_ONE_MINUTE: liftSec = 60; EnsureLiftTimer().Start(); break;
+            case TimerOpt.CUSTOM_TIME: liftSec = customMin * 60 + customSec; EnsureLiftTimer().Start(); break;
+            case TimerOpt.LAPP_ONE_MINUTE: lappSec = 60; EnsureLappTimer().Start(); break;
+            case TimerOpt.LIFT_RESET: liftSec = 0; liftTimer?.Stop(); break;
+            case TimerOpt.LAPP_RESET: lappSec = 0; lappTimer?.Stop(); break;
+        }
+        PaintClocks();
+    }
+
+    DispatcherTimer EnsureLiftTimer()
+    {
+        if (liftTimer is not null) return liftTimer;
+        liftTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        liftTimer.Tick += (_, _) =>
+        {
+            liftSec--;
+            if (liftSec <= 0) { liftTimer!.Stop(); liftSec = 0; }
+            PaintClocks();
+        };
+        return liftTimer;
+    }
+
+    DispatcherTimer EnsureLappTimer()
+    {
+        if (lappTimer is not null) return lappTimer;
+        lappTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        lappTimer.Tick += (_, _) =>
+        {
+            lappSec--;
+            if (lappSec <= 0) { lappTimer!.Stop(); lappSec = 0; }
+            PaintClocks();
+        };
+        return lappTimer;
+    }
+
+    void PaintClocks()
+    {
+        TimerBig.Text = $"{liftSec / 60:0}:{liftSec % 60:00}";
+        TimerBig.Foreground = liftTimer is { IsEnabled: true }
+            ? (liftSec <= 10 ? Brushes.Orange : Brushes.MediumSpringGreen)
+            : Brushes.White;
+
+        LappTimerBig.Text = $"{lappSec / 60:0}:{lappSec % 60:00}";
+        LappTimerBig.Foreground = lappTimer is { IsEnabled: true } ? Brushes.IndianRed : Brushes.Gray;
+    }
+
+    void SetLappFromTimestamp()
+    {
+        // LAPP = tid tills vald klockslag (hour:min) = som v1 TimestampBtn
+        int.TryParse((StampHourCob.SelectedItem as ComboBoxItem)?.Content?.ToString(), out int hour);
+        int.TryParse((StampMinCob.SelectedItem as ComboBoxItem)?.Content?.ToString(), out int min);
+        var now = DateTime.Now;
+        int diffMin = (hour * 60) - now.Hour * 60;
+        diffMin += min - now.Minute - 1;
+        int diffSec = 60 - now.Second;
+        if (diffMin < 0) diffMin += 24 * 60; // nästa dag-rulle
+        lappSec = diffMin * 60 + diffSec;
+        EnsureLappTimer().Start();
+        PaintClocks();
+    }
+
+    // ==============================  TÄVLING  ==============================
     void JudgeAndRefresh(bool good)
     {
-        engine?.Judge(good);
-        var n = engine?.Current;
-        CompNowName.Text = n is null ? "KLART — alla försök är gjorda" : n.Name;
-        CompNowAttempt.Text = n is null ? "" : $"{n.AttemptLabel}  {n.Weights[n.AttemptIdx].ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)} kg   ({n.GoodCount} good / {n.Name})";
-        RefreshOrderList();
+        if (engine is null) { CompStatus.Text = "öppna ett möte först"; return; }
+        engine.Judge(good);
+        TimerController(TimerOpt.LAPP_ONE_MINUTE); // som v1: 1-min lapp efter domslut
+        TimerController(TimerOpt.LIFT_RESET);
+        UpdateTavlingUI(good ? "godkänd ✓" : "misslyckad ✗");
     }
 
-    void RefreshOrderList()
+    void UndoAndRefresh(bool retry)
+    {
+        if (engine is null) { CompStatus.Text = "öppna ett möte först"; return; }
+        int before = engine.Current?.AttemptIdx ?? 0;
+        engine.Undo(retry);
+        UpdateTavlingUI(retry ? "RETRY — försöket returneras" : "UNDO — försöket återställs");
+    }
+
+    void UpdateTavlingUI(string? statusText = null)
     {
         if (engine is null) return;
-        var pending = new List<string>();
-        var sorted = engine.Lifters.Where(l => !l.Done).ToList();
-        sorted.Sort((a, b) =>
+
+        var pending = engine.ActiveLifters.Where(l => !l.Done).ToList();
+        pending.Sort((a, b) =>
         {
             int c = a.AttemptIdx.CompareTo(b.AttemptIdx);
             if (c != 0) return c;
             c = a.Weights[a.AttemptIdx].CompareTo(b.Weights[b.AttemptIdx]);
-            return c;
+            if (c != 0) return c;
+            return a.BodyWeightKg.CompareTo(b.BodyWeightKg);
         });
-        foreach (var l in sorted)
-            pending.Add($"{l.Name,-20} {l.AttemptLabel}  {l.Weights[l.AttemptIdx].ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)}");
-        for (int i = 0; i < sorted.Count; i++)
-            pending[i] = pending[i].Insert(0, $"{i + 1}.      ");
-        OrderList.ItemsSource = pending;
+
+        var now = engine.Current;
+        if (now is null)
+        {
+            CompNowName.Text = "KLART";
+            CompNowAttempt.Text = "alla försök gjorda i gruppen";
+        }
+        else
+        {
+            CompNowName.Text = now.Name + (now.IsRetrying ? "  (RETRY)" : "");
+            CompNowAttempt.Text = $"{now.AttemptLabel}  {now.Weights[now.AttemptIdx].ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)} kg";
+
+            // Höjdrader som v1 LifterInfoControl: böj-Höjd under knäböj, höjd/rack under bänk
+            if (now.AttemptIdx <= 2)
+            {
+                CompNowHeights.Text = "Höjd " + now.SquatHeightStr;
+                CompNowExtras.Text = Tag(now.Tilted);
+            }
+            else if (now.AttemptIdx <= 5)
+            {
+                CompNowHeights.Text = "Höjd " + now.BenchHeightStr + "/" + now.BenchRackStr;
+                CompNowExtras.Text = Tag(now.Liftoff);
+            }
+            else { CompNowHeights.Text = ""; CompNowExtras.Text = ""; }
+        }
+
+        var next = pending.Count > 1 ? pending[1] : null;
+        CompNextName.Text = next?.Name ?? "—";
+        CompNextAttempt.Text = next is null ? "" : $"{next.AttemptLabel}  {next.Weights[next.AttemptIdx].ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)} kg";
+        CompNextHeights.Text = next is null ? "" : (next.AttemptIdx <= 2
+            ? "Höjd " + next.SquatHeightStr : "Höjd " + next.BenchHeightStr + "/" + next.BenchRackStr);
+
+        // ordning
+        var items = new List<string>();
+        int i = 1;
+        foreach (var l in pending)
+            items.Add($"{i++}. " + l.Name.PadRight(18) + " " + l.AttemptLabel + "  " + l.Weights[l.AttemptIdx].ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " kg" + (l.IsRetrying ? "  ⟲" : ""));
+        OrderList.ItemsSource = items;
+
+        // föreslagna vikter = current ± inc
+        float baseW = now is null || now.Done ? 0f : now.Weights[now.AttemptIdx];
+        string F(float v) => v.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture);
+        Plus2_5.Content = F(baseW + 2.5f); Plus5.Content = F(baseW + 5f); Plus7_5.Content = F(baseW + 7.5f);
+        Plus10.Content = F(baseW + 10f); Plus12_5.Content = F(baseW + 12.5f); Plus15.Content = F(baseW + 15f);
+        Plus17_5.Content = F(baseW + 17.5f); Plus20.Content = F(baseW + 20f); Plus25.Content = F(baseW + 25f);
+        Minus2_5.Content = F(baseW - 2.5f); Minus5.Content = F(baseW - 5f); Minus7_5.Content = F(baseW - 7.5f);
+        SuggHeader.Text = $"VIKT-KORREKTERING ({now?.Name ?? "—"})";
+        RetryTag.Text = now?.IsRetrying == true ? "RETRY AKTIV" : "";
+
+        if (statusText is not null) CompStatus.Text = statusText;
+        NextMiniOrder.Text = string.Join("  →  ", pending.Take(3).Select(l => l.Name));
     }
 
-    // VIKA VIKT: flytta upp nuvarande attempt med 2.5 kg (plats-lock)? — nej, det är "next lifter up" list→ kärnan"  "  "  "  "  "  "  "  "  "
-    void BumpCurrentWeight()
+    static string Tag(string v) =>
+        new[] { "Nej", "No", "" }.Any(s => v.Contains(s)) ? "" : v;
+
+    void ActiveGroupCob_Changed(object? sender, SelectionChangedEventArgs e)
     {
-        if (engine?.Current is null)
+        if (engine is null || !RefreshComboFilled) return;
+        if (ActiveGroupCob.SelectedItem is ComboBoxItem it)
         {
-            RefreshOrderList(); return;
+            string g = it.Content?.ToString() ?? "";
+            engine.SetGroup(g.Length == 0 ? null : g);
+            UpdateTavlingUI($"grupp {g} aktiv");
         }
-        var l = engine.Current;
-        l.Weights[l.AttemptIdx] += 2.5f;
-        RefreshOrderList();
-        RefreshOrderList();
-        CompStatus.Text = $"VIKA VIKT: {l.Name} → {l.CurrentLabel}";
-        var n = engine.Current;
-        CompNowName.Text = n?.Name ?? "KLART";
-        CompNowAttempt.Text = n?.CurrentLabel ?? "";
+    }
+
+    void HeightCob_Changed(object? sender, SelectionChangedEventArgs e)
+    {
+        if (engine?.Current is not { Done: false } l) return;
+        if (HeightCob.SelectedItem is ComboBoxItem it && int.TryParse(it.Content?.ToString(), out int hV))
+        {
+            if (l.AttemptIdx <= 2) l.SquatHeightStr = hV.ToString();
+            else l.BenchHeightStr = hV.ToString();
+            UpdateTavlingUI();
+        }
+    }
+
+    void RackCob_Changed(object? sender, SelectionChangedEventArgs e)
+    {
+        if (engine?.Current is not { Done: false } l) return;
+        if (RackCob.SelectedItem is ComboBoxItem it && int.TryParse(it.Content?.ToString(), out int rV))
+        {
+            l.BenchRackStr = rV.ToString();
+            UpdateTavlingUI();
+        }
+    }
+
+    void RecordToggled(object? sender, RoutedEventArgs e) =>
+        RecordInfo.Text = RecordOn.IsChecked == true ? "aktiv — rekor-drag kopplas när SSF-rekor importerats" : "";
+
+    // ==============================  DATABAS/INVÄGNING  ==============================
+    async Task RefreshNetStatusAsync()
+    {
+        try
+        {
+            using var ping = new HttpClient { Timeout = TimeSpan.FromSeconds(6) };
+            await ping.GetStringAsync("https://db.steelmeet.se/db/meets");
+            NetStatus.Text = "● ONLINE"; NetStatus.Foreground = Brushes.MediumSpringGreen;
+        }
+        catch
+        {
+            NetStatus.Text = "● OFFLINE (cache)"; NetStatus.Foreground = Brushes.Orange;
+        }
+    }
+
+    async Task FetchCompetitionsAsync()
+    {
+        FetchBtn.IsEnabled = false;
+        DbStatus.Text = "hämtar …";
+        try
+        {
+            var comps = await client.GetCompetitionsAsync();
+            DbStatus.Text = $"OK — {comps.Count} tävlingar (cache: {OfflineCache.CachePath("get", "competitions")})";
+            CompList.ItemsSource = comps.Select(c => $"{c.Id}  {c.Name}  ({c.StartDate})  {c.State}");
+        }
+        catch (Exception ex)
+        {
+            DbStatus.Text = "FAIL: " + ex.Message;
+            CompList.ItemsSource = new[] { "(ingen cache) — online krävs första gången" };
+        }
+        FetchBtn.IsEnabled = true;
     }
 
     // ---------- möten ----------
@@ -139,7 +325,6 @@ public partial class MainWindow : Window
         string date = MeetDate.Text?.Trim() ?? "";
         if (name.Length == 0 || pin.Length == 0) { WeighStatus.Text = "mötesnamn + PIN krävs"; return; }
 
-        bool send;
         if (newMeet)
         {
             currentMeet = new MeetBundle { id = "m" + DateTime.Now.ToString("yyyyMMddHHmmss"), name = name, date = date, category = "", organizer = "steelmeet2" };
@@ -149,7 +334,7 @@ public partial class MainWindow : Window
 
         currentMeet!.name = name; currentMeet!.date = date;
         currentMeet!.rows = weighInRows.ToList();
-        send = await client.SaveMeetAsync(currentMeet, pin);
+        bool send = await client.SaveMeetAsync(currentMeet, pin);
         WeighStatus.Text = send
             ? $"PUBLICERAT: {currentMeet.id} ({weighInRows.Count} rader)"
             : $"OFFLINE eller fel — payloaden ligger i kön, FLUSH KÖ på Databas-sidan skickar om den";
@@ -188,19 +373,26 @@ public partial class MainWindow : Window
 
             // seed Tävling-motorn från invägningen
             engine = MeetEngine.FromBundle(bundle);
-            RefreshOrderList();
-            var first = engine.Current;
-            CompNowName.Text = first?.Name ?? "—";
-            CompNowAttempt.Text = first?.CurrentLabel ?? "";
-            TimerReset_Click();
+            FillOptionCombos();
+            UpdateTavlingUI($"möte {id} laddat — grupp {(engine.ActiveGroup ?? "alla")}");
+            TimerController(TimerOpt.LIFT_RESET);
             NavList.SelectedIndex = 1; // hoppa till Tävling-sidan
         }
         catch (Exception ex) { WeighStatus.Text = "öppna misslyckades: " + ex.Message; }
     }
 
-    void TimerReset_Click()
+    void FillOptionCombos()
     {
-        StopTimer(); timerSecondsLeft = 120; UpdateTimerText();
+        RefreshComboFilled = false;
+        var groups = engine?.Groups ?? new List<string>();
+        ActiveGroupCob.ItemsSource = (new[] { "alla" }).Concat(groups).Select(g => new ComboBoxItem { Content = g }).ToList();
+        ActiveGroupCob.SelectedIndex = 0;
+        HeightCob.ItemsSource = Enumerable.Range(0, 30).Select(i => new ComboBoxItem { Content = i.ToString() }).ToList();
+        HeightCob.SelectedIndex = 12;
+        RackCob.ItemsSource = Enumerable.Range(0, 15).Select(i => new ComboBoxItem { Content = i.ToString() }).ToList();
+        RackCob.SelectedIndex = 12;
+        RefreshComboFilled = true;
+        UpdateTavlingUI();
     }
 
     void WeighInRowCollectionReplace(List<WeighInRow> rows)
@@ -225,7 +417,7 @@ public partial class MainWindow : Window
             var rows = ExcelIO.Import(files[0].Path.LocalPath);
             WeighInRowCollectionReplace(rows);
             currentMeet ??= new MeetBundle { id = "m" + DateTime.Now.ToString("yyyyMMddHHmmss") };
-            WeighStatus.Text = $"importerat {rows.Count} rader — SÄTNAMN och PIN för att publicera";
+            WeighStatus.Text = $"importerat {rows.Count} rader — SÄRNAMN och PIN för att publicera";
         }
         catch (Exception ex) { WeighStatus.Text = "importfel: " + ex.Message; }
     }
@@ -244,48 +436,9 @@ public partial class MainWindow : Window
         WeighStatus.Text = "Excel fil exporterad utan besvär! :)";
     }
 
-    void Nav_SelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
-        if (PageTitle is null) return;
-        int i = NavList.SelectedIndex;
-        PageTitle.Text = ((ListBoxItem?)NavList.SelectedItem)?.Content is TextBlock tb ? tb.Text : "";
-        PageWeighIn.IsVisible = i == 0;
-        PageComp.IsVisible = i == 1;
-        PageJudge.IsVisible = i == 2;
-        PageResults.IsVisible = i == 3;
-        PageDb.IsVisible = i == 4;
-        PageSettings.IsVisible = i == 5;
-    }
+    // ---------- klock ----------
+    void ClockTextCallback(object? sender, EventArgs e) => Clock.Text = DateTime.Now.ToString("HH:mm:ss");
 
-    async Task RefreshNetStatusAsync()
-    {
-        try
-        {
-            using var ping = new HttpClient { Timeout = TimeSpan.FromSeconds(6) };
-            await ping.GetStringAsync("https://db.steelmeet.se/api/competitions?limit=1");
-            NetStatus.Text = "● ONLINE"; NetStatus.Foreground = Brushes.MediumSpringGreen;
-        }
-        catch
-        {
-            NetStatus.Text = "● OFFLINE (cache)"; NetStatus.Foreground = Brushes.Orange;
-        }
-    }
-
-    async Task FetchCompetitionsAsync()
-    {
-        FetchBtn.IsEnabled = false;
-        DbStatus.Text = $"hämtar …";
-        try
-        {
-            var comps = await client.GetCompetitionsAsync();
-            DbStatus.Text = $"OK — {comps.Count} tävlingar (cache: {OfflineCache.CachePath("get", "competitions")})";
-            CompList.ItemsSource = comps.Select(c => $"{c.Id}  {c.Name}  ({c.StartDate})  {c.State}  [{c.Location}]  anm\u00e4lda: {c.RegistrationsCount}");
-        }
-        catch (Exception ex)
-        {
-            DbStatus.Text = $"FAIL: {ex.Message}";
-            CompList.ItemsSource = new[] { "(ingen cache) — online krävs första gången" };
-        }
-        FetchBtn.IsEnabled = true;
-    }
+    // klock varje sekund:
+    //   DispatcherTimer clockTimer sattes i ctor — används via method ClockTextCallback
 }

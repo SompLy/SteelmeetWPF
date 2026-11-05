@@ -23,6 +23,14 @@ public sealed class MeetLifter
         _ => "klar",
     };
     public string CurrentLabel => Done ? "klar" : $"{AttemptLabel} {Weights[AttemptIdx].ToString("0.0", CultureInfo.InvariantCulture)}";
+    public bool IsRetrying;
+    public string Group = "";
+    public string SquatHeightStr = "";
+    public string BenchHeightStr = "";
+    public string BenchRackStr = "";
+    public string Tilted = "";
+    public string Liftoff = "";
+    public float BodyWeightKg;
 }
 
 public sealed class MeetEngine
@@ -41,6 +49,13 @@ public sealed class MeetEngine
             {
                 Name = (r.name ?? "").Trim(),
                 BodyWeight = r.bodyWeight ?? "",
+                BodyWeightKg = Parse(r.bodyWeight),
+                Group = (r.groupNumber ?? "").Trim(),
+                SquatHeightStr = r.squatHeight ?? "",
+                BenchHeightStr = r.benchHeight ?? "",
+                BenchRackStr = r.benchRack ?? "",
+                Tilted = r.tilted ?? "",
+                Liftoff = r.liftoff ?? "",
                 AttemptWeights = [r.s1, r.s1, r.s1, r.b1, r.b1, r.b1, r.d1, r.d1, r.d1],
                 Weights = [Parse(r.s1), Parse(r.s1), Parse(r.s1), Parse(r.b1), Parse(r.b1), Parse(r.b1), Parse(r.d1), Parse(r.d1), Parse(r.d1)],
             });
@@ -49,11 +64,23 @@ public sealed class MeetEngine
         return engine;
     }
 
+    public string? ActiveGroup;
+    public IEnumerable<MeetLifter> ActiveLifters => Lifters.Where(l => ActiveGroup is null || l.Group == ActiveGroup);
+    public List<string> Groups => Lifters.Select(l => l.Group).Where(g => g.Length > 0).Distinct().OrderBy(g => g).ToList();
+
+    public void SetGroup(string? group) { ActiveGroup = group; PickNext(); }
+
+    public void AdjustWeight(float delta)
+    {
+        if (Current is { Done: false } l)
+            l.Weights[l.AttemptIdx] = Math.Max(0.5f, l.Weights[l.AttemptIdx] + delta);
+    }
+
     // Choke_NEAREST lifter with pending attempt: minst index först, sedan lättast vikt, sedan bw.
     public MeetLifter? PickNext()
     {
         MeetLifter? best = null;
-        foreach (var l in Lifters)
+        foreach (var l in ActiveLifters)
         {
             if (l.Done) continue;
             if (best is null) { best = l; continue; }
@@ -71,6 +98,20 @@ public sealed class MeetEngine
     {
         float Parse(string v) => float.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out var f) ? f : 0f;
         return Parse(a.BodyWeight) - Parse(b.BodyWeight);
+    }
+
+    public void Undo(bool retry)
+    {
+        if (Current is not { } l) return;
+        int idx = l.AttemptIdx - 1;
+        if (l.AttemptIdx % 3 == 0) return; // kan inte ånga: S1/B1/D1 — som v1
+        if (l.Good[idx]) { l.GoodCount = Math.Max(0, l.GoodCount - 1); l.Good[idx] = false; }
+        // som v1: vikten sätts 0 utom vid respektive lyfts FÖRSTA attempt (S1/B1/D1)
+        if (idx % 3 != 0) l.Weights[idx] = 0f;
+        l.AttemptIdx = idx;
+        l.IsRetrying = retry;
+        PickNext();
+        if (Current is null) Current = l;
     }
 
     public void Judge(bool good)

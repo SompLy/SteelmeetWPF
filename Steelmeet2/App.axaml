@@ -21,6 +21,28 @@
     <Style Selector="Button.sm-button:pressed">
       <Setter Property="Background" Value="#4f8cff" />
     </Style>
+    <Style Selector="Button.sm-wplus">
+      <Setter Property="Background" Value="#12331f" />
+      <Setter Property="Foreground" Value="#37c98b" />
+      <Setter Property="BorderBrush" Value="#1f4d33" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="FontFamily" Value="JetBrains Mono" />
+    </Style>
+    <Style Selector="Button.sm-wplus:hover">
+      <Setter Property="Background" Value="#175231" />
+    </Style>
+    <Style Selector="Button.sm-wminus">
+      <Setter Property="Background" Value="#3a1518" />
+      <Setter Property="Foreground" Value="#ff8a90" />
+      <Setter Property="BorderBrush" Value="#5b1d22" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="FontFamily" Value="JetBrains Mono" />
+    </Style>
+    <Style Selector="Button.sm-wminus:hover">
+      <Setter Property="Background" Value="#5b1d22" />
+    </Style>
     <Style Selector="ListBox">
       <Setter Property="Background" Value="#121820" />
       <Setter Property="BorderBrush" Value="#1f2731" />

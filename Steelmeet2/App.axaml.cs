@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
@@ -20,6 +21,8 @@ public class App : Application
             for (int i = 0; i < args.Length - 1; i++)
                 if (args[i] == "--meet") meetId = args[i + 1];
             desktop.MainWindow = new MainWindow(meetId);
+            if (args.Contains("--max"))
+                desktop.MainWindow.WindowState = WindowState.Maximized;
         }
         base.OnFrameworkInitializationCompleted();
     }
