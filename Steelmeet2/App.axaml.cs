@@ -14,7 +14,13 @@ public class App : Application
         // logga alla okända krascher till fil så att "den crashade" alltid har spår
         Dispatcher.UIThread.UnhandledException += (_, e) => TryLog(e.Exception);
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            desktop.MainWindow = new MainWindow();
+        {
+            string? meetId = null;
+            var args = Environment.GetCommandLineArgs();
+            for (int i = 0; i < args.Length - 1; i++)
+                if (args[i] == "--meet") meetId = args[i + 1];
+            desktop.MainWindow = new MainWindow(meetId);
+        }
         base.OnFrameworkInitializationCompleted();
     }
 

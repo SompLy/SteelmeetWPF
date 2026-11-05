@@ -13,6 +13,10 @@ public sealed class DbClient
 
     readonly HttpClient http = new() { BaseAddress = new Uri(Base + "/"), Timeout = TimeSpan.FromSeconds(15) };
 
+    public DbClient() =>
+        // Cloudflare WAF slår på UA-filter; en egen UA slipper "1010"-sparkad-blind-zon
+        http.DefaultRequestHeaders.UserAgent.ParseAdd("Steelmeet2/2.0 (+https://steelmeet.se)");
+
     // ---------- GET med disk-cache (offline) ----------
     public async Task<T> GetAsync<T>(string path, string cacheKey)
     {
@@ -59,6 +63,7 @@ public sealed class DbClient
             try
             {
                 using var http = new HttpClient { BaseAddress = new Uri(Base + "/"), Timeout = TimeSpan.FromSeconds(15) };
+                http.DefaultRequestHeaders.UserAgent.ParseAdd("Steelmeet2/2.0");
                 using var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 var res = await http.PostAsync(path, content);
                 if (res.IsSuccessStatusCode)

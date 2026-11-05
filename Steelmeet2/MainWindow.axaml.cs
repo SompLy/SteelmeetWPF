@@ -17,7 +17,7 @@ public partial class MainWindow : Window
     DispatcherTimer? liftTimer;
     int timerSecondsLeft = 120;
 
-    public MainWindow()
+    public MainWindow(string? openMeetId = null)
     {
         InitializeComponent();
         Loaded += async (_, _) => await RefreshNetStatusAsync();
@@ -70,6 +70,10 @@ public partial class MainWindow : Window
         try { MeetEngine.SelfCheck(); }
         catch (Exception ex) { Console.Error.WriteLine("SelfCheck FAIL: " + ex.Message); }
 #endif
+
+        // --meet <id>: öppna ett möte direkt vid start (t ex demo/lansering)
+        if (openMeetId is not null)
+            Loaded += async (_, _) => await LoadMeetIntoAppAsync(openMeetId);
     }
 
     void UpdateTimerText()
@@ -169,6 +173,11 @@ public partial class MainWindow : Window
         if (meta is null) { WeighStatus.Text = "välj möte i listan"; return; }
         string id = meta.Split(" — ")[0];
         MeetPin.Text = "";
+        await LoadMeetIntoAppAsync(id);
+    }
+
+    async Task LoadMeetIntoAppAsync(string id)
+    {
         try
         {
             var bundle = await client.GetMeetAsync(id);
