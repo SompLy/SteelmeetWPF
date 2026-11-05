@@ -23,17 +23,17 @@
       <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
         <Image Source="avares://Steelmeet2/SMLogoWhite.png" Width="150" VerticalAlignment="Center" Margin="4,0,6,0" />
         <TextBlock Grid.Column="1" Text="2.0" FontFamily="JetBrains Mono" FontSize="11" Foreground="{StaticResource Accent}" VerticalAlignment="Bottom" Margin="0,0,20,6" />
-        <ListBox Grid.Column="2" x:Name="NavList" Background="Transparent" BorderThickness="0" SelectedIndex="0"
-                 SelectionChanged="Nav_SelectionChanged" VerticalAlignment="Center">
+        <ListBox Grid.Column="2" x:Name="NavList" HorizontalAlignment="Center" Background="Transparent" BorderThickness="0" SelectedIndex="0"
+                 SelectionChanged="Nav_SelectionChanged" VerticalAlignment="Center" Margin="0,0,10,0">
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
           </ListBox.ItemsPanel>
-          <ListBoxItem Padding="14,7"><TextBlock Text="Invägning" /></ListBoxItem>
-          <ListBoxItem Padding="14,7"><TextBlock Text="Tävling" /></ListBoxItem>
-          <ListBoxItem Padding="14,7"><TextBlock Text="Domare" /></ListBoxItem>
-          <ListBoxItem Padding="14,7"><TextBlock Text="Resultat" /></ListBoxItem>
-          <ListBoxItem Padding="14,7"><TextBlock Text="Databas" /></ListBoxItem>
-          <ListBoxItem Padding="14,7"><TextBlock Text="Inställningar" /></ListBoxItem>
+          <ListBoxItem Classes="navtab"><TextBlock Text="Invägning" /></ListBoxItem>
+          <ListBoxItem Classes="navtab"><TextBlock Text="Tävling" /></ListBoxItem>
+          <ListBoxItem Classes="navtab"><TextBlock Text="Domare" /></ListBoxItem>
+          <ListBoxItem Classes="navtab"><TextBlock Text="Resultat" /></ListBoxItem>
+          <ListBoxItem Classes="navtab"><TextBlock Text="Databas" /></ListBoxItem>
+          <ListBoxItem Classes="navtab"><TextBlock Text="Inställningar" /></ListBoxItem>
         </ListBox>
         <Border Grid.Column="3" Background="{StaticResource Surface}" CornerRadius="8" Padding="10,6" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="0,0,14,0" VerticalAlignment="Center">
           <TextBlock x:Name="NetStatus" Text="● ONLINE" Foreground="{StaticResource Ok}" FontFamily="JetBrains Mono" FontSize="12" />
