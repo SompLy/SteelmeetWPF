@@ -81,6 +81,15 @@ public sealed class DbClient
 
     public Task<SsfCompetition> GetCompetitionAsync(string id) =>
         GetAsync<SsfCompetition>($"api/competitions/{id}", "comp_" + id);
+
+    // ---------- möten (/db/meets) ----------
+    public Task<MeetsPage> GetMeetsAsync() => GetAsync<MeetsPage>("db/meets", "meets");
+
+    public Task<MeetBundle> GetMeetAsync(string id) =>
+        GetAsync<MeetBundle>($"db/meets/{id}", "meet_" + id);
+
+    public Task<bool> SaveMeetAsync(MeetBundle b, string pin) =>
+        PostDefaultAsync("db/meets", new { b.id, b.name, b.date, b.category, b.organizer, pin, b.rows }, "meet_" + b.id);
 }
 
 public sealed class SsfPage
