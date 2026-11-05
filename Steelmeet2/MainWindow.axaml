@@ -17,41 +17,34 @@
     <SolidColorBrush x:Key="Bad" Color="#ff5f68" />
   </Window.Resources>
 
-  <Grid ColumnDefinitions="230,*" >
-    <!-- Vänster-räl: SteamOS-kompakt tile-nav -->
-    <Border Grid.Column="0" Background="#0e141d" BorderBrush="{StaticResource Border}" BorderThickness="0,0,1,0">
-      <StackPanel Spacing="6" Margin="10,14">
-        <Image Source="avares://Steelmeet2/SMLogoWhite.png" Width="196" HorizontalAlignment="Left" Margin="6,0,0,0" />
-        <TextBlock Text="2.0" FontFamily="JetBrains Mono" FontSize="11" Foreground="{StaticResource Accent}" Margin="6,0,0,18" />
-        <ListBox x:Name="NavList" Background="Transparent" BorderThickness="0" SelectedIndex="0" SelectionChanged="Nav_SelectionChanged">
-          <ListBoxItem Padding="12,11"><TextBlock Text="Invägning" /></ListBoxItem>
-          <ListBoxItem Padding="12,11"><TextBlock Text="Tävling" /></ListBoxItem>
-          <ListBoxItem Padding="12,11"><TextBlock Text="Domare" /></ListBoxItem>
-          <ListBoxItem Padding="12,11"><TextBlock Text="Resultat" /></ListBoxItem>
-          <ListBoxItem Padding="12,11"><TextBlock Text="Databas" /></ListBoxItem>
-          <ListBoxItem Padding="12,11"><TextBlock Text="Inställningar" /></ListBoxItem>
+  <!-- Topp: logo + horizontal tabs (som originalet) + status/klocka -->
+  <Grid RowDefinitions="Auto,*,Auto">
+    <Border Grid.Row="0" Background="#0e141d" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1" Padding="14,8">
+      <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+        <Image Source="avares://Steelmeet2/SMLogoWhite.png" Width="150" VerticalAlignment="Center" Margin="4,0,6,0" />
+        <TextBlock Grid.Column="1" Text="2.0" FontFamily="JetBrains Mono" FontSize="11" Foreground="{StaticResource Accent}" VerticalAlignment="Bottom" Margin="0,0,20,6" />
+        <ListBox Grid.Column="2" x:Name="NavList" Background="Transparent" BorderThickness="0" SelectedIndex="0"
+                 SelectionChanged="Nav_SelectionChanged" VerticalAlignment="Center">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <ListBoxItem Padding="14,7"><TextBlock Text="Invägning" /></ListBoxItem>
+          <ListBoxItem Padding="14,7"><TextBlock Text="Tävling" /></ListBoxItem>
+          <ListBoxItem Padding="14,7"><TextBlock Text="Domare" /></ListBoxItem>
+          <ListBoxItem Padding="14,7"><TextBlock Text="Resultat" /></ListBoxItem>
+          <ListBoxItem Padding="14,7"><TextBlock Text="Databas" /></ListBoxItem>
+          <ListBoxItem Padding="14,7"><TextBlock Text="Inställningar" /></ListBoxItem>
         </ListBox>
-        <Border Height="46" />
-        <Border Background="{StaticResource Surface}" CornerRadius="8" Padding="10" BorderBrush="{StaticResource Border}" BorderThickness="1">
+        <Border Grid.Column="3" Background="{StaticResource Surface}" CornerRadius="8" Padding="10,6" BorderBrush="{StaticResource Border}" BorderThickness="1" Margin="0,0,14,0" VerticalAlignment="Center">
           <TextBlock x:Name="NetStatus" Text="● ONLINE" Foreground="{StaticResource Ok}" FontFamily="JetBrains Mono" FontSize="12" />
         </Border>
-      </StackPanel>
+        <TextBlock Grid.Column="4" x:Name="Clock" Text="--:--" Foreground="{StaticResource Muted}" FontFamily="JetBrains Mono" VerticalAlignment="Center" />
+      </Grid>
     </Border>
 
-    <!-- Innehåll -->
-    <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
-      <!-- topprad -->
-      <Border Grid.Row="0" Background="#0e141d" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1" Padding="18,10">
-        <Grid ColumnDefinitions="*,Auto">
-          <TextBlock x:Name="PageTitle" Text="Invägning" FontSize="19" Foreground="{StaticResource Text}" VerticalAlignment="Center" />
-          <TextBlock x:Name="Clock" Grid.Column="1" Text="--:--" Foreground="{StaticResource Muted}" FontFamily="JetBrains Mono" VerticalAlignment="Center" />
-        </Grid>
-      </Border>
-
-      <!-- sidor (One per navigering, enkel visibility-växel) -->
-      <Grid Grid.Row="1" Margin="18,14">
-        <!-- Invägning: möteshantering + Excel + DB -->
-        <Grid x:Name="PageWeighIn" IsVisible="True" RowDefinitions="Auto,*,Auto" Margin="0">
+    <!-- Innehåll: en topprad per sida utesluts; huvudområde direkt -->
+    <Grid Grid.Row="1" Margin="18,14">
+      <Grid x:Name="PageWeighIn" IsVisible="True" RowDefinitions="Auto,*,Auto" Margin="0">
           <StackPanel Grid.Row="0" Spacing="8" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" Spacing="8">
               <TextBox x:Name="MeetName" Watermark="Mötesnamn" Width="220" />
@@ -251,5 +244,4 @@
         <TextBlock Text="STEELMEET 2.0 — OFFLINE BEFORE EVERYTHING ELSE" FontSize="10" Foreground="{StaticResource Muted}" FontFamily="JetBrains Mono" />
       </Border>
     </Grid>
-  </Grid>
 </Window>

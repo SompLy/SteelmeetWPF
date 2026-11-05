@@ -84,8 +84,7 @@ public partial class MainWindow : Window
 
     void Nav_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (PageTitle is null) return;
-        PageTitle.Text = ((ListBoxItem?)NavList.SelectedItem)?.Content is TextBlock tb ? tb.Text : "";
+        if (PageWeighIn is null) return; // SelectedIndex sätts redan vid XAML-init
         PageWeighIn.IsVisible = NavList.SelectedIndex == 0;
         PageComp.IsVisible = NavList.SelectedIndex == 1;
         PageJudge.IsVisible = NavList.SelectedIndex == 2;
